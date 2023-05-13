@@ -16,22 +16,22 @@ public class MainMenu : MonoBehaviour
         
     }
 
-    void OnClickNew()
+    public void OnClickNew()
     {
         Debug.Log("New Game");
     }
 
-    void OnClickLoad()
+    public void OnClickLoad()
     {
         Debug.Log("Load");
     }
 
-    void OnClickConfig()
+    public void OnClickConfig()
     {
         Debug.Log("Config");
     }
 
-    void OnClickQuit()
+    public void OnClickQuit()
     {
 #if UNITY_EDITOR
         Debug.Log("Quit");
