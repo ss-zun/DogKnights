@@ -45,15 +45,22 @@ public class Base : MonoBehaviour
         
     }
 
-    public void Move(){
+    protected virtual void Move(){  //이동 메소드
 
     }
 
-    public void Attack(){
+    protected virtual void Attack(){  // 공격 메소드
 
     }
 
-    
+    protected virtual void OnHitted(int damage){
+
+    }
+
+    protected virtual void DecreaseHP(){
+
+    }
+
 
     
 }
