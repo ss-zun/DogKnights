@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
+    protected Vector3 currentLocate = Vector3.zero;
     protected int currentHp = 100;
     [SerializeField]
     protected int maxHp = 100;
@@ -60,6 +61,8 @@ public class Base : MonoBehaviour
     protected virtual void DecreaseHP(){
 
     }
+
+    protected virtual void Jump(){}
 
 
     
