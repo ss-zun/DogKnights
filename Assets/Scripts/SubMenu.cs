@@ -2,22 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class SubMenu : MonoBehaviour
 {
-    public void OnClickNew()
-    {
-#if UNITY_EDITOR
-        Debug.Log("New Game");
-#endif
-    }
-
-    public void OnClickLoad()
-    {
-#if UNITY_EDITOR
-        Debug.Log("Load");
-#endif
-    }
-
     public void OnClickConfig()
     {
 #if UNITY_EDITOR
@@ -29,8 +15,6 @@ public class MainMenu : MonoBehaviour
     {
 #if UNITY_EDITOR
         Debug.Log("Quit");
-#else
-        Application.Quit();
 #endif
     }
 }
