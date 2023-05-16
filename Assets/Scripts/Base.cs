@@ -30,7 +30,7 @@ public class Base : MonoBehaviour
     
     [SerializeField]
     protected int attackPower = 5;
-    protected Vector2 moveDirection ;
+    protected Vector3 moveDirection = Vector3.zero;
 
 
     // Start is called before the first frame update
@@ -44,4 +44,23 @@ public class Base : MonoBehaviour
     {
         
     }
+
+    protected virtual void Move(){  //이동 메소드
+
+    }
+
+    protected virtual void Attack(){  // 공격 메소드
+
+    }
+
+    protected virtual void OnHitted(int damage){
+
+    }
+
+    protected virtual void DecreaseHP(){
+
+    }
+
+
+    
 }
