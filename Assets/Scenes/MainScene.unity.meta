@@ -1,10 +1,14 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 <<<<<<<< HEAD:Assets/Scenes/MainScene.unity.meta
 guid: 34820499f034aa04faa671deb560563a
 ========
 guid: 0b1ef130620ae874ea05d8adcb6783d3
 folderAsset: yes
 >>>>>>>> parent of dc69c6e (Revert "Ji yoon"):Assets/Downloads/FourEvilDragonsHP.meta
+=======
+guid: 34820499f034aa04faa671deb560563a
+>>>>>>> Stashed changes
 DefaultImporter:
   externalObjects: {}
   userData: 
