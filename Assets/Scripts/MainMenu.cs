@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public void OnClickNew()
+    public void OnClickStart()
     {
 #if UNITY_EDITOR
-        Debug.Log("New Game");
+        Debug.Log("Start");
 #endif
     }
 
