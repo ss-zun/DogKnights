@@ -7,28 +7,28 @@ public class MainMenu : MonoBehaviour
     public void OnClickStart()
     {
 #if UNITY_EDITOR
-        Debug.Log("Clicked Start Button");
+        Debug.Log("Start");
 #endif
     }
 
     public void OnClickLoad()
     {
 #if UNITY_EDITOR
-        Debug.Log("Clicked Load Button");
+        Debug.Log("Load");
 #endif
     }
 
     public void OnClickConfig()
     {
 #if UNITY_EDITOR
-        Debug.Log("Clicked Config Button");
+        Debug.Log("Config");
 #endif
     }
 
     public void OnClickQuit()
     {
 #if UNITY_EDITOR
-        Debug.Log("Clicked Quit Button");
+        Debug.Log("Quit");
 #else
         Application.Quit();
 #endif
