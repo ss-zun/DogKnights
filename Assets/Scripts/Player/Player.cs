@@ -8,10 +8,19 @@ public class Player : Base
     private Rigidbody playerRigidbody;
     bool isJumping = false;       //공중에 떠 있는지
     [SerializeField]
-    public float jumpForce = 0;
+    public float jumpForce = 30;
     float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
+
+    // 에너지 충전에 관한 변수
+    private float curEnergy = 0f;     //에너지 량
+    private float maxEnergy = 100f;
+    private float chargeTime = 0f;    //충전 시간
+    private float maxTime = 2f;
+
+    private int heart = 0;
+    private int maxHeart = 5;
 
 
 
@@ -29,6 +38,7 @@ public class Player : Base
         Move();
         Attack();
         Jump();
+        Charge();
     }
 
     override protected void Move(){
@@ -38,10 +48,10 @@ public class Player : Base
         }else{
             anim.SetBool("Run", true);
             if (xInput <= 0.0f){
-            transform.rotation = Quaternion.Euler(0, -90, 0);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
             }
             if (xInput > 0.0f){
-                transform.rotation = Quaternion.Euler(0, 90, 0);
+                transform.rotation = Quaternion.Euler(0, -90, 0);
             }
         }
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
@@ -58,9 +68,9 @@ public class Player : Base
             yVelocity = 0f;
         }
 
+        moveDir.Normalize();
         
         moveDir = transform.right*xInput;
-        moveDir.Normalize();
         moveDir.y = yVelocity;
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
@@ -107,6 +117,39 @@ public class Player : Base
         
     }
 
+    public void AttacktedByMonster(int damage){
+        if (addHeart(damage) == 0){
+            heart = 0;
+            Die();
+        }
+    }
+
+
+    // heart의 개수를 add만큼 변경하고 변경 후 heart 수 반환
+    private int addHeart(int add){
+        heart = heart+add;
+        if (heart>=5) heart = 5;
+        else if(heart<=0) heart = 0;
+        return heart;
+    }
+
+    // 쉬프트누를 경우 에너지 충전
+    public void Charge(){
+        if(Input.GetKey(KeyCode.LeftShift)){
+            if (curEnergy>=100f){
+                curEnergy=0;
+                Debug.Log("하트 획득 : "+addHeart(1));
+                return;
+            }
+            curEnergy+=Time.deltaTime*50;
+            Debug.Log("에너지 충전... "+ curEnergy);
+        }
+    }
+
+    public void Die(){
+
+    }
+   
 
 
 }
