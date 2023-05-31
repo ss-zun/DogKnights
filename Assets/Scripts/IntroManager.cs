@@ -14,6 +14,7 @@ public class IntroManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         Debug.Log("Start");
+        SceneManager.LoadScene("SampleUIScene");
 #endif
     }
 
@@ -21,6 +22,7 @@ public class IntroManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         Debug.Log("Load");
+        SceneManager.LoadScene("SampleUIScene");
 #endif
     }
 
