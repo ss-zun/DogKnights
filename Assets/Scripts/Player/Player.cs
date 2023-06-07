@@ -9,6 +9,8 @@ public class Player : Base
     bool isJumping = false;       //공중에 떠 있는지
     [SerializeField]
     public float jumpForce = 30;
+    [SerializeField]
+    public GameObject swordObject;
     float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
@@ -19,7 +21,7 @@ public class Player : Base
     private float chargeTime = 0f;    //충전 시간
     private float maxTime = 2f;
 
-    private int heart = 0;
+    public int heart = 0;
     private int maxHeart = 5;
 
 
@@ -35,6 +37,7 @@ public class Player : Base
     // Update is called once per frame
     void Update()
     {
+        isJumping = false;
         Move();
         Attack();
         Jump();
@@ -89,6 +92,7 @@ public class Player : Base
     }
 
     override protected void Attack(){
+        
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
         }
@@ -108,6 +112,8 @@ public class Player : Base
         }
     }
 
+
+    // 바닥과 닿아있을 경우
     private void OnCollisionEnter(Collision collision){
         if(collision.gameObject.CompareTag("Ground")){
             isJumping = false;
@@ -117,7 +123,10 @@ public class Player : Base
         
     }
 
-    public void AttacktedByMonster(int damage){
+    public void TakeDamage(int damage){
+        
+        anim.SetTrigger("GetHit");
+        heart -= damage;
         if (addHeart(damage) == 0){
             heart = 0;
             Die();
@@ -149,6 +158,8 @@ public class Player : Base
     public void Die(){
 
     }
+
+   
    
 
 
