@@ -19,6 +19,13 @@ public class Boss : Base
     [SerializeField]
     private LayerMask attackMask;
 
+    private GameObject deathEffect;
+    private bool isInvulnerable = false; // 무적
+
+    Boss()
+    {
+        this.maxHp = 300;
+    }
     public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
     {
         Vector3 flipped = transform.localScale; 
@@ -49,12 +56,15 @@ public class Boss : Base
     {
         Debug.Log("Attack");
         Vector3 pos = transform.position;
+        // 공격 범위
         pos += transform.right * attackOffset.x;
         pos += transform.up * attackOffset.y;
 
+        // 공격 범위 내 객체 탐지
         Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
+        // 공격 범위 내 객체가 감지됨
         if(colInfo != null)
-        {
+        {         
             //colInfo.GetComponent<PlayerHealth>().TakeDamage(attackDemage);
         }
     }
@@ -70,5 +80,27 @@ public class Boss : Base
         {
             //colInfo.GetComponent<PlayerHealth>().TakeDamage(FlameAttackDemage);
         }
+    }
+
+    public void TakeDamage()
+    {
+        if (isInvulnerable)
+            return;
+
+        if (this.maxHp % 100 == 0)
+        {
+            GetComponent<Animator>().SetBool("IsEnraged", true);
+        }
+
+        if (this.maxHp <=0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
