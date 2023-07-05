@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 17281970}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17281969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.697, y: 0.455, z: 1.2296257}
+  m_LocalPosition: {x: 2.697, y: 0.455, z: -0.225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -324,6 +324,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2066896392024962670, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066896392024962670, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066896392024962670, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 2066896392038131574, guid: 45288819fde2143449a96207b14db0bb, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -375,6 +387,18 @@ PrefabInstance:
     - target: {fileID: 5540176207860147228, guid: 45288819fde2143449a96207b14db0bb, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6215696078930886360, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_Size.y
+      value: 1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 6215696078930886360, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_Size.z
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6215696078930886360, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45288819fde2143449a96207b14db0bb, type: 3}
@@ -493,14 +517,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7596273e4b5b898418e56bc8df5f2127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  MaxMp: 100
-  moveSpeed: 5
-  attackSpeed: 5
-  attackPower: 5
   anim: {fileID: 1475926792}
   jumpForce: 5
   swordObject: {fileID: 0}
+  moveSpeed: 5
   heart: 0
 --- !u!95 &1475926792 stripped
 Animator:
