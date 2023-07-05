@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
+    [SerializeField]
+    private float moveSpeed = 0.1f;
 
     // 에너지 충전에 관한 변수
     private float curEnergy = 0f;     //에너지 량
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour
 
 
     // 키보드 입력에 따라 움직이기
-    override protected void Move(){
+    protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
         if (xInput == 0){
             anim.SetBool("Run", false);
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour
         // playerRigidbody.velocity = newVelocity;
     }
 
-    override protected void Attack(){
+    protected void Attack(){
         
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
@@ -103,7 +105,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    override protected void Jump(){
+    protected void Jump(){
         // yVelocity += gravity*Time.deltaTime;
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
             playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
