@@ -23,8 +23,10 @@ public class Player : MonoBehaviour
     private float chargeTime = 0f;    //충전 시간
     private float maxTime = 2f;
 
-    public int heart = 0;
+    public int heart = 5;
     private int maxHeart = 5;
+    private bool isInvincible = false;
+    private bool isDead = false;
 
 
 
@@ -50,6 +52,9 @@ public class Player : MonoBehaviour
     // 키보드 입력에 따라 움직이기
     protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
+        if(isDead){
+            return;
+        }
         if (xInput == 0){
             anim.SetBool("Run", false);
         }else{
@@ -118,11 +123,22 @@ public class Player : MonoBehaviour
 
 
     // 바닥과 닿아있을 경우
-    private void OnCollisionEnter(Collision collision){
-        if(collision.gameObject.CompareTag("Ground")){
+    private void OnCollisionStay(Collision collision){
+        if(collision.gameObject.CompareTag("Ground")){       //바닥과 충돌 : 착지
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
+        }
+        if(collision.gameObject.CompareTag("Enemy")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+            Debug.Log(collision.gameObject.name);
+            
+        }
+        else if(collision.gameObject.CompareTag("Enemy") && isInvincible==false){        //적에게 맞았을 때 
+            Debug.Log("get Attacked");
+            isInvincible = true; 
+            TakeDamage(1);
+            Invincible();
+
         }
         
     }
@@ -131,7 +147,7 @@ public class Player : MonoBehaviour
         
         anim.SetTrigger("GetHit");
         heart -= damage;
-        if (addHeart(damage) == 0){
+        if (heart <= 0){
             heart = 0;
             Die();
         }
@@ -159,12 +175,28 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void BackForce(){
-        
+
+
+    public void Invincible(){
+        isInvincible = false;
     }
 
+
+    // 플레이어 사망시 쓰러지는 모션, 특정 키 입력 시 부활하도록 함
     public void Die(){
-
+        anim.SetTrigger("Die");
+        Debug.Log("Die...");
+        isDead = true;
+        if(Input.GetKey(KeyCode.R)){
+            Restart();
+        }
     }
 
+    // 부활하는 모션과 함께 생명 수 초기화
+    public void Restart(){
+        anim.SetTrigger("RecoverDie");
+        heart = maxHeart;
+        isDead = false;
+    }
+    
 }
