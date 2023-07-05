@@ -6,25 +6,25 @@ public class EscapeRoomFloorTrap : MonoBehaviour
 {
     // ===== public =====
 
-    // 바닥 트랩 객체를 담는 변수
+    [Tooltip("바닥 트랩 객체를 담는 변수")]
     public GameObject trap;
 
-    // 트랩이 들어가는/올라오는 최소 시간 
+    [Tooltip("트랩이 들어가는/올라오는 최소 시간")]
     public float minMoveTimes = 0.3f;
 
-    // 트랩이 들어가는/올라오는 최대 시간
+    [Tooltip("트랩이 들어가는/올라오는 최대 시간")]
     public float maxMoveTimes = 0.9f;
 
-    // 트랩 최소 잠복 시간
+    [Tooltip("트랩 최소 잠복 시간")]
     public float minHiddenTimes = 1.5f;
 
-    // 트랩 최대 잠복 시간
+    [Tooltip("트랩 최대 잠복 시간")]
     public float maxHiddenTimes = 4.0f;
 
-    // 트랩 최소 돌출 시간
+    [Tooltip("트랩 최소 돌출 시간")]
     public float minProtrusionTimes = 1.2f;
 
-    // 트랩 최대 돌출 시간
+    [Tooltip("트랩 최대 돌출 시간")]
     public float maxPortrusionTimes = 2.25f;
 
     // ===== private =====
@@ -65,8 +65,8 @@ public class EscapeRoomFloorTrap : MonoBehaviour
         // 현재 상태 유지일 때
         if(bIsMaintainence)
         {
-            // 유지 시간보다 길 때
-            if((bIsLiftingOff ? protrusionTimes : hiddenTimes) > maintainenceTime)
+            // 유지 시간이 돌출 또는 잠복 시간보다 더 길 때
+            if((bIsLiftingOff ? protrusionTimes : hiddenTimes) < maintainenceTime)
             {
                 // 유지 상태 해제
                 bIsMaintainence = false;
@@ -92,10 +92,10 @@ public class EscapeRoomFloorTrap : MonoBehaviour
             if(bIsLiftingOff)
             {
                 // 트랩이 최대 높이까지 올라왔다면
-                if(height > 0.3f)
+                if(height > 0.0f)
                 {
                     // 높이 고정
-                    height = 0.3f;
+                    height = 0.0f;
 
                     // 돌출 상태로 유지
                     bIsMaintainence = true;
@@ -104,7 +104,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
                 else
                 {
                     // 높이 올리기
-                    height += 0.3f / moveTimes * Time.deltaTime;
+                    height += 0.06f / moveTimes * Time.deltaTime;
                 }
                 // 위치 조절
                 trap.transform.localPosition = new Vector3(trap.transform.localPosition.x, height, trap.transform.localPosition.z);
@@ -114,10 +114,10 @@ public class EscapeRoomFloorTrap : MonoBehaviour
             else
             {
                 // 트랩이 최대 높이까지 올라왔다면
-                if (height < 0.0f)
+                if (height < -0.3f)
                 {
                     // 높이 고정
-                    height = 0.0f;
+                    height = -0.3f;
 
                     // 들어간 상태로 유지
                     bIsMaintainence = true;
@@ -126,7 +126,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
                 else
                 {
                     // 높이 내리기
-                    height -= 0.3f / moveTimes * Time.deltaTime;
+                    height -= 0.06f / moveTimes * Time.deltaTime;
                 }
                 // 위치 조절
                 trap.transform.localPosition = new Vector3(trap.transform.localPosition.x, height, trap.transform.localPosition.z);
