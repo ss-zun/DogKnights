@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Base
+public class Player : MonoBehaviour
 {   [SerializeField]
     public Animator anim;
     private Rigidbody playerRigidbody;
@@ -14,6 +14,8 @@ public class Player : Base
     float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
+    [SerializeField]
+    private float moveSpeed = 0.1f;
 
     // 에너지 충전에 관한 변수
     private float curEnergy = 0f;     //에너지 량
@@ -44,7 +46,9 @@ public class Player : Base
         Charge();
     }
 
-    override protected void Move(){
+
+    // 키보드 입력에 따라 움직이기
+    protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
         if (xInput == 0){
             anim.SetBool("Run", false);
@@ -91,7 +95,7 @@ public class Player : Base
         // playerRigidbody.velocity = newVelocity;
     }
 
-    override protected void Attack(){
+    protected void Attack(){
         
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
@@ -101,7 +105,7 @@ public class Player : Base
         }
     }
 
-    override protected void Jump(){
+    protected void Jump(){
         // yVelocity += gravity*Time.deltaTime;
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
             playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
@@ -155,12 +159,12 @@ public class Player : Base
         }
     }
 
+    public void BackForce(){
+        
+    }
+
     public void Die(){
 
     }
-
-   
-   
-
 
 }
