@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss
+public class Boss : MonoBehaviour
 {
     [SerializeField]
     private Transform player; // 플레이어의 위치
@@ -85,12 +85,12 @@ public class Boss
         if (isInvulnerable)
             return;
 
-        if (this.maxHp % 100 == 0)
+        if (maxHP % 100 == 0)
         {
             GetComponent<Animator>().SetBool("IsEnraged", true);
         }
 
-        if (this.maxHp <=0)
+        if (maxHP <= 0)
         {
             Die();
         }
