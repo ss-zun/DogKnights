@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : Base
+public class Boss : MonoBehaviour
 {
     [SerializeField]
     private Transform player; // 플레이어의 위치
     private bool isFlipped = false; // 보스가 현재 뒤집혀 있는지
 
+    [SerializeField]
+    private int maxHP = 300;
     [SerializeField]
     private int attackDamage = 20;
     [SerializeField]
@@ -22,10 +24,6 @@ public class Boss : Base
     private GameObject deathEffect;
     private bool isInvulnerable = false; // 무적
 
-    Boss()
-    {
-        this.maxHp = 300;
-    }
     public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
     {
         Vector3 flipped = transform.localScale; 
@@ -87,12 +85,12 @@ public class Boss : Base
         if (isInvulnerable)
             return;
 
-        if (this.maxHp % 100 == 0)
+        if (maxHP % 100 == 0)
         {
             GetComponent<Animator>().SetBool("IsEnraged", true);
         }
 
-        if (this.maxHp <=0)
+        if (maxHP <= 0)
         {
             Die();
         }
