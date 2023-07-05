@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Base
+public class Player : MonoBehaviour
 {   [SerializeField]
     public Animator anim;
     private Rigidbody playerRigidbody;
@@ -44,6 +44,8 @@ public class Player : Base
         Charge();
     }
 
+
+    // 키보드 입력에 따라 움직이기
     override protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
         if (xInput == 0){
@@ -155,12 +157,12 @@ public class Player : Base
         }
     }
 
+    public void BackForce(){
+        
+    }
+
     public void Die(){
 
     }
-
-   
-   
-
 
 }
