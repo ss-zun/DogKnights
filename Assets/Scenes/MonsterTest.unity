@@ -544,19 +544,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bcc0fc5cf5ced45a7dec1b1b13c40a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  MaxMp: 100
-  moveSpeed: 5
-  attackSpeed: 5
-  attackPower: 5
   player: {fileID: 142443950}
+  maxHP: 300
   attackDamage: 20
-  FlameAttackDemage: 40
+  FlameAttackDamage: 40
+  FlyFlameAttackDamge: 60
   attackOffset: {x: 0, y: 0, z: 0}
   attackRange: 1
   attackMask:
     serializedVersion: 2
     m_Bits: 8
+  isInvulnerable: 0
 --- !u!1001 &1445196540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1570,7 +1568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583080428006642587, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
       propertyPath: m_Constraints
-      value: 100
+      value: 76
       objectReference: {fileID: 0}
     - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
       propertyPath: m_Size.x

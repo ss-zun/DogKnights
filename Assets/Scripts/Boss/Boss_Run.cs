@@ -25,11 +25,11 @@ public class Boss_Run : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         boss.LookAtPlayer();
-        Vector2 target = new Vector2(player.position.x, rb.position.z);
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
+        Vector3 target = new Vector3(player.position.x, rb.position.y, rb.position.z);
+        Vector3 newPos = Vector3.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
 
-        if(Vector2.Distance(player.position, rb.position) <= attackRange)
+        if(Vector3.Distance(player.position, rb.position) <= attackRange)
         {
             animator.SetTrigger("BasicAttack");
         }
