@@ -11,9 +11,12 @@ public class Boss : MonoBehaviour
     [SerializeField]
     private int maxHP = 300;
     [SerializeField]
-    private int attackDamage = 20;
+    private int attackDamage = 1;
     [SerializeField]
-    private int FlameAttackDemage = 40;
+    private int FlameAttackDamage = 2;
+    [SerializeField]
+    private int FlyFlameAttackDamge = 2;
+
     [SerializeField]
     private Vector3 attackOffset;
     [SerializeField]
@@ -22,7 +25,7 @@ public class Boss : MonoBehaviour
     private LayerMask attackMask;
 
     private GameObject deathEffect;
-    private bool isInvulnerable = false; // 무적
+    public bool isInvulnerable = false; // 무적
 
     public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
     {
@@ -63,7 +66,8 @@ public class Boss : MonoBehaviour
         // 공격 범위 내 객체가 감지됨
         if(colInfo != null)
         {         
-            //colInfo.GetComponent<PlayerHealth>().TakeDamage(attackDemage);
+            colInfo.GetComponent<Player>().TakeDamage(attackDamage);
+            Debug.Log("attackDamage : 1");
         }
     }
     public void FlameAttack()
@@ -76,19 +80,38 @@ public class Boss : MonoBehaviour
         Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
         if (colInfo != null)
         {
-            //colInfo.GetComponent<PlayerHealth>().TakeDamage(FlameAttackDemage);
+            colInfo.GetComponent<Player>().TakeDamage(FlameAttackDamage);
+            Debug.Log("FlameAttackDamage : 2");
+        }
+    }
+    public void FlyFlameAttack()
+    {
+        Debug.Log("FlameAttack");
+        Vector3 pos = transform.position;
+        pos += transform.right * attackOffset.x;
+        pos += transform.up * attackOffset.y;
+
+        Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
+        if (colInfo != null)
+        {
+            colInfo.GetComponent<Player>().TakeDamage(FlyFlameAttackDamge);
+            Debug.Log("FlyFlameAttackDamge : 2");
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
         if (isInvulnerable)
             return;
 
-        if (maxHP % 100 == 0)
-        {
-            GetComponent<Animator>().SetBool("IsEnraged", true);
-        }
+        maxHP -= damage;
+        Debug.Log("MaxHP : 300, CurrentHP : " + maxHP);
+
+        if (maxHP == 200)
+            GetComponent<Animator>().SetBool("FlameAttack", true);
+
+        if (maxHP == 100)
+            GetComponent<Animator>().SetBool("FlyFlameAttack", true);
 
         if (maxHP <= 0)
         {
