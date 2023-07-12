@@ -6,9 +6,6 @@ public class EscapeRoomFloorTrap : MonoBehaviour
 {
     // ===== public =====
 
-    // 바닥 트랩 객체를 담는 변수
-    public GameObject trap;
-
     // 트랩이 들어가는/올라오는 최소 시간 
     public float minMoveTimes = 0.3f;
 
@@ -50,6 +47,11 @@ public class EscapeRoomFloorTrap : MonoBehaviour
     // 현재 트랩 높이
     private float height = 0.3f;
 
+    // 임시 위치 변수
+    private Vector3 tempLocation;
+
+    private Rigidbody r;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,8 +64,10 @@ public class EscapeRoomFloorTrap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(height);
+        //Debug.Log(transform.position);
         // 현재 상태 유지일 때
-        if(bIsMaintainence)
+        if (bIsMaintainence)
         {
             // 유지 시간보다 길 때
             if((bIsLiftingOff ? protrusionTimes : hiddenTimes) > maintainenceTime)
@@ -92,7 +96,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
             if(bIsLiftingOff)
             {
                 // 트랩이 최대 높이까지 올라왔다면
-                if(height > 0.3f)
+                if (height > 0.3f)
                 {
                     // 높이 고정
                     height = 0.3f;
@@ -106,18 +110,16 @@ public class EscapeRoomFloorTrap : MonoBehaviour
                     // 높이 올리기
                     height += 0.3f / moveTimes * Time.deltaTime;
                 }
-                // 위치 조절
-                trap.transform.localPosition = new Vector3(trap.transform.localPosition.x, height, trap.transform.localPosition.z);
             }
 
             // 현재 들어가는 중이라면
             else
             {
                 // 트랩이 최대 높이까지 올라왔다면
-                if (height < 0.0f)
+                if (height < -0.3f)
                 {
                     // 높이 고정
-                    height = 0.0f;
+                    height = -0.3f;
 
                     // 들어간 상태로 유지
                     bIsMaintainence = true;
@@ -129,8 +131,14 @@ public class EscapeRoomFloorTrap : MonoBehaviour
                     height -= 0.3f / moveTimes * Time.deltaTime;
                 }
                 // 위치 조절
-                trap.transform.localPosition = new Vector3(trap.transform.localPosition.x, height, trap.transform.localPosition.z);
+
+                //transform.position = new Vector3(transform.position.x, height, transform.position.z);
             }
+
+            // 위치 조절
+            tempLocation = transform.position;
+            tempLocation.y = height;
+            transform.position = tempLocation;
         }
     }
 }
