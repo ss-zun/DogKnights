@@ -23,17 +23,21 @@ public class Player : MonoBehaviour
     private float chargeTime = 0f;    //충전 시간
     private float maxTime = 2f;
 
-    public int heart = 5;
-    private int maxHeart = 5;
-    private bool isInvincible = false;
-    private bool isDead = false;
+    public int heart = 5;     //현재 하트 수
+    private int maxHeart = 5; //최대 하트 수
+    private bool isInvincible = false;  //현재 무적상태인지
+    private bool isDead = false;  //현재 사망상태인지
+    private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
+    float curTime = 0f; //무적상태를 유지한 시간
 
+    Renderer playerColor;//플레이어 material 색상이 붉게 깜빡거리도록 함
 
 
     // Start is called before the first frame update
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerColor = transform.Find("polySurface1").gameObject.GetComponent<Renderer>();
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
     }
@@ -46,6 +50,9 @@ public class Player : MonoBehaviour
         Attack();
         Jump();
         Charge();
+        Restart();
+        Invincible();
+
     }
 
 
@@ -124,29 +131,28 @@ public class Player : MonoBehaviour
 
     // 바닥과 닿아있을 경우
     private void OnCollisionStay(Collision collision){
-        if(collision.gameObject.CompareTag("Ground")){       //바닥과 충돌 : 착지
+        if(collision.collider.CompareTag("Ground")){       //바닥과 충돌 : 착지
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
         }
-        if(collision.gameObject.CompareTag("Enemy")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+        if(collision.collider.CompareTag("Enemy")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
             Debug.Log(collision.gameObject.name);
             
         }
-        else if(collision.gameObject.CompareTag("Enemy") && isInvincible==false){        //적에게 맞았을 때 
+        else if(collision.collider.CompareTag("Enemy") && isInvincible==false&&heart>0){        //적에게 맞았을 때 
             Debug.Log("get Attacked");
             isInvincible = true; 
             TakeDamage(1);
-            Invincible();
 
         }
         
     }
 
     public void TakeDamage(int damage){
-        
         anim.SetTrigger("GetHit");
         heart -= damage;
+        Debug.Log(damage);
         if (heart <= 0){
             heart = 0;
             Die();
@@ -177,8 +183,26 @@ public class Player : MonoBehaviour
 
 
 
-    public void Invincible(){
-        isInvincible = false;
+    public void Invincible(){//피격 시 일정 시간 동안 무적상태 유지
+
+        if(isInvincible==true){
+            curTime += Time.deltaTime;
+            if((int)(curTime*10)%10==0){
+                playerColor.material.color = Color.red;
+            }
+            else{
+                playerColor.material.color = Color.blue;
+            }
+
+        }
+        //2초동안 true 상태를 유지하고 isInvincible을 false로 바꾸는 코드
+        if(curTime >= 2f){
+            playerColor.material.color = Color.white;
+            curTime=0f;
+            isInvincible = false;
+        }
+
+
     }
 
 
@@ -187,16 +211,16 @@ public class Player : MonoBehaviour
         anim.SetTrigger("Die");
         Debug.Log("Die...");
         isDead = true;
-        if(Input.GetKey(KeyCode.R)){
-            Restart();
-        }
     }
 
     // 부활하는 모션과 함께 생명 수 초기화
     public void Restart(){
-        anim.SetTrigger("RecoverDie");
-        heart = maxHeart;
-        isDead = false;
+        if(Input.GetKey(KeyCode.R)&&isDead){ 
+            anim.SetTrigger("DieRecover");
+            heart = maxHeart;
+            isDead = false;
+            transform.position = new Vector3(0f, 0.3f, 0f);
+        }
     }
     
 }
