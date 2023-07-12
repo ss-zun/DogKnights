@@ -7,7 +7,7 @@ public class Boss_Run : StateMachineBehaviour
     [SerializeField]
     private float speed = 1f;
     [SerializeField]
-    private float attackRange = 3f;
+    private float attackRange = 5f;
 
     Transform player;
     Rigidbody rb;
