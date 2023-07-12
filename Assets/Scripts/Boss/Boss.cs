@@ -18,9 +18,9 @@ public class Boss : MonoBehaviour
     private int FlyFlameAttackDamge = 2;
 
     [SerializeField]
-    private Vector3 attackOffset;
+    private Vector3 attackOffset; // 캐릭터를 중심으로 떨어진 거리
     [SerializeField]
-    private float attackRange = 1f;
+    private float attackRange = 5f; // 공격 사정거리
     [SerializeField]
     private LayerMask attackMask;
 
@@ -52,7 +52,6 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // 만들다 말음
     public void Attack()
     {
         Debug.Log("Attack");
@@ -107,13 +106,11 @@ public class Boss : MonoBehaviour
         maxHP -= damage;
         Debug.Log("MaxHP : 300, CurrentHP : " + maxHP);
 
-        if (maxHP == 200)
+        if (maxHP <= 200 && maxHP >= 100)
             GetComponent<Animator>().SetBool("FlameAttack", true);
-
-        if (maxHP == 100)
+        else if (maxHP <= 100 && maxHP >= 0)
             GetComponent<Animator>().SetBool("FlyFlameAttack", true);
-
-        if (maxHP <= 0)
+        else if (maxHP <= 0)
         {
             Die();
         }
