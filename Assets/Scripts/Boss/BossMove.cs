@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Run : StateMachineBehaviour
+public class BossMove : StateMachineBehaviour
 {
     [SerializeField]
     private float speed = 1f;
@@ -29,15 +29,30 @@ public class Boss_Run : StateMachineBehaviour
         Vector3 newPos = Vector3.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
         rb.MovePosition(newPos);
 
-        if(Vector3.Distance(player.position, rb.position) <= attackRange)
+        if (Vector3.Distance(player.position, rb.position) <= attackRange && animator.GetComponent<Boss>().isInvulnerable == false)
         {
-            animator.SetTrigger("BasicAttack");
+            animator.SetBool("BasicAttack", true);
         }
+
+        if (animator.GetComponent<Boss>().isInvulnerable == true)
+        {
+            animator.SetBool("BasicAttack", false);
+        }
+            
+        if (animator.GetComponent<Boss>()._currentHP == 200) // old - cur 해서 해결하기////임시변수 bool 써서 무적했었는지 체크
+        {
+            animator.SetTrigger("FlameAttack");
+        }
+
+        //if (animator.GetComponent<Boss>().BossHP <= 100)
+        //animator.SetBool("FlyFlameAttack", true);
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("BasicAttack");
+        animator.SetBool("BasicAttack", false);
+
+        //animator.SetBool("FlyFlameAttack", false);
     }
 }
