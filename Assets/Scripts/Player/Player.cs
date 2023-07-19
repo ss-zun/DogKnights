@@ -25,12 +25,20 @@ public class Player : MonoBehaviour
 
     public int heart = 5;     //현재 하트 수
     private int maxHeart = 5; //최대 하트 수
+
     private bool isInvincible = false;  //현재 무적상태인지
     private bool isDead = false;  //현재 사망상태인지
+    public bool isAttacking = false; //공격상태인지
+    private bool isCharging = false; //에너지를 모으는 중 인지 
+    // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
+
     private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
     float curTime = 0f; //무적상태를 유지한 시간
 
     Renderer playerColor;//플레이어 material 색상이 붉게 깜빡거리도록 함
+
+    [SerializeField]
+    private GameObject[] effectPrefabs; // 캐릭터의 이펙트 : 피격 시 이펙트, 공격 시 이펙트, 에너지 모을 때의 이펙트 등
 
 
     // Start is called before the first frame update
@@ -108,12 +116,23 @@ public class Player : MonoBehaviour
     }
 
     protected void Attack(){
-        
+        int effectCount = 0;
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
+            if (isAttacking == false){
+                effectCount = 1;
+                Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
+                GameObject go = GenerateEffect(0, effectPosition);
+                go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                go.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                Destroy(go, 0.5f);
+                
+            }
+            isAttacking = true;
         }
         else{
             anim.SetBool("Attack", false);
+            isAttacking = false;
         }
     }
 
@@ -170,7 +189,13 @@ public class Player : MonoBehaviour
 
     // 쉬프트누를 경우 에너지 충전
     public void Charge(){
+        
         if(Input.GetKey(KeyCode.LeftShift)){
+            
+            if (isCharging == false){
+                GameObject go = GenerateEffect(2, transform.position);
+                isCharging = true;
+            }
             if (curEnergy>=100f){
                 curEnergy=0;
                 Debug.Log("하트 획득 : "+addHeart(1));
@@ -223,4 +248,8 @@ public class Player : MonoBehaviour
         }
     }
     
+    public GameObject GenerateEffect(int index, Vector3 position){
+        GameObject go = Instantiate<GameObject>(effectPrefabs[index], position, Quaternion.identity);
+        return go;
+    }
 }
