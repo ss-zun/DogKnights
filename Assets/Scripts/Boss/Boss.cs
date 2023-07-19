@@ -9,7 +9,9 @@ public class Boss : MonoBehaviour
     private bool isFlipped = false; // 보스가 현재 뒤집혀 있는지
 
     [SerializeField]
-    private int maxHP = 300;
+    private int oldHP = 300;
+    [SerializeField]
+    private int currentHP = 300;
     [SerializeField]
     private int attackDamage = 1;
     [SerializeField]
@@ -26,6 +28,16 @@ public class Boss : MonoBehaviour
 
     private GameObject deathEffect;
     public bool isInvulnerable = false; // 무적
+
+    public int _currentHP
+    {
+        get { return currentHP; }
+    }
+
+    public int _oldHP
+    {
+        get { return oldHP; }
+    }
 
     public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
     {
@@ -103,17 +115,8 @@ public class Boss : MonoBehaviour
         if (isInvulnerable)
             return;
 
-        maxHP -= damage;
-        Debug.Log("MaxHP : 300, CurrentHP : " + maxHP);
-
-        if (maxHP <= 200 && maxHP >= 100)
-            GetComponent<Animator>().SetBool("FlameAttack", true);
-        else if (maxHP <= 100 && maxHP >= 0)
-            GetComponent<Animator>().SetBool("FlyFlameAttack", true);
-        else if (maxHP <= 0)
-        {
-            Die();
-        }
+        currentHP -= damage;
+        Debug.Log("MaxHP : 300, CurrentHP : " + currentHP);
     }
 
     void Die()
