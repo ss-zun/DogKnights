@@ -9,20 +9,35 @@ public class Boss : MonoBehaviour
     private bool isFlipped = false; // 보스가 현재 뒤집혀 있는지
 
     [SerializeField]
-    private int maxHP = 300;
+    private int oldHP = 300;
     [SerializeField]
-    private int attackDamage = 20;
+    private int currentHP = 300;
     [SerializeField]
-    private int FlameAttackDemage = 40;
+    private int attackDamage = 1;
     [SerializeField]
-    private Vector3 attackOffset;
+    private int FlameAttackDamage = 2;
     [SerializeField]
-    private float attackRange = 1f;
+    private int FlyFlameAttackDamge = 2;
+
+    [SerializeField]
+    private Vector3 attackOffset; // 캐릭터를 중심으로 떨어진 거리
+    [SerializeField]
+    private float attackRange = 5f; // 공격 사정거리
     [SerializeField]
     private LayerMask attackMask;
 
     private GameObject deathEffect;
-    private bool isInvulnerable = false; // 무적
+    public bool isInvulnerable = false; // 무적
+
+    public int _currentHP
+    {
+        get { return currentHP; }
+    }
+
+    public int _oldHP
+    {
+        get { return oldHP; }
+    }
 
     public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
     {
@@ -49,7 +64,6 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // 만들다 말음
     public void Attack()
     {
         Debug.Log("Attack");
@@ -63,7 +77,8 @@ public class Boss : MonoBehaviour
         // 공격 범위 내 객체가 감지됨
         if(colInfo != null)
         {         
-            //colInfo.GetComponent<PlayerHealth>().TakeDamage(attackDemage);
+            colInfo.GetComponent<Player>().TakeDamage(attackDamage);
+            Debug.Log("attackDamage : 1");
         }
     }
     public void FlameAttack()
@@ -76,24 +91,32 @@ public class Boss : MonoBehaviour
         Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
         if (colInfo != null)
         {
-            //colInfo.GetComponent<PlayerHealth>().TakeDamage(FlameAttackDemage);
+            colInfo.GetComponent<Player>().TakeDamage(FlameAttackDamage);
+            Debug.Log("FlameAttackDamage : 2");
+        }
+    }
+    public void FlyFlameAttack()
+    {
+        Debug.Log("FlameAttack");
+        Vector3 pos = transform.position;
+        pos += transform.right * attackOffset.x;
+        pos += transform.up * attackOffset.y;
+
+        Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
+        if (colInfo != null)
+        {
+            colInfo.GetComponent<Player>().TakeDamage(FlyFlameAttackDamge);
+            Debug.Log("FlyFlameAttackDamge : 2");
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
         if (isInvulnerable)
             return;
 
-        if (maxHP % 100 == 0)
-        {
-            GetComponent<Animator>().SetBool("IsEnraged", true);
-        }
-
-        if (maxHP <= 0)
-        {
-            Die();
-        }
+        currentHP -= damage;
+        Debug.Log("MaxHP : 300, CurrentHP : " + currentHP);
     }
 
     void Die()

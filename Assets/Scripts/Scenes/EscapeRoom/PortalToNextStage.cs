@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PortalToNextStage : MonoBehaviour
+{
+
+    // ===== private =====
+    // 포탈이 활성화됐는지의 여부
+    bool bIsPortalOn = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    /// <summary>
+    /// 포탈 이펙트 및 충돌 활성화
+    /// </summary>
+    public void PortalActivate()
+    {
+        ParticleSystem particleSystem = transform.Find("FX").gameObject.GetComponent<ParticleSystem>();
+        bIsPortalOn = true;
+        particleSystem.Play();
+    }
+
+    // 플레이어와 충돌했을 때
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 플레이어 태그가 부딪혔으며 포탈이 활성화되었을 때만 작동.
+        if(collision.gameObject.CompareTag("Player") && bIsPortalOn)
+        {
+            // 다음 스테이지로 이동.
+            Debug.Log("True");
+        }
+    }
+}
