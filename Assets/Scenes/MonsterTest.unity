@@ -647,6 +647,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isInvulnerable: 0
+--- !u!64 &1291178436
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291178430}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1445196540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1667,16 +1681,28 @@ PrefabInstance:
       value: 3.8515534
       objectReference: {fileID: 0}
     - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
+      propertyPath: m_Size.y
+      value: 5.7387514
+      objectReference: {fileID: 0}
+    - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
       propertyPath: m_Size.z
-      value: 10.798125
+      value: 10.125372
+      objectReference: {fileID: 0}
+    - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
       propertyPath: m_Center.x
-      value: -0.06037593
+      value: 6.4904814e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
+      propertyPath: m_Center.y
+      value: 2.8297105
       objectReference: {fileID: 0}
     - target: {fileID: 4583080428006642591, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
       propertyPath: m_Center.z
-      value: -2.12504
+      value: -2.4567266
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08f813b67ec5e4a438caf59015d15c80, type: 3}
