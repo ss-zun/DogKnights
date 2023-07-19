@@ -7,14 +7,14 @@ public class IntroManager : MonoBehaviour
 {
     private void Start()
     {
-
+        
     }
 
     public void OnClickStart()
     {
 #if UNITY_EDITOR
         Debug.Log("Start");
-        SceneManager.LoadScene("SampleUIScene");
+        SceneManager.LoadScene("HUD");
 #endif
     }
 
@@ -22,15 +22,15 @@ public class IntroManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         Debug.Log("Load");
-        SceneManager.LoadScene("SampleUIScene");
+        SceneManager.LoadScene("SampleUI");
 #endif
     }
 
     public void OnClickConfig()
     {
 #if UNITY_EDITOR
-        Debug.Log("Config");
-        SceneManager.LoadScene("ConfigScene");
+        Debug.Log("Setting");
+        SceneManager.LoadScene("Setting");
 #endif
     }
 
