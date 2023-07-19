@@ -29,7 +29,10 @@ public class FloorButton : MonoBehaviour
         
     }
 
-    // 버튼 관리자 설정
+    /// <summary>
+    /// 버튼 관리자 설정
+    /// </summary>
+    /// <param name="floorButtonsManager_">해당 버튼에 넣을 버튼 관리자 객체</param>
     public void SetFloorButtonsManager(FloorButtonsManager floorButtonsManager_)
     {
         this.floorButtonsManager = floorButtonsManager_;

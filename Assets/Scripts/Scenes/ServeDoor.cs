@@ -58,8 +58,6 @@ public class ServeDoor : MonoBehaviour
         // transform.eulerAngles.y 값은 읽기만 가능하고 쓰기는 불가능함.
         door_rotation_y = door.transform.localEulerAngles.y;
 
-        Debug.Log(door_rotation_y);
-
         DoorOperate();
     }
 

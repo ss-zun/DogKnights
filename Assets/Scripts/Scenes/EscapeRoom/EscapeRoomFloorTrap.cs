@@ -56,9 +56,12 @@ public class EscapeRoomFloorTrap : MonoBehaviour
     void Start()
     {
         // 랜덤값으로 초기화
-        hiddenTimes = Random.Range(minHiddenTimes, maxHiddenTimes);
-        protrusionTimes = Random.Range(minProtrusionTimes, maxPortrusionTimes);
-        moveTimes = Random.Range(minMoveTimes, maxMoveTimes);
+        hiddenTimes = Random.Range(minHiddenTimes, maxHiddenTimes + 1);
+        protrusionTimes = Random.Range(minProtrusionTimes, maxPortrusionTimes + 1);
+        moveTimes = Random.Range(minMoveTimes, maxMoveTimes + 1);
+        //transform.SetLocalPositionAndRotation(new Vector3(0, -3, 0), transform.rotation);
+        //transform.TransformPoint(Vector3.zero);
+        
     }
 
     // Update is called once per frame
@@ -70,7 +73,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
         if (bIsMaintainence)
         {
             // 유지 시간보다 길 때
-            if((bIsLiftingOff ? protrusionTimes : hiddenTimes) > maintainenceTime)
+            if ((bIsLiftingOff ? protrusionTimes : hiddenTimes) > maintainenceTime)
             {
                 // 유지 상태 해제
                 bIsMaintainence = false;
@@ -93,7 +96,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
         else
         {
             // 현재 올라오는 중이라면
-            if(bIsLiftingOff)
+            if (bIsLiftingOff)
             {
                 // 트랩이 최대 높이까지 올라왔다면
                 if (height > 0.3f)
@@ -139,6 +142,15 @@ public class EscapeRoomFloorTrap : MonoBehaviour
             tempLocation = transform.position;
             tempLocation.y = height;
             transform.position = tempLocation;
+            if (transform.name.Equals("Cube (1)"))
+            {
+                //Debug.Log(transform.position);
+            }
         }
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 }
