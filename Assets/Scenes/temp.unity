@@ -528,6 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dab18b326f0da7479206873d78c8f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1475926792}
   jumpForce: 5
+  attackPower: 10
   swordObject: {fileID: 0}
   moveSpeed: 5
   heart: 5
@@ -655,6 +657,8 @@ MonoBehaviour:
   - {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48, type: 3}
   - {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
   - {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+  - {fileID: 9070474633162843459, guid: 356cf4dca1465b54fabbb8cd9b1cd190, type: 3}
+  - {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
 --- !u!95 &1475926792 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2066896392029128874, guid: 45288819fde2143449a96207b14db0bb, type: 3}
@@ -822,6 +826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 9237070}
   player: {fileID: 1475926791}
+  boss: {fileID: 0}
 --- !u!4 &1721273789
 Transform:
   m_ObjectHideFlags: 0
