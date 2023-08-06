@@ -214,7 +214,7 @@ public class Player : MonoBehaviour
                 Destroy(healEffect, 0.2f);
                 return;
             }
-            curEnergy+=Time.deltaTime*50;
+            curEnergy+=Time.deltaTime*50;    // 2초동안 100만큼 채우도록 한다.
             Debug.Log("에너지 충전... "+ curEnergy);
         }
         else if(chargeEffect!=null){
@@ -260,7 +260,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("DieRecover");
             heart = maxHeart;
             isDead = false;
-            transform.position = savePoint
+            transform.position = savePoint;
         }
     }
     
