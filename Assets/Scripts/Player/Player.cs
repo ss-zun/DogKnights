@@ -10,12 +10,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     public float jumpForce = 30;
     [SerializeField]
+    public float attackPower = 10f;
+    [SerializeField]
     public GameObject swordObject;
     float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
     private float moveSpeed = 0.1f;
+    Color red = new Color(1f, 0f, 0f, 0.5f);
+    Color blue = new Color(0f, 0f, 1f, 0.5f);
 
     // 에너지 충전에 관한 변수
     private float curEnergy = 0f;     //에너지 량
@@ -31,6 +35,7 @@ public class Player : MonoBehaviour
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
+   
 
     private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
     float curTime = 0f; //무적상태를 유지한 시간
@@ -40,10 +45,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject[] effectPrefabs; // 캐릭터의 이펙트 : 피격 시 이펙트, 공격 시 이펙트, 에너지 모을 때의 이펙트 등
 
+    GameObject chargeEffect = null;
+
+    public Vector3 savePoint = Vector3.zero;   //사망한 후 재시작 할 때 스폰할 지점
 
     // Start is called before the first frame update
     void Start()
     {
+        chargeEffect = GenerateEffect(4, transform.position);
+        chargeEffect.SetActive(false);
         playerRigidbody = GetComponent<Rigidbody>();
         playerColor = transform.Find("polySurface1").gameObject.GetComponent<Renderer>();
         anim.SetBool("Run", false);
@@ -67,9 +77,10 @@ public class Player : MonoBehaviour
     // 키보드 입력에 따라 움직이기
     protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
-        if(isDead){
+        if(isDead || isCharging){  // 사망했거나 에너지 충전중이라면 움직이지 않도록 함
             return;
         }
+
         if (xInput == 0){
             anim.SetBool("Run", false);
         }else{
@@ -189,34 +200,40 @@ public class Player : MonoBehaviour
 
     // 쉬프트누를 경우 에너지 충전
     public void Charge(){
-        
         if(Input.GetKey(KeyCode.LeftShift)){
+            chargeEffect.transform.localPosition =  new Vector3(transform.position.x, transform.position.y-0.35f, transform.position.z);
             
             if (isCharging == false){
-                GameObject go = GenerateEffect(2, transform.position);
                 isCharging = true;
+                chargeEffect.SetActive(true);
             }
             if (curEnergy>=100f){
                 curEnergy=0;
                 Debug.Log("하트 획득 : "+addHeart(1));
+                GameObject healEffect = GenerateEffect(3, transform.position);
+                Destroy(healEffect, 0.2f);
                 return;
             }
             curEnergy+=Time.deltaTime*50;
             Debug.Log("에너지 충전... "+ curEnergy);
+        }
+        else if(chargeEffect!=null){
+            isCharging = false;
+            chargeEffect.SetActive(false);
         }
     }
 
 
 
     public void Invincible(){//피격 시 일정 시간 동안 무적상태 유지
-
+        
         if(isInvincible==true){
             curTime += Time.deltaTime;
             if((int)(curTime*10)%10==0){
-                playerColor.material.color = Color.red;
+                playerColor.material.color = red;
             }
             else{
-                playerColor.material.color = Color.blue;
+                playerColor.material.color = blue;
             }
 
         }
@@ -226,10 +243,7 @@ public class Player : MonoBehaviour
             curTime=0f;
             isInvincible = false;
         }
-
-
     }
-
 
     // 플레이어 사망시 쓰러지는 모션, 특정 키 입력 시 부활하도록 함
     public void Die(){
@@ -241,10 +255,12 @@ public class Player : MonoBehaviour
     // 부활하는 모션과 함께 생명 수 초기화
     public void Restart(){
         if(Input.GetKey(KeyCode.R)&&isDead){ 
+            GameObject restartEffect = GenerateEffect(2, savePoint);
+            Destroy(restartEffect, 1f);
             anim.SetTrigger("DieRecover");
             heart = maxHeart;
             isDead = false;
-            transform.position = new Vector3(0f, 0.3f, 0f);
+            transform.position = savePoint
         }
     }
     
