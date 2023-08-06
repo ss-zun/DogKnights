@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
-   
 
     private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
     float curTime = 0f; //무적상태를 유지한 시간
@@ -200,6 +199,7 @@ public class Player : MonoBehaviour
 
     // 쉬프트누를 경우 에너지 충전
     public void Charge(){
+        
         if(Input.GetKey(KeyCode.LeftShift)){
             chargeEffect.transform.localPosition =  new Vector3(transform.position.x, transform.position.y-0.35f, transform.position.z);
             
