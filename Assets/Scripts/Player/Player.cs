@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
     private float moveSpeed = 0.1f;
     private float defense = 100f;
 
+    SkinnedMeshRenderer[] meshs;
+    bool isDamage;
+    int health;
+
 
     Color red = new Color(1f, 0f, 0f, 0.5f);
     Color blue = new Color(0f, 0f, 1f, 0.5f);
@@ -178,8 +182,38 @@ public class Player : MonoBehaviour
         }
     }
 
+    //void OnTriggerEnter(Collider other){
+    //   if(other.tag == "monsterAttack")
+    //   {
+    //      if(!isDamage)
+    //      {
+    //         Monster monsterAttack = other.GetComponent<Monster>();
+    //         health -= monsterAttack.damage;
+    //         health = 1;
+    //         StartCoroutine(OnDamage());
+    //      }
+    //   }
+    //}
 
-    // 바닥과 닿아있을 경우
+    IEnumerator OnDamage()
+    {
+    
+       isDamage = true;
+       //맞으면 플레이어 색깔 변함
+          playerColor.material.color = Color.yellow;
+
+       yield return new WaitForSeconds(1f);
+
+       isDamage = false;
+       //원상복귀
+          playerColor.material.color = Color.white;
+
+
+    }
+
+
+
+    // 오브젝트와 충돌한경우
     private void OnCollisionStay(Collision collision){
         if(collision.collider.CompareTag("Ground")){       //바닥과 충돌 : 착지
             isJumping = false;
@@ -197,6 +231,7 @@ public class Player : MonoBehaviour
             }
             else{
                 isInvincible = true; 
+                int damage = 1;
                 TakeDamage(1);
             }
 
@@ -255,12 +290,14 @@ public class Player : MonoBehaviour
         
         if(isInvincible==true){
             curTime += Time.deltaTime;
-            if((int)(curTime*10)%10==0){
-                playerColor.material.color = red;
-            }
-            else{
-                playerColor.material.color = blue;
-            }
+            //if((int)(curTime*10)%10==0){
+            //    playerColor.material.color = red;
+            //}
+            //else{
+            //    playerColor.material.color = blue;
+            //}
+            
+            playerColor.material.color = Color.yellow;
 
         }
         //2초동안 true 상태를 유지하고 isInvincible을 false로 바꾸는 코드
