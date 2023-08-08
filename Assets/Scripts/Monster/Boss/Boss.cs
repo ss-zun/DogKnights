@@ -5,13 +5,7 @@ using UnityEngine;
 public class Boss : MonoBehaviour
 {
     [SerializeField]
-    private Transform player; // 플레이어의 위치
-    private bool isFlipped = false; // 보스가 현재 뒤집혀 있는지
-
-    [SerializeField]
-    private int oldHP = 300;
-    [SerializeField]
-    private int currentHP = 300;
+    private int BossHP = 300;
     [SerializeField]
     private int attackDamage = 1;
     [SerializeField]
@@ -29,39 +23,9 @@ public class Boss : MonoBehaviour
     private GameObject deathEffect;
     public bool isInvulnerable = false; // 무적
 
-    public int _currentHP
+    public int _BossHP
     {
-        get { return currentHP; }
-    }
-
-    public int _oldHP
-    {
-        get { return oldHP; }
-    }
-
-    public void LookAtPlayer() // 보스가 플레이어를 바라보게 하는 기능
-    {
-        Vector3 flipped = transform.localScale; 
-        flipped.x *= -1f; // x축 반전
-
-        // 보스가 플레이어보다 x축 방향으로 더 오른쪽에 있고,
-        // 보스가 이미 뒤집혀 있다면(플레이어를 바라보고 있다면)
-        // 보스를 다시 원래 방향으로 돌림
-        if(transform.position.x > player.position.x && isFlipped)
-        {
-            transform.localScale = flipped;
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = false;
-        }
-        // 보스가 플레이어보다 x축 방향으로 더 왼쪽에 있고,
-        // 보스가 아직 뒤집히지 않았다면(플레이어를 등지고 있다면)
-        // 보스가 뒤집어서 플레이어를 바라보게 함
-        else if(transform.position.x < player.position.x && !isFlipped)
-        {
-            transform.localScale = flipped;
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = true;
-        }
+        get { return BossHP; }
     }
 
     public void Attack()
@@ -115,8 +79,8 @@ public class Boss : MonoBehaviour
         if (isInvulnerable)
             return;
 
-        currentHP -= damage;
-        Debug.Log("MaxHP : 300, CurrentHP : " + currentHP);
+        BossHP -= damage;
+        Debug.Log("MaxHP : 300, CurrentHP : " + BossHP);
     }
 
     void Die()
