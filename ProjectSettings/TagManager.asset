@@ -7,6 +7,7 @@ TagManager:
   - Pivot
   - Ground
   - Enemy
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Wall
+  - Monster
+  - MonsterDead
   - 
   - 
   - 
