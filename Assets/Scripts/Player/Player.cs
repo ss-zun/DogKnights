@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     Vector3 moveDir;
     [SerializeField]
     private float moveSpeed = 0.1f;
+    private float defense = 100f;
+
+
     Color red = new Color(1f, 0f, 0f, 0.5f);
     Color blue = new Color(0f, 0f, 1f, 0.5f);
 
@@ -34,6 +37,7 @@ public class Player : MonoBehaviour
     private bool isDead = false;  //현재 사망상태인지
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
+    private bool isDefense = false; //방어상태인지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
@@ -57,6 +61,7 @@ public class Player : MonoBehaviour
         playerColor = transform.Find("polySurface1").gameObject.GetComponent<Renderer>();
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
+
     }
 
     // Update is called once per frame
@@ -69,14 +74,19 @@ public class Player : MonoBehaviour
         Charge();
         Restart();
         Invincible();
+        Defense();
+        PowerAttack();
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("PowerAttack")){
+            isInvincible = true;
 
+        }
     }
 
 
     // 키보드 입력에 따라 움직이기
     protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
-        if(isDead || isCharging){  // 사망했거나 에너지 충전중이라면 움직이지 않도록 함
+        if(isDead || isCharging || isDefense){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
             return;
         }
 
@@ -146,6 +156,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    protected void Defense(){  
+        if(Input.GetKey(KeyCode.X)){
+            anim.SetBool("Defense", true);
+            isDefense = true;
+        }else{
+            isDefense = false;
+            anim.SetBool("Defense", false);
+        }
+
+    }
+
     protected void Jump(){
         // yVelocity += gravity*Time.deltaTime;
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
@@ -171,8 +192,13 @@ public class Player : MonoBehaviour
         }
         else if(collision.collider.CompareTag("Enemy") && isInvincible==false&&heart>0){        //적에게 맞았을 때 
             Debug.Log("get Attacked");
-            isInvincible = true; 
-            TakeDamage(1);
+            if (isDefense & curEnergy >= 70f){  // 방어 성공 -> 데미지 무효, 에너지 감소
+                curEnergy -= 70f;
+            }
+            else{
+                isInvincible = true; 
+                TakeDamage(1);
+            }
 
         }
         
@@ -267,5 +293,11 @@ public class Player : MonoBehaviour
     public GameObject GenerateEffect(int index, Vector3 position){
         GameObject go = Instantiate<GameObject>(effectPrefabs[index], position, Quaternion.identity);
         return go;
+    }
+
+    public void PowerAttack(){
+        if (Input.GetKey(KeyCode.C)){
+            anim.SetTrigger("PowerAttack");
+        }
     }
 }
