@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 315423383}
   - component: {fileID: 315423384}
   m_Layer: 8
-  m_Name: AttackArea
+  m_Name: monsterAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,7 +563,7 @@ MonoBehaviour:
   monsterType: 0
   maxHealth: 50
   curHealth: 50
-  attackArea: {fileID: 315423384}
+  monsterAttack: {fileID: 315423384}
   target: {fileID: 142443950}
   isChase: 0
   isAttack: 0

@@ -9,13 +9,15 @@ public class Monster : MonoBehaviour
     private enum Type { Melee, Charge, Ranged };
     [SerializeField]
     private Type monsterType;
+    [SerializeField]
+    private int damage;
 
     [SerializeField]
-    private int maxHealth;
+    private float maxHealth;
     [SerializeField]
-    private int curHealth;
+    private float curHealth;
     [SerializeField]
-    private BoxCollider attackArea; //공격범위
+    private BoxCollider monsterAttack; //공격범위
     [SerializeField]
     private Transform target; //추적타겟
     [SerializeField]
@@ -128,21 +130,21 @@ public class Monster : MonoBehaviour
         {
             case Type.Melee:
                 yield return new WaitForSeconds(0.2f);
-                attackArea.enabled = true; //공격범위 활성화
+                monsterAttack.enabled = true; //공격범위 활성화
 
                 yield return new WaitForSeconds(1f);
-                attackArea.enabled = false;
+                monsterAttack.enabled = false;
 
                 yield return new WaitForSeconds(1f);
                 break;
             case Type.Charge:
                 yield return new WaitForSeconds(0.1f);
                 rigid.AddForce(transform.forward * 20, ForceMode.Impulse);
-                attackArea.enabled = true;
+                monsterAttack.enabled = true;
 
                 yield return new WaitForSeconds(1f);
                 rigid.velocity = Vector3.zero;
-                attackArea.enabled = false;
+                monsterAttack.enabled = false;
 
                 yield return new WaitForSeconds(2f);
                 break;
@@ -166,8 +168,8 @@ public class Monster : MonoBehaviour
     {
         if(other.tag == "Sword")
         {
-            // Weapon weapon = other.GetComponent<Weapon>();
-            curHealth -= 10; //weapon.damage;
+            Sword sword = other.GetComponent<Sword>();
+            curHealth -= sword.damage;
             Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
             Debug.Log("Sword : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
