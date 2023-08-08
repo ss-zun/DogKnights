@@ -1,33 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Setting : MonoBehaviour
 {
-    static Setting instance;
-
-    void Awake()
-    {
-        if (instance != null) {
-            Destroy(gameObject);
-        }
-
-        instance = this;
-    }
+    [SerializeField]
+    Scrollbar seBar;
+    [SerializeField]
+    Scrollbar bgmBar;
+    
+    public static float soundEffect = 0.5f;
+    public static float bgm = 0.5f;
 
     void Start()
     {
-
+        Debug.Log(soundEffect);
     }
 
-    void Update()
+
+    public void OnSeChanged(float value)
     {
-        
+        soundEffect = value;
     }
 
-    public void OnClickBack()
+    public void OnBgmChanged(float value)
     {
-        SceneManager.LoadScene("Intro");
-    } 
+        bgm = value;
+    }
 }

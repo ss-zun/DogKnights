@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class IntroManager : MonoBehaviour
+public class IntroUI : MonoBehaviour
 {
     private void Start()
     {
-        
     }
 
     public void OnClickStart()
