@@ -8,6 +8,10 @@ TagManager:
   - Ground
   - Enemy
   - Monster
+  - FxTemporaire
+  - Weapon
+  - Floor
+  - MonsterAttack
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - Wall
   - Monster
   - MonsterDead
-  - 
+  - MonsterAttack
   - 
   - 
   - 

@@ -252,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpForce: 12
+  health: 100
 --- !u!1 &154511412
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,9 +439,9 @@ GameObject:
   m_Component:
   - component: {fileID: 315423383}
   - component: {fileID: 315423384}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: monsterAttack
-  m_TagString: Untagged
+  m_TagString: MonsterAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -561,6 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
+  damage: 1
   maxHealth: 50
   curHealth: 50
   monsterAttack: {fileID: 315423384}
@@ -614,9 +616,9 @@ GameObject:
   - component: {fileID: 526521158}
   - component: {fileID: 526521157}
   - component: {fileID: 526521156}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
-  m_TagString: Ground
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
