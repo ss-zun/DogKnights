@@ -36,6 +36,11 @@ public class Monster : MonoBehaviour
     private float targetRadius = 0f; //폭
     private float targetRange = 0f; //공격범위
 
+    public int Damage
+    {
+        get { return damage; }
+    }
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -124,16 +129,17 @@ public class Monster : MonoBehaviour
     {
         isChase = false;
         isAttack = true;
-        anim.SetBool("isAttack", true);
-
+        
         switch (monsterType)
         {
             case Type.Melee:
                 yield return new WaitForSeconds(0.2f);
                 monsterAttack.enabled = true; //공격범위 활성화
+                anim.SetBool("isAttack", true);
 
                 yield return new WaitForSeconds(1f);
                 monsterAttack.enabled = false;
+                anim.SetBool("isAttack", false);
 
                 yield return new WaitForSeconds(1f);
                 break;
@@ -152,10 +158,8 @@ public class Monster : MonoBehaviour
 
                 break;
         }
-
         isChase = true;
         isAttack = false;
-        anim.SetBool("isAttack", false);
     }
 
     // 고정시간마다 동작하기 때문에 물리처리를 할 때 사용
@@ -199,7 +203,7 @@ public class Monster : MonoBehaviour
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
 
-            Destroy(gameObject, 3);
+            Destroy(gameObject, 4); //4초 뒤 죽음
         }
     }
 }
