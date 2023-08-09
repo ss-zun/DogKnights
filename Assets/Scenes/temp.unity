@@ -917,15 +917,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
       propertyPath: effectPrefabs.Array.size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 100004, guid: 3af6f68141914ca43ba39b2403757bd0, type: 3}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 5824670795371433373, guid: f6fd568b816c64943a44efc3add3a881, type: 3}
     - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
       propertyPath: effectPrefabs.Array.data[5]
       value: 
-      objectReference: {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+      objectReference: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}
     - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
       propertyPath: effectPrefabs.Array.data[6]
       value: 
-      objectReference: {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+      objectReference: {fileID: 1844191813266838, guid: 968c924d2be019d4b9e67647551eec3e, type: 3}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 8194992990867289339, guid: 99bc28c0d45f51c4fbac01080b73edc7, type: 3}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+    - target: {fileID: 4484721378144048193, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
+      propertyPath: effectPrefabs.Array.data[9]
+      value: 
+      objectReference: {fileID: 888444077320411739, guid: 0c2509361b13505428ce788b7f846686, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42266d9a30b82a749a30eb595f8cbc9c, type: 3}
