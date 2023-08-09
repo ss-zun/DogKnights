@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     Vector3 moveDir;
     [SerializeField]
     private float moveSpeed = 0.1f;
-    private float defense = 100f;
+    //private float defense = 100f;
 
     SkinnedMeshRenderer[] meshs;
     bool isDamage;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private float curEnergy = 0f;     //에너지 량
     private float maxEnergy = 100f;
     private float chargeTime = 0f;    //충전 시간
-    private float maxTime = 2f;
+    //private float maxTime = 2f;
 
     public int heart = 5;     //현재 하트 수
     private int maxHeart = 5; //최대 하트 수
@@ -44,23 +44,25 @@ public class Player : MonoBehaviour
     private bool isDefense = false; //방어상태인지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
-    private float invincivleTime = 2.0f; //무적 상태 2초동안 유지
+    private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
     float curTime = 0f; //무적상태를 유지한 시간
 
     Renderer playerColor;//플레이어 material 색상이 붉게 깜빡거리도록 함
 
     [SerializeField]
     private GameObject[] effectPrefabs; // 캐릭터의 이펙트 : 피격 시 이펙트, 공격 시 이펙트, 에너지 모을 때의 이펙트 등
+    // 0:slash, 1:hit, 2:restart, 3:heart get, 4:charging, 5:get hit, 6:defense, 7:power attack1, 8:power attack2, 9:power attack3
 
     GameObject chargeEffect = null;
-
+    GameObject defenseEffect = null;
+    GameObject attackEffect = null;
+    GameObject[] effectsGO;
     public Vector3 savePoint = Vector3.zero;   //사망한 후 재시작 할 때 스폰할 지점
 
     // Start is called before the first frame update
     void Start()
     {
-        chargeEffect = GenerateEffect(4, transform.position);
-        chargeEffect.SetActive(false);
+        InitEffect();
         playerRigidbody = GetComponent<Rigidbody>();
         playerColor = transform.Find("polySurface1").gameObject.GetComponent<Renderer>();
         anim.SetBool("Run", false);
@@ -86,11 +88,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    void InitEffect(){
+
+        chargeEffect = GenerateEffect(4, transform.position);
+        chargeEffect.SetActive(false);
+        defenseEffect = GenerateEffect(6, transform.position);
+        defenseEffect.SetActive(false);
+        attackEffect = GenerateEffect(0, transform.position);
+        attackEffect.SetActive(false);
+
+    }
+
 
     // 키보드 입력에 따라 움직이기
     protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
-        if(isDead || isCharging || isDefense){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
+        if(isDead || isCharging || isDefense || isAttacking){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
             return;
         }
 
@@ -140,16 +153,18 @@ public class Player : MonoBehaviour
     }
 
     protected void Attack(){
-        int effectCount = 0;
+        //int effectCount = 0;
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
             if (isAttacking == false){
-                effectCount = 1;
+                //effectCount = 1;
                 Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
-                GameObject go = GenerateEffect(0, effectPosition);
-                go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                go.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                Destroy(go, 0.5f);
+                //GameObject go = GenerateEffect(0, effectPosition);
+                attackEffect.transform.position = effectPosition;
+                attackEffect.SetActive(true);
+                attackEffect.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                //Destroy(go, 0.5f);
                 
             }
             isAttacking = true;
@@ -157,16 +172,20 @@ public class Player : MonoBehaviour
         else{
             anim.SetBool("Attack", false);
             isAttacking = false;
+            attackEffect.SetActive(false);
         }
     }
 
     protected void Defense(){  
         if(Input.GetKey(KeyCode.X)){
+            defenseEffect.transform.position = new Vector3(transform.position.x, transform.position.y+0.6f, transform.position.z);
             anim.SetBool("Defense", true);
+            defenseEffect.SetActive(true);
             isDefense = true;
         }else{
             isDefense = false;
             anim.SetBool("Defense", false);
+            defenseEffect.SetActive(false);
         }
 
     }
@@ -195,21 +214,21 @@ public class Player : MonoBehaviour
     //   }
     //}
 
-    IEnumerator OnDamage()
-    {
+    //IEnumerator OnDamage()
+    //{
     
-       isDamage = true;
-       //맞으면 플레이어 색깔 변함
-          playerColor.material.color = Color.yellow;
+    //   isDamage = true;
+     //  //맞으면 플레이어 색깔 변함
+     //     playerColor.material.color = Color.yellow;
 
-       yield return new WaitForSeconds(1f);
+     //  yield return new WaitForSeconds(1f);
 
-       isDamage = false;
-       //원상복귀
-          playerColor.material.color = Color.white;
+     //  isDamage = false;
+     //  //원상복귀
+     //     playerColor.material.color = Color.white;
 
 
-    }
+    //}
 
 
 
@@ -231,7 +250,7 @@ public class Player : MonoBehaviour
             }
             else{
                 isInvincible = true; 
-                int damage = 1;
+                //int damage = 1;
                 TakeDamage(1);
             }
 
@@ -268,14 +287,14 @@ public class Player : MonoBehaviour
                 isCharging = true;
                 chargeEffect.SetActive(true);
             }
-            if (curEnergy>=100f){
+            if (curEnergy>=maxEnergy){
                 curEnergy=0;
                 Debug.Log("하트 획득 : "+addHeart(1));
                 GameObject healEffect = GenerateEffect(3, transform.position);
                 Destroy(healEffect, 0.2f);
                 return;
             }
-            curEnergy+=Time.deltaTime*50;    // 2초동안 100만큼 채우도록 한다.
+            curEnergy+=Time.deltaTime*(maxEnergy/chargeTime);    // 2초동안 100만큼 채우도록 한다.
             Debug.Log("에너지 충전... "+ curEnergy);
         }
         else if(chargeEffect!=null){
@@ -301,7 +320,7 @@ public class Player : MonoBehaviour
 
         }
         //2초동안 true 상태를 유지하고 isInvincible을 false로 바꾸는 코드
-        if(curTime >= 2f){
+        if(curTime >= invincibleTime){
             playerColor.material.color = Color.white;
             curTime=0f;
             isInvincible = false;
