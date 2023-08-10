@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     //private float defense = 100f;
 
     SkinnedMeshRenderer[] meshs;
-    bool isDamage;
+    bool isDamage = false;
     int health;
 
 
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private float maxEnergy = 100f;
     private float chargeTime = 0f;    //충전 시간
     //private float maxTime = 2f;
+    float attackTime = 0f;
 
     public int heart = 5;     //현재 하트 수
     private int maxHeart = 5; //최대 하트 수
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
     private bool isDefense = false; //방어상태인지
+    private bool isPower = false; //필살기 사용 중인지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
@@ -51,7 +53,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject[] effectPrefabs; // 캐릭터의 이펙트 : 피격 시 이펙트, 공격 시 이펙트, 에너지 모을 때의 이펙트 등
-    // 0:slash, 1:hit, 2:restart, 3:heart get, 4:charging, 5:get hit, 6:defense, 7:power attack1, 8:power attack2, 9:power attack3
+    // 0:slash, 1:hit, 2:restart, 3:heart get, 4:charging, 5:get hit, 6:defense, 7:explosion, 8:slash, 9:hit
 
     GameObject chargeEffect = null;
     GameObject defenseEffect = null;
@@ -201,34 +203,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    //void OnTriggerEnter(Collider other){
-    //   if(other.tag == "monsterAttack")
-    //   {
-    //      if(!isDamage)
-    //      {
-    //         Monster monsterAttack = other.GetComponent<Monster>();
-    //         health -= monsterAttack.damage;
-    //         health = 1;
-    //         StartCoroutine(OnDamage());
-    //      }
-    //   }
-    //}
+    void OnTriggerEnter(Collider other){
+       if(other.tag == "monsterAttack")
+       {
+          if(!isDamage)
+          {
+             Monster monsterAttack = other.GetComponent<Monster>();
+             //health -= monsterAttack.damage;
+             
+             StartCoroutine(OnDamage());
+          }
+       }
+    }
 
-    //IEnumerator OnDamage()
-    //{
+    IEnumerator OnDamage()
+    {
     
-    //   isDamage = true;
-     //  //맞으면 플레이어 색깔 변함
-     //     playerColor.material.color = Color.yellow;
+       isDamage = true;
+      
 
-     //  yield return new WaitForSeconds(1f);
+       yield return new WaitForSeconds(1f);
 
-     //  isDamage = false;
-     //  //원상복귀
-     //     playerColor.material.color = Color.white;
+       isDamage = false;
 
 
-    //}
+    }
 
 
 
@@ -257,6 +256,8 @@ public class Player : MonoBehaviour
         }
         
     }
+
+
 
     public void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
@@ -352,8 +353,33 @@ public class Player : MonoBehaviour
     }
 
     public void PowerAttack(){
-        if (Input.GetKey(KeyCode.C)){
+        if (Input.GetKey(KeyCode.C) && isPower == false){
+            isPower = true;
             anim.SetTrigger("PowerAttack");
+
+        }
+        if (isPower){
+            attackTime += Time.deltaTime;
+            if(attackTime>=0.8f && attackTime<=0.8f+Time.deltaTime){
+                GameObject hit = GenerateEffect(9, transform.position);
+                hit.transform.localScale = new Vector3(2f, 2f, 2f);
+                Destroy(hit, 1.5f);
+            }
+            else if(attackTime>=1.3f && attackTime<=1.3f+Time.deltaTime){
+                GameObject slash = GenerateEffect(8, transform.position);
+                slash.transform.localScale = new Vector3(2f, 2f, 2f);
+                Destroy(slash, 2.1f);
+            }
+            else if (attackTime>=2.5f && attackTime<=2.5f+Time.deltaTime){
+                GameObject explosion = GenerateEffect(7, transform.position);
+                explosion.transform.localScale = new Vector3(2f, 2f, 2f);
+                Destroy(explosion, 1f);
+                isPower = false;
+                attackTime = 0f;
+            }
+        
+
+
         }
     }
 }
