@@ -209,7 +209,7 @@ public class Player : MonoBehaviour
           if(!isDamage)
           {
              Monster monsterAttack = other.GetComponent<Monster>();
-             //health -= monsterAttack.damage;
+             health -= monsterAttack.Damage;
              
              StartCoroutine(OnDamage());
           }

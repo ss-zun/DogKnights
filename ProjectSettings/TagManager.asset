@@ -12,6 +12,7 @@ TagManager:
   - Weapon
   - Floor
   - MonsterAttack
+  - Sword
   layers:
   - Default
   - TransparentFX
