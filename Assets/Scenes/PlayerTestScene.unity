@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 2409f6cda43a9b34d9749c46bb331b80, type: 2}
 --- !u!1 &9237066
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &17281970
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -352,10 +352,10 @@ GameObject:
   - component: {fileID: 269854186}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Ground
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &269854185
 Transform:
@@ -435,6 +435,16 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269854184}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1223823566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8545657285057638179, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+  m_PrefabInstance: {fileID: 7653675527854174563}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1311924952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8545657285057638159, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+  m_PrefabInstance: {fileID: 7653675527854174563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,10 +459,10 @@ GameObject:
   - component: {fileID: 1463760352}
   m_Layer: 0
   m_Name: pivot
-  m_TagString: Ground
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &1463760352
 BoxCollider:
@@ -560,10 +570,10 @@ GameObject:
   - component: {fileID: 1535174946}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Ground
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1535174945
 Transform:
@@ -704,10 +714,10 @@ GameObject:
   - component: {fileID: 1723301922}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Ground
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1723301921
 Transform:
@@ -888,6 +898,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6693131230784330593, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: m_TagString
+      value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653675526382545508, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: root
+      value: 
+      objectReference: {fileID: 1223823566}
+    - target: {fileID: 7653675526382545508, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: swordObject
+      value: 
+      objectReference: {fileID: 1311924952}
+    - target: {fileID: 7653675526382545508, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: effectPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
+    - target: {fileID: 7653675526382545512, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653675526382545513, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: m_Constraints
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 8545657285057278623, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -935,6 +969,10 @@ PrefabInstance:
     - target: {fileID: 8545657285057638143, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545657285057638159, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
+      propertyPath: m_TagString
+      value: Sword
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e3bffa4a003db44a15e2abafe637e5, type: 3}
