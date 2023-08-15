@@ -111,6 +111,7 @@ public class Monster : MonoBehaviour
         {
             curHitDis = hit.distance;
         }
+        
         //하나라도 걸리면 && 공격중일땐 그거마저끝내고 공격해야함
         if (rayHits.Length > 0 && !isAttack)
         {
