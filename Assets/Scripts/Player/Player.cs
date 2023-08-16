@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
             }
             isAttacking = true;
         }
-        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
+        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
             swordObject.GetComponent<BoxCollider>().enabled = false;
             isAttacking = false;
             attackEffect.SetActive(false);
