@@ -336,8 +336,6 @@ MonoBehaviour:
   attackArea: {fileID: 0}
   rock: {fileID: 0}
   target: {fileID: 0}
-  isChase: 0
-  isAttack: 0
 --- !u!1 &269854184
 GameObject:
   m_ObjectHideFlags: 0

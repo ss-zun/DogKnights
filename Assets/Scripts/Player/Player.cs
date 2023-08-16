@@ -162,8 +162,8 @@ public class Player : MonoBehaviour
 
     protected void Attack(){
         //int effectCount = 0;
-        if(Input.GetKey(KeyCode.Z)){
-            anim.SetBool("Attack", true);
+        if(Input.GetKeyDown(KeyCode.Z)){
+            anim.SetTrigger("AttackTrigger");
             if (isAttacking == false){
                 swordObject.GetComponent<BoxCollider>().enabled = true;
                 //effectCount = 1;
@@ -180,7 +180,6 @@ public class Player : MonoBehaviour
         }
         else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
             swordObject.GetComponent<BoxCollider>().enabled = false;
-            anim.SetBool("Attack", false);
             isAttacking = false;
             attackEffect.SetActive(false);
         }
