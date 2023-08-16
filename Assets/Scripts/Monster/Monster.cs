@@ -9,7 +9,6 @@ public class Monster : MonoBehaviour
     private enum Type { Melee, Charge, Ranged };
     [SerializeField]
     private Type monsterType;
-
     [SerializeField]
     private float maxHealth;
     [SerializeField]
@@ -20,9 +19,9 @@ public class Monster : MonoBehaviour
     private GameObject rock;
     [SerializeField]
     private Transform target; //추적타겟
-    [SerializeField]
+
+
     private bool isChase; //추적중인가
-    [SerializeField]
     private bool isAttack; //공격중인가
 
 
@@ -188,6 +187,11 @@ public class Monster : MonoBehaviour
     {
         mat.color = Color.red;
         anim.SetTrigger("getHit");
+        //넛백
+        reactVec = reactVec.normalized;
+        reactVec += Vector3.up;
+        rigid.AddForce(reactVec * 5, ForceMode.Impulse);
+
         yield return new WaitForSeconds(0.1f);
 
         if(curHealth > 0)
@@ -202,11 +206,6 @@ public class Monster : MonoBehaviour
             nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)
 
             anim.SetTrigger("doDie");
-
-            //넛백
-            reactVec = reactVec.normalized;
-            reactVec += Vector3.up;
-            rigid.AddForce(reactVec * 5, ForceMode.Impulse);
 
             Destroy(gameObject, 4); //4초 뒤 죽음
         }
