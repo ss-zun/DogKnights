@@ -50,8 +50,13 @@ public class TestPlayer : MonoBehaviour
         {
             if (!isDamage)
             {
-                Monster monsterAttack = other.GetComponentInParent<Monster>();
-                health -= monsterAttack.Damage;
+                MonsterAttack attack = other.GetComponent<MonsterAttack>();
+                health -= attack.Damage;
+
+                //Rock만 if문 안에 들어감
+                if (other.GetComponent<Rigidbody>() != null)
+                    Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
+
                 Debug.Log("플레이어 현재 체력: " + health);
                 StartCoroutine(OnDamage());
             }

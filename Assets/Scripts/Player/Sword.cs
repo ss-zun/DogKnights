@@ -19,9 +19,9 @@ public class Sword : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        if(SystemManager.Instance.Player.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") && other.CompareTag("Enemy")){
+        if(GameManager.Instance.Player.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") && other.CompareTag("Enemy")){
             Debug.Log("attacking");
-            GameObject go = SystemManager.Instance.Player.GenerateEffect(1, other.transform.position);
+            GameObject go = GameManager.Instance.Player.GenerateEffect(1, other.transform.position);
             Destroy(go, 0.2f);
 
         }
