@@ -255,6 +255,11 @@ public class Player : MonoBehaviour
             Destroy(hitted, 0.5f);
             Debug.Log("Player : get Attacked");
 
+            Vector3 reactVec = transform.position - collision.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
+            reactVec = reactVec.normalized;
+            reactVec += Vector3.up;
+            playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
+
             if (isDefense & curEnergy >= 70f){  // 방어 성공 -> 데미지 무효, 에너지 감소
                 curEnergy -= 70f;
             }
