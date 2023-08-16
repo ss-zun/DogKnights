@@ -90,7 +90,7 @@ public class Monster : MonoBehaviour
                 break;
             case Type.Ranged:
                 targetRadius = 0.5f;
-                targetRange = 25f;
+                targetRange = 6f;
                 break;
         }
 
@@ -152,10 +152,15 @@ public class Monster : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 break;
             case Type.Ranged:
-                yield return new WaitForSeconds(0.5f);
-                GameObject instantRock = Instantiate(rock, transform.position, transform.rotation);
+                anim.SetBool("isAttack", true);
+                yield return new WaitForSeconds(1.6f);
+                Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1.3f, transform.position.z);
+                GameObject instantRock = Instantiate(rock, pos, transform.rotation);
                 Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
                 rigidRock.velocity = transform.forward * 20;
+
+                yield return new WaitForSeconds(0.4f);
+                anim.SetBool("isAttack", false);
 
                 yield return new WaitForSeconds(2f);
                 break;
