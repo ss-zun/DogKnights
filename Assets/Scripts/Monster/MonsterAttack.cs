@@ -6,6 +6,8 @@ public class MonsterAttack : MonoBehaviour
 {
     [SerializeField]
     private int damage;
+    [SerializeField]
+    private bool isMelee;
 
     public int Damage
     {
@@ -22,7 +24,7 @@ public class MonsterAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Wall")
+        if(!isMelee && other.gameObject.tag == "Wall")
         {
             Destroy(gameObject);
         }
