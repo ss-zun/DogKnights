@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TestDamage : MonoBehaviour
 {
-    public GameManager instance;
-    Boss boss;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +16,7 @@ public class TestDamage : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            instance.Boss.TakeDamage(100);
+
         }
             
     }
