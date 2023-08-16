@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     Vector3 moveDir;
     [SerializeField]
     private float moveSpeed = 0.1f;
+    [SerializeField]
+    private GameObject root;
     //private float defense = 100f;
 
     SkinnedMeshRenderer[] meshs;
@@ -53,7 +55,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject[] effectPrefabs; // 캐릭터의 이펙트 : 피격 시 이펙트, 공격 시 이펙트, 에너지 모을 때의 이펙트 등
-    // 0:slash, 1:hit, 2:restart, 3:heart get, 4:charging, 5:get hit, 6:defense, 7:explosion, 8:slash, 9:hit
+    // 0:slash, 1:hit, 2:restart, 3:heart get, 4:charging, 5:get hitted, 6:defense, 7:explosion, 8:slash, 9:hit
 
     GameObject chargeEffect = null;
     GameObject defenseEffect = null;
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        swordObject.GetComponent<BoxCollider>().enabled = false;
         InitEffect();
         playerRigidbody = GetComponent<Rigidbody>();
         playerColor = transform.Find("polySurface1").gameObject.GetComponent<Renderer>();
@@ -98,6 +101,9 @@ public class Player : MonoBehaviour
         defenseEffect.SetActive(false);
         attackEffect = GenerateEffect(0, transform.position);
         attackEffect.SetActive(false);
+        attackEffect.transform.SetParent(root.transform);
+        attackEffect.transform.position = Vector3.zero;
+        attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
     }
 
@@ -159,19 +165,21 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.Z)){
             anim.SetBool("Attack", true);
             if (isAttacking == false){
+                swordObject.GetComponent<BoxCollider>().enabled = true;
                 //effectCount = 1;
                 Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
                 //GameObject go = GenerateEffect(0, effectPosition);
-                attackEffect.transform.position = effectPosition;
+                //attackEffect.transform.position = effectPosition;
                 attackEffect.SetActive(true);
-                attackEffect.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                //attackEffect.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                //attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
                 //Destroy(go, 0.5f);
                 
             }
             isAttacking = true;
         }
-        else{
+        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
+            swordObject.GetComponent<BoxCollider>().enabled = false;
             anim.SetBool("Attack", false);
             isAttacking = false;
             attackEffect.SetActive(false);
@@ -238,12 +246,15 @@ public class Player : MonoBehaviour
             yVelocity = 0f;
             moveDir.y =yVelocity;
         }
-        if(collision.collider.CompareTag("Enemy")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+        if(collision.collider.CompareTag("Monster")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
             Debug.Log(collision.gameObject.name);
             
         }
-        else if(collision.collider.CompareTag("Enemy") && isInvincible==false&&heart>0){        //적에게 맞았을 때 
-            Debug.Log("get Attacked");
+        else if(collision.collider.CompareTag("Monster") && isInvincible==false&&heart>0){        //적에게 맞았을 때 
+            GameObject hitted = GenerateEffect(5, (collision.transform.position+transform.position)/2f);
+            Destroy(hitted, 0.5f);
+            Debug.Log("Player : get Attacked");
+
             if (isDefense & curEnergy >= 70f){  // 방어 성공 -> 데미지 무효, 에너지 감소
                 curEnergy -= 70f;
             }
@@ -262,7 +273,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
         heart -= damage;
-        Debug.Log(damage);
+        //Debug.Log(damage);
         if (heart <= 0){
             heart = 0;
             Die();
@@ -290,7 +301,7 @@ public class Player : MonoBehaviour
             }
             if (curEnergy>=maxEnergy){
                 curEnergy=0;
-                Debug.Log("하트 획득 : "+addHeart(1));
+                Debug.Log("Player : 하트 획득 : "+addHeart(1));
                 GameObject healEffect = GenerateEffect(3, transform.position);
                 Destroy(healEffect, 0.2f);
                 return;
@@ -317,7 +328,7 @@ public class Player : MonoBehaviour
             //    playerColor.material.color = blue;
             //}
             
-            playerColor.material.color = Color.yellow;
+            playerColor.material.color = Color.red;
 
         }
         //2초동안 true 상태를 유지하고 isInvincible을 false로 바꾸는 코드
@@ -331,7 +342,7 @@ public class Player : MonoBehaviour
     // 플레이어 사망시 쓰러지는 모션, 특정 키 입력 시 부활하도록 함
     public void Die(){
         anim.SetTrigger("Die");
-        Debug.Log("Die...");
+        Debug.Log("Player : Die...");
         isDead = true;
     }
 
@@ -377,8 +388,6 @@ public class Player : MonoBehaviour
                 isPower = false;
                 attackTime = 0f;
             }
-        
-
 
         }
     }
