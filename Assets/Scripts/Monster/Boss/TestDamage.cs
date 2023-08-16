@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestDamage : MonoBehaviour
 {
-    public SystemManager instance;
+    public GameManager instance;
     Boss boss;
     // Start is called before the first frame update
     void Start()

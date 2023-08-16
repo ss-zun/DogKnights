@@ -9,15 +9,15 @@ public class Monster : MonoBehaviour
     private enum Type { Melee, Charge, Ranged };
     [SerializeField]
     private Type monsterType;
-    [SerializeField]
-    private int damage;
 
     [SerializeField]
     private float maxHealth;
     [SerializeField]
     private float curHealth;
     [SerializeField]
-    private BoxCollider monsterAttack; //공격범위
+    private BoxCollider attackArea; //공격범위
+    [SerializeField]
+    private GameObject rock;
     [SerializeField]
     private Transform target; //추적타겟
     [SerializeField]
@@ -35,11 +35,6 @@ public class Monster : MonoBehaviour
     private float curHitDis;
     private float targetRadius = 0f; //폭
     private float targetRange = 0f; //공격범위
-
-    public int Damage
-    {
-        get { return damage; }
-    }
 
     void Awake()
     {
@@ -92,7 +87,7 @@ public class Monster : MonoBehaviour
                 break;
             case Type.Charge:
                 targetRadius = 0.4f;
-                targetRange = 12f;
+                targetRange = 4f;
                 break;
             case Type.Ranged:
                 targetRadius = 0.5f;
@@ -135,11 +130,11 @@ public class Monster : MonoBehaviour
         {
             case Type.Melee:
                 yield return new WaitForSeconds(0.2f);
-                monsterAttack.enabled = true; //공격범위 활성화
+                attackArea.enabled = true; //공격범위 활성화
                 anim.SetBool("isAttack", true);
 
                 yield return new WaitForSeconds(1f);
-                monsterAttack.enabled = false;
+                attackArea.enabled = false;
                 anim.SetBool("isAttack", false);
 
                 yield return new WaitForSeconds(1f);
@@ -147,16 +142,23 @@ public class Monster : MonoBehaviour
             case Type.Charge:
                 yield return new WaitForSeconds(0.1f);
                 rigid.AddForce(transform.forward * 20, ForceMode.Impulse);
-                monsterAttack.enabled = true;
+                attackArea.enabled = true;
+                anim.SetBool("isAttack", true);
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
                 rigid.velocity = Vector3.zero;
-                monsterAttack.enabled = false;
+                attackArea.enabled = false;
+                anim.SetBool("isAttack", false);
 
                 yield return new WaitForSeconds(2f);
                 break;
             case Type.Ranged:
+                yield return new WaitForSeconds(0.5f);
+                GameObject instantRock = Instantiate(rock, transform.position, transform.rotation);
+                Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
+                rigidRock.velocity = transform.forward * 20;
 
+                yield return new WaitForSeconds(2f);
                 break;
         }
         isChase = true;
@@ -169,9 +171,10 @@ public class Monster : MonoBehaviour
         Targeting();
         FreezeVelocity();
     }
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Sword")
+        if (other.tag == "Sword")
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -184,6 +187,7 @@ public class Monster : MonoBehaviour
     IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.color = Color.red;
+        anim.SetTrigger("getHit");
         yield return new WaitForSeconds(0.1f);
 
         if(curHealth > 0)

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SystemManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
-     static SystemManager instance = null;
+     static GameManager instance = null;
 
-     public static SystemManager Instance{
+     public static GameManager Instance
+    {
         get{return instance;}
      }
 
