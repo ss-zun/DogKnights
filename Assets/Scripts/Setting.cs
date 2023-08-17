@@ -18,7 +18,6 @@ public class Setting : MonoBehaviour
         Debug.Log(soundEffect);
     }
 
-
     public void OnSeChanged(float value)
     {
         soundEffect = value;
