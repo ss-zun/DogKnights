@@ -89,7 +89,7 @@ public class Monster : MonoBehaviour
                 targetRange = 4f;
                 break;
             case Type.Ranged:
-                targetRadius = 0.5f;
+                targetRadius = 0.6f;
                 targetRange = 6f;
                 break;
         }
@@ -154,7 +154,7 @@ public class Monster : MonoBehaviour
             case Type.Ranged:
                 anim.SetBool("isAttack", true);
                 yield return new WaitForSeconds(1.6f);
-                Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1.3f, transform.position.z);
+                Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1f, transform.position.z);
                 GameObject instantRock = Instantiate(rock, pos, transform.rotation);
                 Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
                 rigidRock.velocity = transform.forward * 20;
@@ -182,7 +182,9 @@ public class Monster : MonoBehaviour
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
+
             Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
+
             Debug.Log("Sword : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
         }
@@ -191,11 +193,13 @@ public class Monster : MonoBehaviour
     IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.color = Color.red;
-        anim.SetTrigger("getHit");
+
         //넛백
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
-        rigid.AddForce(reactVec * 5, ForceMode.Impulse);
+        rigid.AddForce(reactVec * 100, ForceMode.Impulse);
+
+        anim.SetTrigger("getHit");
 
         yield return new WaitForSeconds(0.1f);
 
@@ -209,7 +213,7 @@ public class Monster : MonoBehaviour
             gameObject.layer = 9; //MonsterDead
             isChase = false; //사망했으니 추적중단
             nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)
-
+                                 //
             anim.SetTrigger("doDie");
 
             Destroy(gameObject, 4); //4초 뒤 죽음
