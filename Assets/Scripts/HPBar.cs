@@ -10,6 +10,6 @@ public class HPBar : MonoBehaviour
 
     void Update()
     {
-        hp.value = GameManager.Instance.Player.heart / 5.0f;
+        hp.value = GameManager.Instance.Player.heart / GameManager.Instance.Player.maxHeart;
     }
 }
