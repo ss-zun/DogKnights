@@ -36,42 +36,6 @@ public class Boss : MonoBehaviour
         pos += transform.right * attackOffset.x;
         pos += transform.up * attackOffset.y;
 
-        // °ø°Ý ¹üÀ§ ³» °´Ã¼ Å½Áö
-        Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
-        // °ø°Ý ¹üÀ§ ³» °´Ã¼°¡ °¨ÁöµÊ
-        if(colInfo != null)
-        {         
-            colInfo.GetComponent<Player>().TakeDamage(attackDamage);
-            Debug.Log("attackDamage : 1");
-        }
-    }
-    public void FlameAttack()
-    {
-        Debug.Log("FlameAttack");
-        Vector3 pos = transform.position;
-        pos += transform.right * attackOffset.x;
-        pos += transform.up * attackOffset.y;
-
-        Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
-        if (colInfo != null)
-        {
-            colInfo.GetComponent<Player>().TakeDamage(FlameAttackDamage);
-            Debug.Log("FlameAttackDamage : 2");
-        }
-    }
-    public void FlyFlameAttack()
-    {
-        Debug.Log("FlameAttack");
-        Vector3 pos = transform.position;
-        pos += transform.right * attackOffset.x;
-        pos += transform.up * attackOffset.y;
-
-        Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
-        if (colInfo != null)
-        {
-            colInfo.GetComponent<Player>().TakeDamage(FlyFlameAttackDamge);
-            Debug.Log("FlyFlameAttackDamge : 2");
-        }
     }
 
     public void TakeDamage(int damage)
