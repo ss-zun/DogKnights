@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
 
     SkinnedMeshRenderer[] meshs;
     bool isDamage = false;
-    int health;
 
 
     Color red = new Color(1f, 0f, 0f, 0.5f);
@@ -211,20 +210,47 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-       if(other.tag == "monsterAttack")
-       {
-          if(!isDamage)
-          {
+        if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+        {   
+            Debug.Log(other.gameObject.name);
+        }
+        else if (other.tag == "MonsterAttack" && isInvincible == false && heart > 0) //적에게 맞았을 때 
+        {
+            if (!isDamage)
+            {
                 MonsterAttack attack = other.GetComponent<MonsterAttack>();
-                health -= attack.Damage;
+                //연경부분-start
+                if (isDefense & curEnergy >= 70f)
+                {  // 방어 성공 -> 데미지 무효, 에너지 감소
+                    curEnergy -= 70f;
+                }
+                else
+                {
+                    isInvincible = true;
+                    //int damage = 1;
+                    TakeDamage(attack.Damage);
+                }
+                //연경부분-end
+
+                //연경부분-start
+                GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f);
+                Destroy(hitted, 0.5f);
+                Debug.Log("Player : get Attacked");
+                //연경부분-end
+
+                Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
+                reactVec = reactVec.normalized;
+                reactVec += Vector3.up;
+                playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
 
                 //Rock만 if문 안에 들어감
                 if (other.GetComponent<Rigidbody>() != null)
                     Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
 
+                Debug.Log("플레이어 현재 하트: " + heart);
                 StartCoroutine(OnDamage());
-          }
-       }
+            }
+        }
     }
 
     IEnumerator OnDamage()
@@ -243,42 +269,18 @@ public class Player : MonoBehaviour
 
 
     // 오브젝트와 충돌한경우
-    private void OnCollisionStay(Collision collision){
-        if(collision.collider.CompareTag("Floor")){       //바닥과 충돌 : 착지
+    private void OnCollisionEnter(Collision other)
+    {
+        if(other.collider.CompareTag("Floor")){       //바닥과 충돌 : 착지
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
-        }
-        if(collision.collider.CompareTag("Monster")&&anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){   //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
-            Debug.Log(collision.gameObject.name);
-            
-        }
-        else if(collision.collider.CompareTag("Monster") && isInvincible==false&&heart>0){        //적에게 맞았을 때 
-            GameObject hitted = GenerateEffect(5, (collision.transform.position+transform.position)/2f);
-            Destroy(hitted, 0.5f);
-            Debug.Log("Player : get Attacked");
-
-            Vector3 reactVec = transform.position - collision.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
-            reactVec = reactVec.normalized;
-            reactVec += Vector3.up;
-            playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
-
-            if (isDefense & curEnergy >= 70f){  // 방어 성공 -> 데미지 무효, 에너지 감소
-                curEnergy -= 70f;
-            }
-            else{
-                isInvincible = true; 
-                //int damage = 1;
-                TakeDamage(1);
-            }
-
-        }
-        
+        }      
     }
 
 
 
-    public void TakeDamage(int damage){
+    private void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
         heart -= damage;
         //Debug.Log(damage);

@@ -197,7 +197,7 @@ public class Monster : MonoBehaviour
         //³Ó¹é
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
-        rigid.AddForce(reactVec * 100, ForceMode.Impulse);
+        rigid.AddForce(reactVec * 5, ForceMode.Impulse);
 
         anim.SetTrigger("getHit");
 
