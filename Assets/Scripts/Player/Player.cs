@@ -31,14 +31,14 @@ public class Player : MonoBehaviour
     Color blue = new Color(0f, 0f, 1f, 0.5f);
 
     // 에너지 충전에 관한 변수
-    private float curEnergy = 0f;     //에너지 량
-    private float maxEnergy = 100f;
+    public float curEnergy = 0f;     //에너지 량
+    public float maxEnergy = 100f;
     private float chargeTime = 0f;    //충전 시간
     //private float maxTime = 2f;
     float attackTime = 0f;
 
     public int heart = 5;     //현재 하트 수
-    private int maxHeart = 5; //최대 하트 수
+    public int maxHeart = 5; //최대 하트 수
 
     private bool isInvincible = false;  //현재 무적상태인지
     private bool isDead = false;  //현재 사망상태인지
