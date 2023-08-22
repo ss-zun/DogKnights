@@ -218,6 +218,10 @@ public class Player : MonoBehaviour
                 MonsterAttack attack = other.GetComponent<MonsterAttack>();
                 health -= attack.Damage;
 
+                //Rock만 if문 안에 들어감
+                if (other.GetComponent<Rigidbody>() != null)
+                    Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
+
                 StartCoroutine(OnDamage());
           }
        }
@@ -240,7 +244,7 @@ public class Player : MonoBehaviour
 
     // 오브젝트와 충돌한경우
     private void OnCollisionStay(Collision collision){
-        if(collision.collider.CompareTag("Ground")){       //바닥과 충돌 : 착지
+        if(collision.collider.CompareTag("Floor")){       //바닥과 충돌 : 착지
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
