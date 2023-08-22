@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
 
         moveDir.Normalize();
         
-        moveDir = transform.right*xInput;
+        moveDir = transform.right*xInput*-1f;
         moveDir.y = yVelocity;
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
