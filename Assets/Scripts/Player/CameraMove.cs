@@ -14,7 +14,7 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         Vector3 camPos = GameManager.Instance.Player.transform.position;
-        camPos.z = camPos.z+16;
+        camPos.z = camPos.z-16;
         transform.position = camPos;
     }
 
