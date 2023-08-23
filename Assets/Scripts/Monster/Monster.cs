@@ -140,7 +140,7 @@ public class Monster : MonoBehaviour
                 break;
             case Type.Charge:
                 yield return new WaitForSeconds(0.1f);
-                rigid.AddForce(transform.forward * 20, ForceMode.Impulse);
+                rigid.AddForce(transform.forward * 10, ForceMode.Impulse);
                 attackArea.enabled = true;
                 anim.SetBool("isAttack", true);
 
@@ -155,7 +155,7 @@ public class Monster : MonoBehaviour
                 anim.SetBool("isAttack", true);
                 yield return new WaitForSeconds(1.6f);
                 Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1f, transform.position.z);
-                GameObject instantRock = Instantiate(rock, pos, transform.rotation);
+                GameObject instantRock = Instantiate(rock, pos, rock.transform.rotation);
                 Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
                 rigidRock.velocity = transform.forward * 20;
 
