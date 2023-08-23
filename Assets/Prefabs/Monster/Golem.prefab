@@ -97,7 +97,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 1
   m_Acceleration: 60
   avoidancePriority: 50
   m_AngularSpeed: 480
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 2
-  maxHealth: 200
-  curHealth: 200
+  maxHealth: 100
+  curHealth: 100
   attackArea: {fileID: 0}
   rock: {fileID: 2744578714742585091, guid: 63eabcf2eedc3bb4f816a35225dd9f62, type: 3}
   target: {fileID: 0}
