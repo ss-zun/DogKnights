@@ -146,38 +146,28 @@ public class Player : MonoBehaviour
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
 
-
-
         
         // float zInput = Input.GetAxis("Vertical");
         if(anim.GetBool("Attack")){
             return;
         }
-        // float xSpeed = xInput*moveSpeed;
 
-        // Vector3 newVelocity = new Vector3(xSpeed, 0f, 0f);
-        // playerRigidbody.velocity = newVelocity;
     }
 
     protected void Attack(){
         //int effectCount = 0;
         if(Input.GetKeyDown(KeyCode.Z)){
-            anim.SetTrigger("AttackTrigger");
             if (isAttacking == false){
+                anim.SetTrigger("AttackTrigger");
+                Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f); 
+
                 swordObject.GetComponent<BoxCollider>().enabled = true;
-                //effectCount = 1;
-                Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
-                //GameObject go = GenerateEffect(0, effectPosition);
-                //attackEffect.transform.position = effectPosition;
                 attackEffect.SetActive(true);
-                //attackEffect.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                //attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                //Destroy(go, 0.5f);
+                isAttacking = true;
                 
             }
-            isAttacking = true;
         }
-        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
+        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
             swordObject.GetComponent<BoxCollider>().enabled = false;
             isAttacking = false;
             attackEffect.SetActive(false);
@@ -237,11 +227,6 @@ public class Player : MonoBehaviour
                 Destroy(hitted, 0.5f);
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
-
-                //Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
-                //reactVec = reactVec.normalized;
-                //reactVec += Vector3.up;
-                //playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
 
                 //Rock만 if문 안에 들어감
                 if (other.GetComponent<Rigidbody>() != null)
@@ -331,12 +316,6 @@ public class Player : MonoBehaviour
         
         if(isInvincible==true){
             curTime += Time.deltaTime;
-            //if((int)(curTime*10)%10==0){
-            //    playerColor.material.color = red;
-            //}
-            //else{
-            //    playerColor.material.color = blue;
-            //}
             
             playerColor.material.color = Color.red;
 
