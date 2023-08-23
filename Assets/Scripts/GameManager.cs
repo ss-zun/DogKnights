@@ -26,13 +26,6 @@ public class GameManager : MonoBehaviour
           get{return player;}
      }
 
-    [SerializeField]
-    Boss boss;
-
-    public Boss Boss{
-        get { return boss; }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
