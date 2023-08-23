@@ -119,10 +119,10 @@ public class Player : MonoBehaviour
         }else{
             anim.SetBool("Run", true);
             if (xInput <= 0.0f){
-            transform.rotation = Quaternion.Euler(0, 90, 0);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             if (xInput > 0.0f){
-                transform.rotation = Quaternion.Euler(0, -90, 0);
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+        if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
         {   
             Debug.Log(other.gameObject.name);
         }
@@ -233,15 +233,15 @@ public class Player : MonoBehaviour
                 //연경부분-end
 
                 //연경부분-start
-                GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f);
+                GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f); // 피격 이펙트 생성
                 Destroy(hitted, 0.5f);
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
 
-                Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
-                reactVec = reactVec.normalized;
-                reactVec += Vector3.up;
-                playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
+                //Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
+                //reactVec = reactVec.normalized;
+                //reactVec += Vector3.up;
+                //playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
 
                 //Rock만 if문 안에 들어감
                 if (other.GetComponent<Rigidbody>() != null)
