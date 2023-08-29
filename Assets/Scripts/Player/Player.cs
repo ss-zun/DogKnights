@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     float attackTime = 0f;
 
     public int heart = 5;     //현재 하트 수
-    private int maxHeart = 5; //최대 하트 수
+    public int maxHeart = 5; //최대 하트 수
 
     private bool isInvincible = false;  //현재 무적상태인지
     private bool isDead = false;  //현재 사망상태인지
