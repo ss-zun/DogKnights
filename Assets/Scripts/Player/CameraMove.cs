@@ -13,8 +13,8 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 camPos = SystemManager.Instance.Player.transform.position;
-        camPos.z = camPos.z+16;
+        Vector3 camPos = GameManager.Instance.Player.transform.position;
+        camPos.z = camPos.z-16;
         transform.position = camPos;
     }
 

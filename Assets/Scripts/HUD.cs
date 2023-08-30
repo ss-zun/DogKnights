@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Health }
+    public enum InfoType { 
+        Health,
+        Money,
+        Kill,
+        Stage
+    }
     public InfoType type;
-
-    Text text;
-    Slider slider;
 
     private void Awake()
     {
-        text = GetComponent<Text>();
-        slider = GetComponent<Slider>();
     }
 
     private void LateUpdate()
@@ -22,6 +22,12 @@ public class HUD : MonoBehaviour
         switch (type)
         {
             case InfoType.Health:
+                break;
+            case InfoType.Money:
+                break;
+            case InfoType.Kill:
+                break;
+            case InfoType.Stage:
                 break;
         }
     }

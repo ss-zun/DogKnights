@@ -7,6 +7,12 @@ TagManager:
   - Pivot
   - Ground
   - Enemy
+  - Monster
+  - FxTemporaire
+  - Weapon
+  - Floor
+  - MonsterAttack
+  - Sword
   layers:
   - Default
   - TransparentFX
@@ -14,12 +20,12 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Floor
+  - Wall
+  - Monster
+  - MonsterDead
+  - MonsterAttack
+  - Sword
   - 
   - 
   - 
