@@ -10,12 +10,12 @@ public class Buttons : MonoBehaviour
         SceneManager.LoadScene("Intro");
     }
 
-    public void ToGameScreen()
+    public void ToGame()
     {
-        SceneManager.LoadScene("HUD");
+        SceneManager.LoadScene("Game");
     }
 
-    public void ToSettingScreen()
+    public void ToSettings()
     {
         SceneManager.LoadScene("Setting");
     }
