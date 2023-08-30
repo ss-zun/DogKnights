@@ -228,14 +228,14 @@ public class Player : MonoBehaviour
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
 
-                //Rock만 if문 안에 들어감
-                if (other.GetComponent<Rigidbody>() != null)
-                    Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
-
                 Debug.Log("플레이어 현재 하트: " + heart);
                 StartCoroutine(OnDamage());
             }
         }
+
+        //Rock만 if문 안에 들어감
+        if (other.GetComponent<Rigidbody>() != null)
+            Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
     }
 
     IEnumerator OnDamage()
