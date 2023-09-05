@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
     private float chargeTime = 0f;    //충전 시간
     //private float maxTime = 2f;
     float attackTime = 0f;
-    float maxJumpTime = 0f;
+    public float maxJumpTime = 0.4f;
+    float curJumpTIme = 0f;
 
     public int heart = 5;     //현재 하트 수
     public int maxHeart = 5; //최대 하트 수
@@ -78,7 +79,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isJumping = false;
+        //isJumping = false;
         Move();
         Attack();
         Jump();
@@ -93,6 +94,8 @@ public class Player : MonoBehaviour
         }
     }
 
+ 
+
     void InitEffect(){
 
         chargeEffect = GenerateEffect(4, transform.position);
@@ -106,6 +109,7 @@ public class Player : MonoBehaviour
         attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
     }
+
 
 
     // 키보드 입력에 따라 움직이기
@@ -129,24 +133,24 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){  // 최대 1초동안만 점프할 수 있도록 함
             // playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
             // isJumping = true;
-            if(maxJumpTime <= 0.4f){
+            if(curJumpTIme <= maxJumpTime){
 
                 yVelocity = jumpForce;
                 isJumping = true;
-                Debug.Log(maxJumpTime);
+                Debug.Log(curJumpTIme);
             }else{
                 yVelocity = -1f*jumpForce;  
                 isJumping = true;
             }
         }
 
-        if(isJumping&& maxJumpTime <= 0.4f){
-            maxJumpTime += Time.deltaTime;
+        if(isJumping&& curJumpTIme <= maxJumpTime){
+            curJumpTIme += Time.deltaTime;
             yVelocity += gravity*Time.deltaTime;
 
         }else{
             yVelocity = 0f;
-            maxJumpTime = 0f;
+            curJumpTIme = 0f;
         }
 
         moveDir.Normalize();
@@ -273,6 +277,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
+            Debug.Log("Floor collision");
         }      
     }
 

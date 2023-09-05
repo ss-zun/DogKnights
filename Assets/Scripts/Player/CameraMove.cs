@@ -7,10 +7,11 @@ public class CameraMove : MonoBehaviour
     public GameObject Target;
     float offsetX = 0.0f;
     float offsetY = 0.0f;
-    float offsetZ = -16.0f;
+    public float offsetZ = -16.0f;
 
-    float CameraSpeed = 10.0f;
+    public float CameraSpeed = 10.0f;
     Vector3 TargetPos;
+
     // Start is called before the first frame update
     void Start()
     {
