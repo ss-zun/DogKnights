@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 1507846147}
+  offsetZ: -16
+  CameraSpeed: 10
 --- !u!1 &17281969
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: jumpForce
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
+      propertyPath: maxJumpTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8155018631483882064, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: m_Layer
