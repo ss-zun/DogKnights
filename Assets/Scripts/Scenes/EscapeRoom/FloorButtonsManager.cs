@@ -8,9 +8,11 @@ public class FloorButtonsManager : MonoBehaviour
     [Tooltip("버튼 객체들")]
     public FloorButton[] buttons;
 
-
     [Tooltip("다음 층으로 이동할 수 있는 포탈들")]
     public PortalToNextStage[] portals;
+
+    [Tooltip("테스트 모드입니다. : True -> 버튼을 누르는게 1개로 고정.")]
+    public bool bIsTestMode = false;
 
     // ===== private =====
 
@@ -41,7 +43,7 @@ public class FloorButtonsManager : MonoBehaviour
         // 누른 버튼 전체 개수 UI와 연동 필요.
 
         // 리스트에 있는 버튼 총 개수와 누른 버튼 개수 일치.
-        if(counts == 1)
+        if(counts == (bIsTestMode ? 1 : buttons.Length))
         {
             // 다음 스테이지로 이동할 포탈 번호 설정.
             int openPortalNumber = Random.Range(0, portals.Length);
