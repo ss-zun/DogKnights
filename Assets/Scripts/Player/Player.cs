@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public float attackPower = 10f;
     [SerializeField]
     public GameObject swordObject;
-    float gravity = -9.8f;  //중력 가속도
+    public float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private float chargeTime = 0f;    //충전 시간
     //private float maxTime = 2f;
     float attackTime = 0f;
+    float maxJumpTime = 0f;
 
     public int heart = 5;     //현재 하트 수
     public int maxHeart = 5; //최대 하트 수
@@ -125,18 +126,27 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
-        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
+        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){  // 최대 1초동안만 점프할 수 있도록 함
             // playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
             // isJumping = true;
-            yVelocity = jumpForce;
-            isJumping = true;
+            if(maxJumpTime <= 0.4f){
 
+                yVelocity = jumpForce;
+                isJumping = true;
+                Debug.Log(maxJumpTime);
+            }else{
+                yVelocity = -1f*jumpForce;  
+                isJumping = true;
+            }
         }
-        if(isJumping){
+
+        if(isJumping&& maxJumpTime <= 0.4f){
+            maxJumpTime += Time.deltaTime;
             yVelocity += gravity*Time.deltaTime;
 
         }else{
             yVelocity = 0f;
+            maxJumpTime = 0f;
         }
 
         moveDir.Normalize();
@@ -158,16 +168,19 @@ public class Player : MonoBehaviour
         //int effectCount = 0;
         if(Input.GetKeyDown(KeyCode.Z)){
             if (isAttacking == false){
-                anim.SetTrigger("AttackTrigger");
-                Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f); 
+                anim.SetTrigger("AttackTrigger");  // 공격모션
 
-                swordObject.GetComponent<BoxCollider>().enabled = true;
-                attackEffect.SetActive(true);
-                isAttacking = true;
                 
             }
         }
-        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
+            Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
+            swordObject.GetComponent<BoxCollider>().enabled = true;    // 무기 콜라이더 활성화 
+            attackEffect.SetActive(true); //이펙트 활성화
+            isAttacking = true; //공격 플래그 true
+
+        }//공격 모션이 진행되는 동안 위 상태가 지속되다가 공격모션이 끝나면 아래 상태 변경
+        else{ 
             swordObject.GetComponent<BoxCollider>().enabled = false;
             isAttacking = false;
             attackEffect.SetActive(false);
@@ -228,14 +241,14 @@ public class Player : MonoBehaviour
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
 
-                //Rock만 if문 안에 들어감
-                if (other.GetComponent<Rigidbody>() != null)
-                    Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
-
                 Debug.Log("플레이어 현재 하트: " + heart);
                 StartCoroutine(OnDamage());
             }
         }
+
+        //Rock만 if문 안에 들어감
+        if (other.GetComponent<Rigidbody>() != null)
+            Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
     }
 
     IEnumerator OnDamage()
