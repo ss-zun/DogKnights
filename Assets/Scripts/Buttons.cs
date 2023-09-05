@@ -5,14 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Buttons : MonoBehaviour
 {
-    public void ToMenu()
+    public void ToStartScreen()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Intro");
     }
 
     public void ToGame()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    public void ToSettings()
+    {
+        SceneManager.LoadScene("Setting");
     }
 
     public void Quit()
