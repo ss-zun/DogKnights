@@ -15,14 +15,15 @@ public class Monster : MonoBehaviour
     [SerializeField]
     protected BoxCollider attackArea; //공격범위
     [SerializeField]
-    protected GameObject rock;
+    private GameObject rock;
     [SerializeField]
-    protected Transform target; //추적타겟
+    private Transform target; //추적타겟
 
 
     protected bool isChase;  //추적중인가
     protected bool isAttack; //공격중인가
     protected bool isDead;   //죽었는가
+    protected bool isInvincible;   //무적(방어했던지, 날았다던지)
 
 
     protected Rigidbody rigid;
@@ -118,7 +119,7 @@ public class Monster : MonoBehaviour
 
     }
 
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Debug.DrawLine(transform.position, transform.position + transform.forward * curHitDis);
@@ -181,9 +182,9 @@ public class Monster : MonoBehaviour
         FreezeVelocity();
     }
 
-    void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sword")
+        if (other.tag == "Sword" && isInvincible == false)
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -195,7 +196,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    IEnumerator OnDamage(Vector3 reactVec)
+    protected IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.material.color = Color.red;
 
