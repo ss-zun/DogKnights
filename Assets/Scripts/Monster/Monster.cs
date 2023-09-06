@@ -218,14 +218,16 @@ public class Monster : MonoBehaviour
         {
             mat.material.color = Color.gray;
             gameObject.layer = 9; //MonsterDead
-            isDead = true;
+            isDead = true; 
             isChase = false; //사망했으니 추적중단
-            nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)
-                                 //
+
             anim.SetTrigger("doDie");
 
+            nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)  
+            
             if (monsterType != Type.Boss)
                 Destroy(gameObject, 4); //4초 뒤 죽음
+            
         }
     }
 }

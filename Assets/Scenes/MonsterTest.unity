@@ -763,9 +763,21 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1466196557}
+    - target: {fileID: 642201968264013706, guid: a07521a1a0035d142af5d2baa375177b, type: 3}
+      propertyPath: curHealth
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 642201968264013706, guid: a07521a1a0035d142af5d2baa375177b, type: 3}
+      propertyPath: maxHealth
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 642201968264013708, guid: a07521a1a0035d142af5d2baa375177b, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 642201968264013708, guid: a07521a1a0035d142af5d2baa375177b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 642201968264013710, guid: a07521a1a0035d142af5d2baa375177b, type: 3}
       propertyPath: m_RootOrder
