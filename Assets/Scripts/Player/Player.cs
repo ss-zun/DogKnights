@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //isJumping = false;
+        //isJumping = false
         
         Attack();
         
