@@ -436,6 +436,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269854184}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &470566203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8432271531630599241, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_Name
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599243, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432271531630599247, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1475926792}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a3692d2cff6420c4eb6e5499058f2a97, type: 3}
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1535174945
 Transform:
   m_ObjectHideFlags: 0
@@ -712,7 +773,7 @@ GameObject:
   - component: {fileID: 1723301924}
   - component: {fileID: 1723301923}
   - component: {fileID: 1723301922}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -807,6 +868,10 @@ PrefabInstance:
     - target: {fileID: 2433933490432507490, guid: 3dab914c041bac141a9904074ef937f3, type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433933490432507490, guid: 3dab914c041bac141a9904074ef937f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2433933490432507497, guid: 3dab914c041bac141a9904074ef937f3, type: 3}
       propertyPath: target
@@ -977,7 +1042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: jumpForce
-      value: 3
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: maxJumpTime

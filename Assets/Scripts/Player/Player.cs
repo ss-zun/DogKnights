@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
     GameObject attackEffect = null;
     GameObject[] effectsGO;
     public Vector3 savePoint = Vector3.zero;   //사망한 후 재시작 할 때 스폰할 지점
+    [SerializeField]
+    private float groundPos = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -79,10 +81,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //isJumping = false;
-        Move();
+        //isJumping = false
+        
         Attack();
-        Jump();
+        
         Charge();
         Restart();
         Invincible();
@@ -94,6 +96,29 @@ public class Player : MonoBehaviour
         }
     }
 
+   void FixedUpdate(){   // 점프 후 착지에서 땅에 닿을 때 raycast로 땅을 뚫지 않도록 조정
+        if(yVelocity < 0){
+            Debug.DrawRay(playerRigidbody.position, Vector3.down, new Color(0, 1, 0));
+            RaycastHit2D rayHit = Physics2D.Raycast(playerRigidbody.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
+            Debug.Log(rayHit);
+            if(rayHit.collider != null){
+                if (rayHit.distance < 0.5f){
+                    isJumping = false;
+                }
+                
+            if(rayHit.collider.transform.position.y - transform.position.y < yVelocity){
+                yVelocity = rayHit.collider.transform.position.y - transform.position.y;  
+                // 떨어지는 이동 변위가 지면까지의 거리보다 크다면 지면을 뚫고 들어갈 수 있으므로 이보다 작게 설정해준다.
+            }
+            }
+            else{
+                Debug.Log("rayHit is null");
+            }
+
+        }
+        Move();
+        Jump();
+    }
  
 
     void InitEffect(){
@@ -135,11 +160,11 @@ public class Player : MonoBehaviour
             // isJumping = true;
             if(curJumpTIme <= maxJumpTime){
 
-                yVelocity = jumpForce;
+                yVelocity = jumpForce*Time.deltaTime;
                 isJumping = true;
                 Debug.Log(curJumpTIme);
             }else{
-                yVelocity = -1f*jumpForce;  
+                yVelocity = -1f*jumpForce*Time.deltaTime;  
                 isJumping = true;
             }
         }
@@ -159,7 +184,6 @@ public class Player : MonoBehaviour
         moveDir.y = yVelocity;
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
-
         
         // float zInput = Input.GetAxis("Vertical");
         if(anim.GetBool("Attack")){
