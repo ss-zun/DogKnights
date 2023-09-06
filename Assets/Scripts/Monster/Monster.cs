@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -182,7 +183,7 @@ public class Monster : MonoBehaviour
         FreezeVelocity();
     }
 
-    protected void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Sword" && isInvincible == false)
         {
@@ -196,7 +197,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    protected IEnumerator OnDamage(Vector3 reactVec)
+    IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.material.color = Color.red;
 

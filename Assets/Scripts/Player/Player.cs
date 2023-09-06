@@ -239,6 +239,10 @@ public class Player : MonoBehaviour
                 }
                 //연경부분-end
 
+                //Rock만 if문 안에 들어감
+                if (other.GetComponent<Rigidbody>() != null)
+                    Destroy(other.gameObject, 4); //플레이어와 닿으면 Rock은 Destroy
+
                 //연경부분-start
                 GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f); // 피격 이펙트 생성
                 Destroy(hitted, 0.5f);
@@ -250,9 +254,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //Rock만 if문 안에 들어감
-        if (other.GetComponent<Rigidbody>() != null)
-            Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
+
     }
 
     IEnumerator OnDamage()
