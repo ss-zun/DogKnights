@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -182,7 +183,7 @@ public class Monster : MonoBehaviour
         FreezeVelocity();
     }
 
-    protected void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Sword" && isInvincible == false)
         {
@@ -196,7 +197,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    protected IEnumerator OnDamage(Vector3 reactVec)
+    IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.material.color = Color.red;
 
@@ -217,14 +218,16 @@ public class Monster : MonoBehaviour
         {
             mat.material.color = Color.gray;
             gameObject.layer = 9; //MonsterDead
-            isDead = true;
+            isDead = true; 
             isChase = false; //사망했으니 추적중단
-            nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)
-                                 //
+
             anim.SetTrigger("doDie");
 
+            nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)  
+            
             if (monsterType != Type.Boss)
                 Destroy(gameObject, 4); //4초 뒤 죽음
+            
         }
     }
 }
