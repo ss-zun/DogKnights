@@ -38,7 +38,7 @@ public class PortalToNextStage : MonoBehaviour
         if(collision.gameObject.CompareTag("Player") && bIsPortalOn)
         {
             // 다음 스테이지로 이동.
-            Debug.Log("True");
+            // Debug.Log("True");
         }
     }
 }

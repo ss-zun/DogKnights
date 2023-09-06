@@ -61,7 +61,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
         moveTimes = Random.Range(minMoveTimes, maxMoveTimes + 1);
         //transform.SetLocalPositionAndRotation(new Vector3(0, -3, 0), transform.rotation);
         //transform.TransformPoint(Vector3.zero);
-        
+        tempLocation = transform.position;
     }
 
     // Update is called once per frame
@@ -139,7 +139,7 @@ public class EscapeRoomFloorTrap : MonoBehaviour
             }
 
             // 위치 조절
-            tempLocation = transform.position;
+            // tempLocation = transform.position;
             tempLocation.y = height;
             transform.position = tempLocation;
             if (transform.name.Equals("Cube (1)"))
