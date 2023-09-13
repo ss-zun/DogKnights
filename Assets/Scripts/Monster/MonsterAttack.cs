@@ -28,6 +28,16 @@ public class MonsterAttack : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("³Ó¹é");
+            Vector3 reactVec = other.gameObject.transform.position - transform.position;
+            reactVec = reactVec.normalized;
+            reactVec += Vector3.up;
+            other.gameObject.GetComponentInParent<Rigidbody>().AddForce(reactVec * 5, ForceMode.Impulse);
+
+        }
     }
 
 }

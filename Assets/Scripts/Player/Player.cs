@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {   [SerializeField]
     public Animator anim;
-    private Rigidbody playerRigidbody;
+    public Rigidbody playerRigidbody;
     bool isJumping = false;       //공중에 떠 있는지
     [SerializeField]
     public float jumpForce = 30;
