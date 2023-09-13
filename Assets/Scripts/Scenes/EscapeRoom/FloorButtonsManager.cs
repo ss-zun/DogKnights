@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorButtonsManager : MonoBehaviour
+public class FloorButtonsManager : FloorController
 {
     // ===== public =====
     [Tooltip("버튼 객체들")]
@@ -13,6 +13,9 @@ public class FloorButtonsManager : MonoBehaviour
 
     [Tooltip("테스트 모드입니다. : True -> 버튼을 누르는게 1개로 고정.")]
     public bool bIsTestMode = false;
+
+    [Tooltip("현재 탈출맵 층 객체")]
+    public GameObject map;
 
     // ===== private =====
 
@@ -25,6 +28,16 @@ public class FloorButtonsManager : MonoBehaviour
         foreach(FloorButton tempButton in buttons)
         {
             tempButton.SetFloorButtonsManager(this);
+        }
+
+        if(bIsTestMode)
+        {
+            ExploreTrap[] traps = map.gameObject.GetComponents<ExploreTrap>();
+
+            foreach(ExploreTrap tempTrap in traps)
+            {
+                tempTrap.SetActivate(true);
+            }
         }
     }
 
@@ -49,6 +62,17 @@ public class FloorButtonsManager : MonoBehaviour
             int openPortalNumber = Random.Range(0, portals.Length);
 
             portals[openPortalNumber].PortalActivate();
+        }
+    }
+
+    public override void OperateObjects()
+    {
+
+        ExploreTrap[] traps = map.gameObject.GetComponents<ExploreTrap>();
+
+        for(int i = 0; i < traps.Length; i++)
+        {
+            traps[i].SetActivate(true);
         }
     }
 }
