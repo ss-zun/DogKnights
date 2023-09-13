@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {   [SerializeField]
     public Animator anim;
-    private Rigidbody playerRigidbody;
+    public Rigidbody playerRigidbody;
     bool isJumping = false;       //공중에 떠 있는지
     [SerializeField]
     public float jumpForce = 30;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public float attackPower = 10f;
     [SerializeField]
     public GameObject swordObject;
-    float gravity = -9.8f;  //중력 가속도
+    public float gravity = -9.8f;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private float chargeTime = 0f;    //충전 시간
     //private float maxTime = 2f;
     float attackTime = 0f;
+    public float maxJumpTime = 0.4f;
+    float curJumpTIme = 0f;
 
     public int heart = 5;     //현재 하트 수
     public int maxHeart = 5; //최대 하트 수
@@ -65,6 +67,8 @@ public class Player : MonoBehaviour
     GameObject attackEffect = null;
     GameObject[] effectsGO;
     public Vector3 savePoint = Vector3.zero;   //사망한 후 재시작 할 때 스폰할 지점
+    [SerializeField]
+    private float groundPos = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +94,6 @@ public class Player : MonoBehaviour
         isJumping = false;
         Move();
         Attack();
-        Jump();
         Charge();
         Restart();
         Invincible();
@@ -101,6 +104,31 @@ public class Player : MonoBehaviour
 
         }
     }
+
+   void FixedUpdate(){   // 점프 후 착지에서 땅에 닿을 때 raycast로 땅을 뚫지 않도록 조정
+        if(yVelocity < 0){
+            Debug.DrawRay(playerRigidbody.position, Vector3.down, new Color(0, 1, 0));
+            RaycastHit2D rayHit = Physics2D.Raycast(playerRigidbody.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
+            Debug.Log(rayHit);
+            if(rayHit.collider != null){
+                if (rayHit.distance < 0.5f){
+                    isJumping = false;
+                }
+                
+            if(rayHit.collider.transform.position.y - transform.position.y < yVelocity){
+                yVelocity = rayHit.collider.transform.position.y - transform.position.y;  
+                // 떨어지는 이동 변위가 지면까지의 거리보다 크다면 지면을 뚫고 들어갈 수 있으므로 이보다 작게 설정해준다.
+            }
+            }
+            else{
+                Debug.Log("rayHit is null");
+            }
+
+        }
+        Move();
+        Jump();
+    }
+ 
 
     void InitEffect(){
 
@@ -117,6 +145,7 @@ public class Player : MonoBehaviour
     }
 
 
+
     // 키보드 입력에 따라 움직이기
     protected void Move(){
         float xInput = Input.GetAxis("Horizontal");
@@ -129,24 +158,33 @@ public class Player : MonoBehaviour
         }else{
             anim.SetBool("Run", true);
             if (xInput <= 0.0f){
-            transform.rotation = Quaternion.Euler(0, 90, 0);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             if (xInput > 0.0f){
-                transform.rotation = Quaternion.Euler(0, -90, 0);
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
-        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){
+        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){  // 최대 1초동안만 점프할 수 있도록 함
             // playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
             // isJumping = true;
-            yVelocity = jumpForce;
-            isJumping = true;
+            if(curJumpTIme <= maxJumpTime){
 
+                yVelocity = jumpForce*Time.deltaTime;
+                isJumping = true;
+                Debug.Log(curJumpTIme);
+            }else{
+                yVelocity = -1f*jumpForce*Time.deltaTime;  
+                isJumping = true;
+            }
         }
-        if(isJumping){
+
+        if(isJumping&& curJumpTIme <= maxJumpTime){
+            curJumpTIme += Time.deltaTime;
             yVelocity += gravity*Time.deltaTime;
 
         }else{
             yVelocity = 0f;
+            curJumpTIme = 0f;
         }
 
         moveDir.Normalize();
@@ -155,39 +193,31 @@ public class Player : MonoBehaviour
         moveDir.y = yVelocity;
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
-
-
-
         
         // float zInput = Input.GetAxis("Vertical");
         if(anim.GetBool("Attack")){
             return;
         }
-        // float xSpeed = xInput*moveSpeed;
 
-        // Vector3 newVelocity = new Vector3(xSpeed, 0f, 0f);
-        // playerRigidbody.velocity = newVelocity;
     }
 
     protected void Attack(){
         //int effectCount = 0;
         if(Input.GetKeyDown(KeyCode.Z)){
-            anim.SetTrigger("AttackTrigger");
             if (isAttacking == false){
-                swordObject.GetComponent<BoxCollider>().enabled = true;
-                //effectCount = 1;
-                Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
-                //GameObject go = GenerateEffect(0, effectPosition);
-                //attackEffect.transform.position = effectPosition;
-                attackEffect.SetActive(true);
-                //attackEffect.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                //attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                //Destroy(go, 0.5f);
+                anim.SetTrigger("AttackTrigger");  // 공격모션
+
                 
             }
-            isAttacking = true;
         }
-        else if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")){
+            Vector3 effectPosition = new Vector3(transform.position.x+0.8f, transform.position.y+0.8f, 0f);
+            swordObject.GetComponent<BoxCollider>().enabled = true;    // 무기 콜라이더 활성화 
+            attackEffect.SetActive(true); //이펙트 활성화
+            isAttacking = true; //공격 플래그 true
+
+        }//공격 모션이 진행되는 동안 위 상태가 지속되다가 공격모션이 끝나면 아래 상태 변경
+        else{ 
             swordObject.GetComponent<BoxCollider>().enabled = false;
             isAttacking = false;
             attackEffect.SetActive(false);
@@ -220,7 +250,7 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
+        if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
         {   
             Debug.Log(other.gameObject.name);
         }
@@ -242,25 +272,22 @@ public class Player : MonoBehaviour
                 }
                 //연경부분-end
 
+                //Rock만 if문 안에 들어감
+                if (other.GetComponent<Rigidbody>() != null)
+                    Destroy(other.gameObject, 4); //플레이어와 닿으면 Rock은 Destroy
+
                 //연경부분-start
-                GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f);
+                GameObject hitted = GenerateEffect(5, (other.transform.position + transform.position) / 2f); // 피격 이펙트 생성
                 Destroy(hitted, 0.5f);
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
-
-                Vector3 reactVec = transform.position - other.transform.position; //넛백(반작용) : 현재 위치 - 피격 위치
-                reactVec = reactVec.normalized;
-                reactVec += Vector3.up;
-                playerRigidbody.AddForce(reactVec * 5, ForceMode.Impulse);
-
-                //Rock만 if문 안에 들어감
-                if (other.GetComponent<Rigidbody>() != null)
-                    Destroy(other.gameObject); //플레이어와 닿으면 Rock은 Destroy
 
                 Debug.Log("플레이어 현재 하트: " + heart);
                 StartCoroutine(OnDamage());
             }
         }
+
+
     }
 
     IEnumerator OnDamage()
@@ -285,6 +312,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
+            Debug.Log("Floor collision");
         }      
     }
 
@@ -341,12 +369,6 @@ public class Player : MonoBehaviour
         
         if(isInvincible==true){
             curTime += Time.deltaTime;
-            //if((int)(curTime*10)%10==0){
-            //    playerColor.material.color = red;
-            //}
-            //else{
-            //    playerColor.material.color = blue;
-            //}
             
             playerColor.material.color = Color.red;
 
