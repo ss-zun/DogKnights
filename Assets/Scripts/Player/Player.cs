@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {   [SerializeField]
@@ -38,6 +39,9 @@ public class Player : MonoBehaviour
 
     public int heart = 5;     //현재 하트 수
     public int maxHeart = 5; //최대 하트 수
+
+    [SerializeField]
+    Slider hpSlider;
 
     private bool isInvincible = false;  //현재 무적상태인지
     private bool isDead = false;  //현재 사망상태인지
@@ -77,6 +81,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (hpSlider)
+        {
+            hpSlider.value = heart;
+            hpSlider.maxValue = maxHeart;
+        }
+
         isJumping = false;
         Move();
         Attack();
