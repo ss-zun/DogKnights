@@ -126,7 +126,7 @@ public class Boss : Monster
         isInvincible = true;
         anim.SetTrigger("doFlyFlameAttack");
         yield return new WaitForSeconds(4.2f);
-        GameObject instantFire = Instantiate(Fire, FlyFirePort.position, FlyFirePort.rotation);
+        GameObject instantFire = Instantiate(Fire, FlyFirePort.position, FlyFirePort.rotation);;
         yield return new WaitForSeconds(1.8f);
         Destroy(instantFire);
         yield return new WaitForSeconds(4.2f);
