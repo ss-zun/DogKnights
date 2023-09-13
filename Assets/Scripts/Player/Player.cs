@@ -18,7 +18,9 @@ public class Player : MonoBehaviour
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
-    private float moveSpeed = 0.1f;
+    private float runSpeed = 0.1f;
+    [SerializeField]
+    private float dashSpeed = 0.5f;
     [SerializeField]
     private GameObject root;
     //private float defense = 100f;
@@ -51,10 +53,15 @@ public class Player : MonoBehaviour
     private bool isCharging = false; //에너지를 모으는 중 인지 
     private bool isDefense = false; //방어상태인지
     private bool isPower = false; //필살기 사용 중인지
+    private bool isDash = false; //대시 중인지
+    private bool isDashable = true; //대시 할 수 있는지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
     float curTime = 0f; //무적상태를 유지한 시간
+    [SerializeField]
+    private float dashCoolTime = 2.0f; // 대시 스킬을 쓸 수 있는 쿨타임
+    private float curDashTime = 0f;
 
     Renderer playerColor;//플레이어 material 색상이 붉게 깜빡거리도록 함
 
@@ -148,9 +155,36 @@ public class Player : MonoBehaviour
 
     // 키보드 입력에 따라 움직이기
     protected void Move(){
+        curDashTime += Time.deltaTime;
+        float moveSpeed = runSpeed;
         float xInput = Input.GetAxis("Horizontal");
         if(isDead || isCharging || isDefense || isAttacking){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
             return;
+        }
+
+        if (curDashTime >= dashCoolTime)  // 쿨타임 다 차면 
+        {
+            isDashable = true;
+            curDashTime = 0f;
+        }
+        else if(curDashTime >= 1.0f)
+        {
+            isDash = false;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.V) && isDash == false && isDashable)  // 대시 쓸수있으면
+        {
+            isDash = true;
+            isDashable = false;
+            curDashTime = 0; // 스킬 사용시 쿨타임 초기화
+            anim.SetTrigger("Dash");
+        }
+        if (isDash)
+        {
+            yVelocity = 0;
+            moveSpeed = dashSpeed;
+
         }
 
         if (xInput == 0){
@@ -164,7 +198,7 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
-        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false){  // 최대 1초동안만 점프할 수 있도록 함
+        if(Input.GetKey(KeyCode.LeftControl) && isJumping == false && isDash == false){  // 최대 1초동안만 점프할 수 있도록 함
             // playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
             // isJumping = true;
             if(curJumpTIme <= maxJumpTime){
@@ -178,7 +212,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(isJumping&& curJumpTIme <= maxJumpTime){
+        if(isJumping&& curJumpTIme <= maxJumpTime && isDash == false){
             curJumpTIme += Time.deltaTime;
             yVelocity += gravity*Time.deltaTime;
 
@@ -432,5 +466,10 @@ public class Player : MonoBehaviour
             }
 
         }
+    }
+
+    public void Dash() //단시간에 앞으로 튀어나가는 기술
+    {
+
     }
 }
