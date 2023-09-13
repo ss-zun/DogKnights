@@ -27,7 +27,7 @@ public class ExploreTrap : MonoBehaviour
     private float playTime = 0.0f;
 
     // 현재 스테이지 활성화
-    private bool bIsStageActivate = true;
+    private bool bIsStageActivate = false;
 
     // 현재 폭발 중
     private bool bIsExploring = false;
@@ -92,5 +92,11 @@ public class ExploreTrap : MonoBehaviour
         {
             bIsOverlapped = false;
         }
+    }
+
+    // Set particle system activate
+    public void SetActivate(bool bIsState)
+    {
+        bIsStageActivate = bIsState;
     }
 }
