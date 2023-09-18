@@ -30,6 +30,12 @@ public class FloorButtonsManager : FloorController
             tempButton.SetFloorButtonsManager(this);
         }
 
+        // 7F
+        if(portals.Length == 1)
+        {
+            portals[0].PortalActivate();
+        }
+
         if(bIsTestMode)
         {
             ExploreTrap[] traps = map.gameObject.GetComponents<ExploreTrap>();
