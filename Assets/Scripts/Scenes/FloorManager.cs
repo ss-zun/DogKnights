@@ -19,6 +19,17 @@ public class FloorManager : MonoBehaviour
     {
         // Debug.Log(floors[0].transform.childCount);
         // floors[2].transform.GetChild(1).gameObject.SetActive(false);
+        
+        // 1F ~ 10F까지 비활성화
+        for(int i = 1; i < floors.Length; i++)
+        {
+            // 층마다 자식 객체들 모두 비활성화
+            for(int j = 0; j < floors[i].transform.childCount; j++)
+            {
+                floors[i].transform.GetChild(j).gameObject.SetActive(false);
+            }
+        }
+
     }
 
     // Update is called once per frame
