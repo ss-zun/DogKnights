@@ -351,9 +351,9 @@ GameObject:
   - component: {fileID: 269854188}
   - component: {fileID: 269854187}
   - component: {fileID: 269854186}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (3)
-  m_TagString: Weapon
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 1463760354}
   - component: {fileID: 1463760353}
   - component: {fileID: 1463760352}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pivot
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -564,13 +564,13 @@ GameObject:
   - component: {fileID: 1535174948}
   - component: {fileID: 1535174947}
   - component: {fileID: 1535174946}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1535174945
 Transform:
   m_ObjectHideFlags: 0
