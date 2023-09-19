@@ -220,6 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e915b090d08d34b4dbd0a79cb3216675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 1547674997}
+  offsetZ: -16
+  CameraSpeed: 10
 --- !u!1 &17281969
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +662,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 255a1962903a2954093af67c072222ca, type: 3}
+--- !u!114 &921224866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8944507744959918963, guid: 255a1962903a2954093af67c072222ca, type: 3}
+  m_PrefabInstance: {fileID: 796848670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +778,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
   m_PrefabInstance: {fileID: 7891262493820331058}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1547674997}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7596273e4b5b898418e56bc8df5f2127, type: 3}
@@ -872,6 +886,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535174944}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1547674997 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8155018631483882414, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
+  m_PrefabInstance: {fileID: 7891262493820331058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1721273787
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +922,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 9237070}
   player: {fileID: 1475926791}
-  boss: {fileID: 0}
 --- !u!4 &1721273789
 Transform:
   m_ObjectHideFlags: 0
@@ -1117,6 +1135,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
+      propertyPath: hpSlider
+      value: 
+      objectReference: {fileID: 921224866}
     - target: {fileID: 8155018631483882414, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: m_Name
       value: Player
