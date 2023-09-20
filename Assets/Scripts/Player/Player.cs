@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     private bool isPower = false; //필살기 사용 중인지
     private bool isDash = false; //대시 중인지
     private bool isDashable = true; //대시 할 수 있는지
-    bool isJumping = true;       //공중에 떠 있는지
+    public bool isJumping = true;       //공중에 떠 있는지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
         else
         {
             yVelocity = 0f;
-            curJumpTIme = 0f;
+            //curJumpTIme = 0f;
         }
 
 
@@ -235,8 +235,6 @@ public class Player : MonoBehaviour
         moveDir.y = yVelocity;
 
         transform.Translate(moveDir*moveSpeed*Time.deltaTime);
-        Debug.Log(moveDir);
-        Debug.Log(moveSpeed);
         
         // float zInput = Input.GetAxis("Vertical");
         if(anim.GetBool("Attack")){
@@ -358,7 +356,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
-            Debug.Log("Floor collision");
+            Debug.Log("Player : Floor collision");
         }
         //else
         //{
@@ -372,6 +370,7 @@ public class Player : MonoBehaviour
         if (other.collider.CompareTag("Floor"))
         {       //바닥과 충돌 : 착지
             isJumping = true;
+            Debug.Log("Player : floor exit");
         }
         //else
         //{

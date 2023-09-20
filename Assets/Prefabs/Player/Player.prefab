@@ -1820,13 +1820,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 8155018631493224466}
-  jumpForce: 5
+  playerRigidbody: {fileID: 0}
+  jumpForce: 500
   attackPower: 10
   swordObject: {fileID: 8155018631483882078}
-  moveSpeed: 5
+  gravity: 0
+  runSpeed: 5
+  dashSpeed: 0.5
   root: {fileID: 8155018631483882098}
+  curEnergy: 0
+  maxEnergy: 100
+  maxJumpTime: 0.4
   heart: 5
+  maxHeart: 5
+  hpSlider: {fileID: 0}
   isAttacking: 0
+  isJumping: 1
+  dashCoolTime: 2
   effectPrefabs:
   - {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48, type: 3}
   - {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
@@ -1839,6 +1849,7 @@ MonoBehaviour:
   - {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
   - {fileID: 888444077320411739, guid: 0c2509361b13505428ce788b7f846686, type: 3}
   savePoint: {x: 0, y: 0, z: 0}
+  groundPos: 0
 --- !u!1 &8155018631483882416
 GameObject:
   m_ObjectHideFlags: 0
