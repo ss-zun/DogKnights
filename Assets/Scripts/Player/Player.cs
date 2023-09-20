@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
 {   [SerializeField]
     public Animator anim;
     public Rigidbody playerRigidbody;
-    bool isJumping = false;       //공중에 떠 있는지
     [SerializeField]
     public float jumpForce = 30;
     [SerializeField]
@@ -55,6 +54,7 @@ public class Player : MonoBehaviour
     private bool isPower = false; //필살기 사용 중인지
     private bool isDash = false; //대시 중인지
     private bool isDashable = true; //대시 할 수 있는지
+    bool isJumping = true;       //공중에 떠 있는지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
@@ -113,15 +113,15 @@ public class Player : MonoBehaviour
     }
 
    void FixedUpdate(){   // 점프 후 착지에서 땅에 닿을 때 raycast로 땅을 뚫지 않도록 조정
-        //if(yVelocity < 0){
-        //    Debug.DrawRay(playerRigidbody.position, Vector3.down, new Color(0, 1, 0));
-        //    RaycastHit2D rayHit = Physics2D.Raycast(playerRigidbody.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
-        //    Debug.Log(rayHit);
-        //    if(rayHit.collider != null){
-        //        if (rayHit.distance < 0.5f){
-        //            isJumping = false;
-        //        }
-                
+                         //if(yVelocity < 0){
+                         //    Debug.DrawRay(playerRigidbody.position, Vector3.down, new Color(0, 1, 0));
+                         //    RaycastHit2D rayHit = Physics2D.Raycast(playerRigidbody.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
+                         //    Debug.Log(rayHit);
+                         //    if(rayHit.collider != null){
+                         //        if (rayHit.distance < 0.5f){
+                         //            isJumping = false;
+                         //        }
+
         //    if(rayHit.collider.transform.position.y - transform.position.y < yVelocity){
         //        yVelocity = rayHit.collider.transform.position.y - transform.position.y;  
         //        // 떨어지는 이동 변위가 지면까지의 거리보다 크다면 지면을 뚫고 들어갈 수 있으므로 이보다 작게 설정해준다.
@@ -155,6 +155,7 @@ public class Player : MonoBehaviour
 
     // 키보드 입력에 따라 움직이기
     protected void Move(){
+
         //yVelocity = 0f;
         curDashTime += Time.deltaTime;
         float moveSpeed = runSpeed;
@@ -358,7 +359,26 @@ public class Player : MonoBehaviour
             yVelocity = 0f;
             moveDir.y =yVelocity;
             Debug.Log("Floor collision");
-        }      
+        }
+        //else
+        //{
+        //    isJumping = true;
+        //    yVelocity += gravity * Time.deltaTime;
+        //    moveDir.y = yVelocity;
+        //}
+    }
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.collider.CompareTag("Floor"))
+        {       //바닥과 충돌 : 착지
+            isJumping = true;
+        }
+        //else
+        //{
+        //    isJumping = true;
+        //    yVelocity += gravity * Time.deltaTime;
+        //    moveDir.y = yVelocity;
+        //}
     }
 
 
