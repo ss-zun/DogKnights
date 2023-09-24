@@ -25,6 +25,7 @@ public class Monster : MonoBehaviour
     protected bool isAttack; //공격중인가
     protected bool isDead;   //죽었는가
     protected bool isInvincible;   //무적(방어했던지, 날았다던지)
+    protected bool isZeroFloor; // 0층인지
 
 
     protected Rigidbody rigid;
