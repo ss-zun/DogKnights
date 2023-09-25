@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 486556}
   - component: {fileID: 3386870}
   - component: {fileID: 2333302}
+  - component: {fileID: 2770191221834770624}
+  - component: {fileID: 4464548377937637244}
+  - component: {fileID: 6870397259493738571}
   m_Layer: 0
   m_Name: stairs1
   m_TagString: Untagged
@@ -83,3 +86,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2770191221834770624
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.76489, y: 0.6480157, z: 1.8500665}
+  m_Center: {x: -0.04055137, y: 0.32400674, z: 6.77572}
+--- !u!65 &4464548377937637244
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.76489, y: 0.6480157, z: 1.8500665}
+  m_Center: {x: -0.04055137, y: 1, z: 5}
+--- !u!65 &6870397259493738571
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.76489, y: 0.6480157, z: 4.3138485}
+  m_Center: {x: -0.04055104, y: 1.7000002, z: 2.0681086}
