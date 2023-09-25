@@ -44,4 +44,6 @@ public class PlayerTarget : MonoBehaviour
         Gizmos.DrawLine(arrowEnd, arrowEnd + Quaternion.Euler(direction.x, direction.y + 30, 0) * -direction * 0.05f);
         // * Vector3.back * 0.05f
     }
+
+    
 }

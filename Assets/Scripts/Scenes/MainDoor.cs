@@ -25,6 +25,12 @@ public class MainDoor : MonoBehaviour
     // 오른쪽 문 정보
     public GameObject right_door;
 
+    // 현재 스테이지 번호
+    public int current_stage;
+
+    // 다음 스테이지 번호
+    public int next_stage;
+
     // ===== private =====
 
     // 현재 문이 열린 각도
@@ -32,6 +38,10 @@ public class MainDoor : MonoBehaviour
 
     // 현재 문이 열리는 애니메이션 작동 여부
     private bool b_is_door_opening = false;
+
+    // 다음 스테이지로 이동하는 Box Collider
+    private BoxCollider portalCollider;
+
 
     void Awake()
     {
@@ -65,7 +75,7 @@ public class MainDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        b_is_door_opening = true;
+        portalCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -127,5 +137,17 @@ public class MainDoor : MonoBehaviour
     void DoorOperate(bool b_is_door_opening = true)
     {
         this.b_is_door_opening = b_is_door_opening;
+    }
+
+    /// <summary>
+    /// 다음 스테이지로 이동
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            FindObjectOfType<FloorManager>().NextStage(collision.gameObject, current_stage, next_stage);
+        }
     }
 }
