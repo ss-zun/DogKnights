@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {   [SerializeField]
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject root;
     //private float defense = 100f;
+    [SerializeField]
+    public bool isMapPuzzle = false;  //퍼즐맵의 경우 좌, 우 뿐 만 아니라 앞, 뒤로도 움직일 수 있도록 한다.
 
     SkinnedMeshRenderer[] meshs;
     bool isDamage = false;
@@ -33,18 +36,26 @@ public class Player : MonoBehaviour
 
     // 에너지 충전에 관한 변수
     public float curEnergy = 0f;     //에너지 량
-    public float maxEnergy = 100f;
+    private float maxEnergy = 100f;
     private float chargeTime = 0f;    //충전 시간
+    
     //private float maxTime = 2f;
     float attackTime = 0f;
     public float maxJumpTime = 0.4f;
     float curJumpTIme = 0f;
 
-    public int heart = 5;     //현재 하트 수
-    public int maxHeart = 5; //최대 하트 수
+    private int heart = 5;     //현재 하트 수
+    private int maxHeart = 5; //최대 하트 수
+    [SerializeField]
+    private int money = 0;
 
     [SerializeField]
     Slider hpSlider;
+    [SerializeField]
+    Slider energySlider;
+    [SerializeField]
+    TextMeshProUGUI moneyText;
+
 
     private bool isInvincible = false;  //현재 무적상태인지
     private bool isDead = false;  //현재 사망상태인지
@@ -96,6 +107,15 @@ public class Player : MonoBehaviour
         {
             hpSlider.value = heart;
             hpSlider.maxValue = maxHeart;
+        }
+        if (energySlider)
+        {
+            energySlider.value = curEnergy;
+            energySlider.maxValue = maxEnergy;
+        }
+        if (moneyText)
+        {
+            moneyText.text = money.ToString();
         }
 
         //isJumping = false;
@@ -160,7 +180,10 @@ public class Player : MonoBehaviour
         curDashTime += Time.deltaTime;
         float moveSpeed = runSpeed;
         float xInput = Input.GetAxis("Horizontal");
-        if(isDead || isCharging || isDefense || isAttacking){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
+        float zInput;
+        if (isMapPuzzle) zInput = Input.GetAxis("Vertical");
+        else zInput = 0;
+        if (isDead || isCharging || isDefense || isAttacking){  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
             return;
         }
 
@@ -189,16 +212,27 @@ public class Player : MonoBehaviour
 
         }
 
-        if (xInput == 0){
+        if (xInput == 0 && zInput==0){
             anim.SetBool("Run", false);
         }else{
             anim.SetBool("Run", true);
-            if (xInput <= 0.0f){
-            transform.rotation = Quaternion.Euler(0, -90, 0);
+            if (xInput < 0.0f )
+            {
+                transform.rotation = Quaternion.Euler(0, -90, 0);
             }
-            if (xInput > 0.0f){
+            if (xInput > 0.0f)
+            {
                 transform.rotation = Quaternion.Euler(0, 90, 0);
             }
+            if (zInput < 0.0f && xInput==0.0f)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            if (zInput > 0.0f)
+            {
+                transform.rotation = Quaternion.Euler(0, 0,0);
+            }
+
         }
         if(Input.GetKeyDown(KeyCode.LeftControl) && isJumping == false && isDash == false){  // 최대 1초동안만 점프할 수 있도록 함
             // playerRigidbody.AddForce(Vector3.up*jumpForce, ForceMode.Impulse );
@@ -230,14 +264,18 @@ public class Player : MonoBehaviour
 
 
         moveDir.Normalize();
-        
-        moveDir = transform.right*xInput*-1f;
+
+        //moveDir = transform.right*xInput*-1f;
+        moveDir.x = xInput;
+        moveDir.z = zInput;
         moveDir.y = yVelocity;
 
-        transform.Translate(moveDir*moveSpeed*Time.deltaTime);
-        
+        //transform.Translate(moveDir*moveSpeed*Time.deltaTime);
+
+        transform.position += (moveDir * moveSpeed * Time.deltaTime);
+
         // float zInput = Input.GetAxis("Vertical");
-        if(anim.GetBool("Attack")){
+        if (anim.GetBool("Attack")){
             return;
         }
 

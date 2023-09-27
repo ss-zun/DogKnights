@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
+
      static GameManager instance = null;
 
      public static GameManager Instance
@@ -21,7 +22,10 @@ public class GameManager : MonoBehaviour
 
      [SerializeField]
      Player player;
-     
+
+    [SerializeField]
+    Player[] players; 
+
      public Player Player{
           get{return player;}
      }
