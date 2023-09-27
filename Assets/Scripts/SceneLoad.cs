@@ -13,6 +13,9 @@ public class SceneLoad : MonoBehaviour
     [SerializeField]
     Slider progressBar;
 
+    [SerializeField]
+    Text text;
+
     void Start()
     {
         StartCoroutine(Load());
@@ -31,6 +34,10 @@ public class SceneLoad : MonoBehaviour
             if (progressBar.value < 1.0f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1.0f, Time.deltaTime);
+            }
+            else
+            {
+                text.text = "Press SPACE...";
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && progressBar.value >= 1.0f && op.progress >= 0.9f)
