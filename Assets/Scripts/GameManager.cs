@@ -2,44 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 게임 진행 규칙 관리 매니저
+// 게임 오버 관리
+// 점수 관리 등등..
 public class GameManager : MonoBehaviour
 {
-
-
-     static GameManager instance = null;
-
-     public static GameManager Instance
+    static GameManager instance = null;
+    public static GameManager Instance
     {
-        get{return instance;}
-     }
-
-     [SerializeField]
-     CameraMove camera;
-
-     public CameraMove  Camera{
-          get{return camera;}
-     }
-
-     [SerializeField]
-     Player player;
-
-    [SerializeField]
-    Player[] players; 
-
-     public Player Player{
-          get{return player;}
-     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        get { return instance; }
     }
 
     void Awake(){
@@ -49,5 +20,34 @@ public class GameManager : MonoBehaviour
             return;
         }
         instance = this;
+    }
+
+    [SerializeField]
+    Player player;
+
+    [SerializeField]
+    Player[] players;
+
+    public Player Player
+    {
+        get { return player; }
+    }
+
+    [SerializeField]
+    CameraMove camera;
+
+    public CameraMove Camera
+    {
+        get { return camera; }
+    }
+
+    // 게임 시작버튼 눌렀을 때
+    public void OnClickStartButton()
+    {
+        // 0층 맵 활성화
+        // 플레이어가 0층에 스폰됨
+        // 토템이 0층에 스폰됨
+        // 게임내 UI 활성화
+        // 스토리 설명시작
     }
 }

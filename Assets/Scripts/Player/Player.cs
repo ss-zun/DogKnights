@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 
 
     private bool isInvincible = false;  //현재 무적상태인지
-    private bool isDead = false;  //현재 사망상태인지
+    public bool isDead = false;  //현재 사망상태인지
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
     private bool isDefense = false; //방어상태인지
