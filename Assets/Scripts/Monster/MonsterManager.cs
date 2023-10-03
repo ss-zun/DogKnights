@@ -14,16 +14,13 @@ public class MonsterManager : MonoBehaviour
     GameObject golem;
     [SerializeField]
     GameObject boss;
-   
+
     [SerializeField]
-    private float createTime; //몬스터를 발생시킬 주기
+    public Transform[] points; //몬스터 스폰 위치를 담을 배열
+    [SerializeField]
+    private float createTime; //몬스터 스폰 주기
 
     private int totalMonsterCount;
-    private int countTotem;
-    private int countSlime;
-    private int countTurtleShell;
-    private int countGolem;
-    private int countBoss;
 
     private int currentFloor; // 현재 몇 층인지
     private bool isGameOver = false; // 게임종료 여부
@@ -40,7 +37,7 @@ public class MonsterManager : MonoBehaviour
     }
     private void Update()
     {
-        isGameOver = GameManager.Instance.Player.isDead;
+        //isGameOver = GameManager.Instance.Player.isDead;
         if (currentFloor != getFloorState())
             MonsterSpawner(currentFloor);
     }
@@ -52,12 +49,21 @@ public class MonsterManager : MonoBehaviour
 
     void MonsterSpawner(int floor)
     {
+        GameObject[] monsterPrefab;
         switch (floor)
         {
             case 0:
-                totalMonsterCount = countTotem;
+                totalMonsterCount = 1;
+                monsterPrefab = new GameObject[1];
+                monsterPrefab[0] = totem;
+                CreateMonster(monsterPrefab, totalMonsterCount);
                 break;
             case 1:
+                totalMonsterCount = 6;
+                monsterPrefab = new GameObject[2];
+                monsterPrefab[0] = slime;
+                monsterPrefab[1] = turtleShell;
+                CreateMonster(monsterPrefab, totalMonsterCount);
                 break;
             case 3:
                 break;
@@ -72,7 +78,7 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    IEnumerator CreateMonster()
+    IEnumerator CreateMonster(GameObject[] monsterPrefab, int totalMonsterCount)
     {
         while (!isGameOver)
         {
@@ -84,10 +90,9 @@ public class MonsterManager : MonoBehaviour
                 //몬스터의 생성 주기 시간만큼 대기
                 yield return new WaitForSeconds(createTime);
 
-                //불규칙적인 위치 산출
-                //int idx = Random.Range(1, points.Length);
-                //몬스터의 동적 생성
-                //Instantiate(monsterPrefab, points[idx].position, points[idx].rotation);
+                int idx = Random.Range(1, points.Length);
+                int monster = Random.Range(0, monsterPrefab.Length);
+                Instantiate(monsterPrefab[monster], points[idx].position, points[idx].rotation);
             }
             else
             {
