@@ -436,6 +436,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269854184}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &335531816 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4943552933946514527, guid: 255a1962903a2954093af67c072222ca, type: 3}
+  m_PrefabInstance: {fileID: 796848670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &353301469
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +575,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1839565217005439279, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4074005401247667784, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4074005401247667784, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906307434338604334, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944507743513084432, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8944507744814934615, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -651,6 +682,14 @@ PrefabInstance:
     - target: {fileID: 8944507744814934619, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944507744851747809, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944507744959918965, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_Name
+      value: HP Slider
       objectReference: {fileID: 0}
     - target: {fileID: 8944507745116148928, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_AnchorMax.x
@@ -920,8 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995d516d8832fa543ac1d05c8b920b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 9237070}
   player: {fileID: 1475926791}
+  players: []
+  camera: {fileID: 9237070}
 --- !u!4 &1721273789
 Transform:
   m_ObjectHideFlags: 0
@@ -1139,6 +1179,10 @@ PrefabInstance:
       propertyPath: hpSlider
       value: 
       objectReference: {fileID: 921224866}
+    - target: {fileID: 7891262495111708469, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
+      propertyPath: energySlider
+      value: 
+      objectReference: {fileID: 335531816}
     - target: {fileID: 8155018631483882414, guid: 2feeadae2000b8941bbcba38729dda80, type: 3}
       propertyPath: m_Name
       value: Player
