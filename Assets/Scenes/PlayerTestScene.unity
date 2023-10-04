@@ -454,6 +454,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4074005401247667784, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4074005401247667784, guid: 255a1962903a2954093af67c072222ca, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8944507744814934615, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -563,6 +571,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1387106422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8944507744073026694, guid: 255a1962903a2954093af67c072222ca, type: 3}
+  m_PrefabInstance: {fileID: 474690907}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,9 +757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995d516d8832fa543ac1d05c8b920b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 9237070}
   player: {fileID: 1475926791}
   players: []
+  camera: {fileID: 9237070}
 --- !u!4 &1721273789
 Transform:
   m_ObjectHideFlags: 0
@@ -1081,6 +1094,10 @@ PrefabInstance:
       propertyPath: moneyText
       value: 
       objectReference: {fileID: 958348587}
+    - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1387106422}
     - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
       propertyPath: isMapPuzzle
       value: 1

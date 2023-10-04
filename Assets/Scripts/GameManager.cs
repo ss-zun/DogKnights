@@ -33,6 +33,11 @@ public class GameManager : MonoBehaviour
         get { return player; }
     }
 
+    public Player[] Players
+    {
+        get { return players; }
+    }
+
     [SerializeField]
     CameraMove camera;
 

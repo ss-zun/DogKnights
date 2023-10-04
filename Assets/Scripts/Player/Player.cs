@@ -49,13 +49,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int money = 0;
 
-    [SerializeField]
+    [SerializeField]              //ui관련 변수들
     Slider hpSlider;
     [SerializeField]
     Slider energySlider;
     [SerializeField]
     TextMeshProUGUI moneyText;
-
+    [SerializeField]
+    GameObject pauseMenu;
 
     private bool isInvincible = false;  //현재 무적상태인지
     public bool isDead = false;  //현재 사망상태인지
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
     private bool isDash = false; //대시 중인지
     private bool isDashable = true; //대시 할 수 있는지
     public bool isJumping = true;       //공중에 떠 있는지
+    private bool isPause = false;
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
@@ -103,6 +105,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isPause) return;
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            pauseMenu.SetActive(true);
+            isPause = true;
+        }
         if (hpSlider)
         {
             hpSlider.value = heart;
