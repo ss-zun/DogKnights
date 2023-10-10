@@ -12,7 +12,11 @@ public class FloorManager : MonoBehaviour
     [Tooltip("플레이어가 해당 층으로 이동할 위치입니다.")]
     public GameObject[] targetPlayers;
 
+
     // ===== private =====
+
+    // 현재 플레이어 위치
+    private int currentPlayerFloor = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -60,4 +64,15 @@ public class FloorManager : MonoBehaviour
         player.transform.rotation = targetPlayers[nextStageNum].transform.rotation;
     }
 
+    // 현재 플레이어의 층 위치를 설정합니다.
+    void SetCurrentPlayerFloor(int _floor)
+    {
+        currentPlayerFloor = _floor;
+    }
+
+    // 현재 플레이어의 층 위치를 가져옵니다.
+    int GetCurrentPlayerFloor()
+    {
+        return currentPlayerFloor;
+    }
 }
