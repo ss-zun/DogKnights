@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     //private float defense = 100f;
     [SerializeField]
     public bool isMapPuzzle = false;  //퍼즐맵의 경우 좌, 우 뿐 만 아니라 앞, 뒤로도 움직일 수 있도록 한다.
+    public int curFloorNum = 0;
 
     SkinnedMeshRenderer[] meshs;
     bool isDamage = false;
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour
     private bool isDashable = true; //대시 할 수 있는지
     public bool isJumping = true;       //공중에 떠 있는지
     private bool isPause = false;
+    public bool isComplete = false; // 해당 층의 맵을 클리어했는지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
 
     private float invincibleTime = 2.0f; //무적 상태 2초동안 유지
@@ -375,6 +377,11 @@ public class Player : MonoBehaviour
                 Debug.Log("플레이어 현재 하트: " + heart);
                 StartCoroutine(OnDamage());
             }
+        }
+        else if(other.tag == "TutorialDoor")
+        {
+            Debug.Log("Player : Tutorial Clear!");
+            isComplete = true;
         }
 
 

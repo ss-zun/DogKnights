@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
+    static MonsterManager instance = null;
+
     [SerializeField]
     GameObject totem;
     [SerializeField]
@@ -29,11 +31,23 @@ public class MonsterManager : MonoBehaviour
     {
         get { return totalMonsterCount; }
     }
+    public static MonsterManager Instance
+    {
+        get { return instance; }
+    }
 
     private void Awake()
     {
         currentFloor = 0;
         MonsterSpawner(currentFloor);
+
+        if (instance != null)
+        {
+            Debug.LogError("systemManager error");
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
     private void Update()
     {

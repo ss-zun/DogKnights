@@ -339,17 +339,6 @@ MonoBehaviour:
   attackArea: {fileID: 0}
   rock: {fileID: 0}
   target: {fileID: 0}
---- !u!114 &242427925 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8944507744959918963, guid: 255a1962903a2954093af67c072222ca, type: 3}
-  m_PrefabInstance: {fileID: 474690907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &269854184
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,7 +436,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269854184}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &474690907
+--- !u!1001 &1403285343
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -472,7 +461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944507744814934615, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8944507744814934615, guid: 255a1962903a2954093af67c072222ca, type: 3}
       propertyPath: m_AnchorMax.x
@@ -560,22 +549,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 255a1962903a2954093af67c072222ca, type: 3}
---- !u!114 &958348587 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8944507743513084431, guid: 255a1962903a2954093af67c072222ca, type: 3}
-  m_PrefabInstance: {fileID: 474690907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1387106422 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8944507744073026694, guid: 255a1962903a2954093af67c072222ca, type: 3}
-  m_PrefabInstance: {fileID: 474690907}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1463760351
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,7 +866,7 @@ PrefabInstance:
       objectReference: {fileID: 1507846148}
     - target: {fileID: 2433933490432507500, guid: 3dab914c041bac141a9904074ef937f3, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2433933490432507500, guid: 3dab914c041bac141a9904074ef937f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1089,15 +1062,15 @@ PrefabInstance:
     - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
       propertyPath: hpSlider
       value: 
-      objectReference: {fileID: 242427925}
+      objectReference: {fileID: 0}
     - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
       propertyPath: moneyText
       value: 
-      objectReference: {fileID: 958348587}
+      objectReference: {fileID: 0}
     - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
       propertyPath: pauseMenu
       value: 
-      objectReference: {fileID: 1387106422}
+      objectReference: {fileID: 0}
     - target: {fileID: 7799801189672309918, guid: cbdf41ded8e5fb242b1d481559ad1fc7, type: 3}
       propertyPath: isMapPuzzle
       value: 1
