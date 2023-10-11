@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] players;
     private Player player;
 
     
@@ -32,8 +30,8 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkMonster();
-        //complete();
+        //checkMonster();
+        complete();
     }
 
     void complete()
@@ -49,6 +47,7 @@ public class PlayerManager : MonoBehaviour
 
     void checkMonster()
     {
+        Debug.Log(MonsterManager.Instance.TotalMonsterCount);
         if(player.curFloorNum!=0 && MonsterManager.Instance.TotalMonsterCount == 0)
         {
             player.isComplete = true;

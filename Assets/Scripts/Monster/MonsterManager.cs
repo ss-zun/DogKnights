@@ -7,15 +7,15 @@ public class MonsterManager : MonoBehaviour
     static MonsterManager instance = null;
 
     [SerializeField]
-    GameObject totem;
+    private GameObject totem;
     [SerializeField]
-    GameObject slime;
+    private GameObject slime;
     [SerializeField]
-    GameObject turtleShell;
+    private GameObject turtleShell;
     [SerializeField]
-    GameObject golem;
+    private GameObject golem;
     [SerializeField]
-    GameObject boss;
+    private GameObject boss;
 
     //���� ���� ��ġ�� ���� �迭
     public Transform[] pointsFloor0;
@@ -51,10 +51,8 @@ public class MonsterManager : MonoBehaviour
         get { return instance; }
     }
 
-    private void Start()
+    private void Awake()
     {
-        currentFloor = 0;
-        MonsterSpawner(currentFloor);
 
         if (instance != null)
         {
@@ -63,6 +61,13 @@ public class MonsterManager : MonoBehaviour
             return;
         }
         instance = this;
+    }
+
+    private void Start()
+    {
+        currentFloor = 0;
+        MonsterSpawner(currentFloor);
+
         // �� ���� ���� ���� ��ġ �迭�� Dictionary�� �߰�
         floorSpawnPoints[0] = pointsFloor0;
         floorSpawnPoints[1] = pointsFloor1;
