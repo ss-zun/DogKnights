@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Player[] players;
 
+
     public Player Player
     {
         get { return player; }

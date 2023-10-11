@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+
+    static FloorManager instance = null;
     // ===== public =====
 
     [Tooltip("층에 대한 정보를 모은 배열입니다.")]
@@ -12,11 +14,24 @@ public class FloorManager : MonoBehaviour
     [Tooltip("플레이어가 해당 층으로 이동할 위치입니다.")]
     public GameObject[] targetPlayers;
 
-
+    public static FloorManager Instance
+    {
+        get { return instance; }
+    }
     // ===== private =====
 
     // 현재 플레이어 위치
     private int currentPlayerFloor = 0;
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("systemManager error");
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()

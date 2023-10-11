@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-    [SerializeField] private GameObject totem;
-    [SerializeField] private GameObject slime;
-    [SerializeField] private GameObject turtleShell;
-    [SerializeField] private GameObject golem;
-    [SerializeField] private GameObject boss;
+    static MonsterManager instance = null;
 
-    //¸ó½ºÅÍ ½ºÆù À§Ä¡¸¦ ´ãÀ» ¹è¿­
+    [SerializeField]
+    GameObject totem;
+    [SerializeField]
+    GameObject slime;
+    [SerializeField]
+    GameObject turtleShell;
+    [SerializeField]
+    GameObject golem;
+    [SerializeField]
+    GameObject boss;
+
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
     public Transform[] pointsFloor0;
     public Transform[] pointsFloor1;
     public Transform[] pointsFloor3;
@@ -19,18 +26,18 @@ public class MonsterManager : MonoBehaviour
     public Transform[] pointsFloor8;
     public Transform[] pointsFloor10;
 
-    // Dictionary¸¦ »ç¿ëÇÏ¿© Ãþ¸¶´Ù ½ºÆù À§Ä¡¸¦ °ü¸®
+    // Dictionaryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     Dictionary<int, Transform[]> floorSpawnPoints = new Dictionary<int, Transform[]>();
 
-    //¸ó½ºÅÍ ½ºÆù ÁÖ±â
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
     [SerializeField]
     private float spwanTime = 0.1f;
 
-    private int totalMonsterCount; // ³²¾ÆÀÖ´Â ÃÑ ¸ó½ºÅÍ¼ö
+    private int totalMonsterCount; // ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½
 
-    private int currentFloor; // ÇöÀç ¸î ÃþÀÎÁö
-    private bool isChangeFloor = false; // ÇöÀç ÃþÀÌ ¹Ù²¼´ÂÁö
-    private bool isGameOver = false; // °ÔÀÓÁ¾·á ¿©ºÎ
+    private int currentFloor; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private bool isChangeFloor = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½
+    private bool isGameOver = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public FloorManager floorManager;
     public Player player;
@@ -39,13 +46,24 @@ public class MonsterManager : MonoBehaviour
     {
         get { return totalMonsterCount; }
     }
+    public static MonsterManager Instance
+    {
+        get { return instance; }
+    }
 
     private void Start()
     {
         currentFloor = 0;
         MonsterSpawner(currentFloor);
 
-        // °¢ Ãþ¿¡ ´ëÇÑ ½ºÆù À§Ä¡ ¹è¿­À» Dictionary¿¡ Ãß°¡
+        if (instance != null)
+        {
+            Debug.LogError("systemManager error");
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½è¿­ï¿½ï¿½ Dictionaryï¿½ï¿½ ï¿½ß°ï¿½
         floorSpawnPoints[0] = pointsFloor0;
         floorSpawnPoints[1] = pointsFloor1;
         floorSpawnPoints[3] = pointsFloor3;
@@ -125,12 +143,12 @@ public class MonsterManager : MonoBehaviour
         Debug.Log("CreateMonster coroutine started.");
         while (!isGameOver)
         {
-            //ÇöÀç »ý¼ºµÈ ¸ó½ºÅÍ °³¼ö »êÃâ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             int monsterCount = (int)GameObject.FindGameObjectsWithTag("Monster").Length;
 
             if (monsterCount < totalMonsterCount)
             {
-                //¸ó½ºÅÍÀÇ »ý¼º ÁÖ±â ½Ã°£¸¸Å­ ´ë±â
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
                 yield return new WaitForSeconds(spwanTime);
 
                 int idx = Random.Range(1, points.Length);
