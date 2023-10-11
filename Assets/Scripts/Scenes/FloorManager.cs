@@ -86,7 +86,7 @@ public class FloorManager : MonoBehaviour
     }
 
     // 현재 플레이어의 층 위치를 가져옵니다.
-    int GetCurrentPlayerFloor()
+    public int GetCurrentPlayerFloor()
     {
         return currentPlayerFloor;
     }

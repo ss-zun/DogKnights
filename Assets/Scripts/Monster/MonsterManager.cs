@@ -17,15 +17,30 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     GameObject boss;
 
-    [SerializeField]
-    public Transform[] points; //¸ó½ºÅÍ ½ºÆù À§Ä¡¸¦ ´ãÀ» ¹è¿­
-    [SerializeField]
-    private float createTime; //¸ó½ºÅÍ ½ºÆù ÁÖ±â
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
+    public Transform[] pointsFloor0;
+    public Transform[] pointsFloor1;
+    public Transform[] pointsFloor3;
+    public Transform[] pointsFloor5;
+    public Transform[] pointsFloor6;
+    public Transform[] pointsFloor8;
+    public Transform[] pointsFloor10;
 
-    private int totalMonsterCount;
+    // Dictionaryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    Dictionary<int, Transform[]> floorSpawnPoints = new Dictionary<int, Transform[]>();
 
-    private int currentFloor; // ÇöÀç ¸î ÃþÀÎÁö
-    private bool isGameOver = false; // °ÔÀÓÁ¾·á ¿©ºÎ
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+    [SerializeField]
+    private float spwanTime = 0.1f;
+
+    private int totalMonsterCount; // ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½
+
+    private int currentFloor; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private bool isChangeFloor = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½
+    private bool isGameOver = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+    public FloorManager floorManager;
+    public Player player;
 
     public int TotalMonsterCount
     {
@@ -36,7 +51,7 @@ public class MonsterManager : MonoBehaviour
         get { return instance; }
     }
 
-    private void Awake()
+    private void Start()
     {
         currentFloor = 0;
         MonsterSpawner(currentFloor);
@@ -48,61 +63,93 @@ public class MonsterManager : MonoBehaviour
             return;
         }
         instance = this;
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½è¿­ï¿½ï¿½ Dictionaryï¿½ï¿½ ï¿½ß°ï¿½
+        floorSpawnPoints[0] = pointsFloor0;
+        floorSpawnPoints[1] = pointsFloor1;
+        floorSpawnPoints[3] = pointsFloor3;
+        floorSpawnPoints[5] = pointsFloor5;
+        floorSpawnPoints[6] = pointsFloor6;
+        floorSpawnPoints[8] = pointsFloor8;
+        floorSpawnPoints[10] = pointsFloor10;
     }
     private void Update()
     {
-        //isGameOver = GameManager.Instance.Player.isDead;
-        if (currentFloor != getFloorState())
+        isGameOver = player.isDead;
+        int newFloor = floorManager.GetCurrentPlayerFloor();
+        if (currentFloor != newFloor)
+        {
+            currentFloor = newFloor;
+            isChangeFloor = true;
+        }
+        if (isChangeFloor)
+        {
             MonsterSpawner(currentFloor);
-    }
-
-    private int getFloorState()
-    {
-        return 0;
+            isChangeFloor = false;
+        }
+        if (isGameOver)
+        {
+            StopAllCoroutines();
+        }
     }
 
     void MonsterSpawner(int floor)
     {
-        GameObject[] monsterPrefab;
-        switch (floor)
+        int totalMonsterCount = 0;
+        GameObject[] monsterPrefabs = null;
+
+        if (floorSpawnPoints.TryGetValue(floor, out Transform[] spawnPoints))
         {
-            case 0:
-                totalMonsterCount = 1;
-                monsterPrefab = new GameObject[1];
-                monsterPrefab[0] = totem;
-                CreateMonster(monsterPrefab, totalMonsterCount);
-                break;
-            case 1:
-                totalMonsterCount = 6;
-                monsterPrefab = new GameObject[2];
-                monsterPrefab[0] = slime;
-                monsterPrefab[1] = turtleShell;
-                CreateMonster(monsterPrefab, totalMonsterCount);
-                break;
-            case 3:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 8:
-                break;
-            case 10:
-                break;
+            switch (floor)
+            {
+                case 0:
+                    totalMonsterCount = 1;
+                    monsterPrefabs = new GameObject[] { totem };
+                    break;
+                case 1:
+                    totalMonsterCount = 4;
+                    monsterPrefabs = new GameObject[] { slime };
+                    break;
+                case 3:
+                    totalMonsterCount = 9;
+                    monsterPrefabs = new GameObject[] { slime, golem, turtleShell };
+                    break;
+                case 5:
+                    totalMonsterCount = 1;
+                    monsterPrefabs = new GameObject[] { boss };
+                    break;
+                case 6:
+                    totalMonsterCount = 3;
+                    monsterPrefabs = new GameObject[] { golem };
+                    break;
+                case 8:
+                    totalMonsterCount = 8;
+                    monsterPrefabs = new GameObject[] { golem, turtleShell };
+                    break;
+                case 10:
+                    totalMonsterCount = 1;
+                    monsterPrefabs = new GameObject[] { boss };
+                    break;
+            }
+
+            if (monsterPrefabs != null && spawnPoints != null)
+            {
+                StartCoroutine(CreateMonster(monsterPrefabs, totalMonsterCount, spawnPoints));
+            }
         }
     }
 
-    IEnumerator CreateMonster(GameObject[] monsterPrefab, int totalMonsterCount)
+    IEnumerator CreateMonster(GameObject[] monsterPrefab, int totalMonsterCount, Transform[] points)
     {
+        Debug.Log("CreateMonster coroutine started.");
         while (!isGameOver)
         {
-            //ÇöÀç »ý¼ºµÈ ¸ó½ºÅÍ °³¼ö »êÃâ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             int monsterCount = (int)GameObject.FindGameObjectsWithTag("Monster").Length;
 
             if (monsterCount < totalMonsterCount)
             {
-                //¸ó½ºÅÍÀÇ »ý¼º ÁÖ±â ½Ã°£¸¸Å­ ´ë±â
-                yield return new WaitForSeconds(createTime);
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+                yield return new WaitForSeconds(spwanTime);
 
                 int idx = Random.Range(1, points.Length);
                 int monster = Random.Range(0, monsterPrefab.Length);
