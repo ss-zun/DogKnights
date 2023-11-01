@@ -84,6 +84,7 @@ public class MonsterManager : MonoBehaviour
     {
         isGameOver = player.isDead;
         int newFloor = floorManager.GetCurrentPlayerFloor();
+        Debug.Log("ÇöÀç Ãþ : " + newFloor);
         if (currentFloor != newFloor)
         {
             currentFloor = newFloor;
