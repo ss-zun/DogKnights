@@ -219,8 +219,10 @@ public class Monster : MonoBehaviour
         {
             mat.material.color = Color.gray;
             gameObject.layer = 9; //MonsterDead
-            isDead = true; 
+            isDead = true;
             isChase = false; //사망했으니 추적중단
+
+            MonsterManager.Instance.MonsterKilled();
 
             anim.SetTrigger("doDie");
 
