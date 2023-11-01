@@ -17,7 +17,6 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     private GameObject boss;
 
-    //���� ���� ��ġ�� ���� �迭
     public Transform[] pointsFloor0;
     public Transform[] pointsFloor1;
     public Transform[] pointsFloor3;
@@ -26,18 +25,16 @@ public class MonsterManager : MonoBehaviour
     public Transform[] pointsFloor8;
     public Transform[] pointsFloor10;
 
-    // Dictionary�� ����Ͽ� ������ ���� ��ġ�� ����
     Dictionary<int, Transform[]> floorSpawnPoints = new Dictionary<int, Transform[]>();
 
-    //���� ���� �ֱ�
     [SerializeField]
-    private float spwanTime = 0.1f;
+    private float spwanTime = 5.0f;
 
-    private int totalMonsterCount; // �����ִ� �� ���ͼ�
+    private int totalMonsterCount;
 
-    private int currentFloor; // ���� �� ������
-    private bool isChangeFloor = false; // ���� ���� �ٲ�����
-    private bool isGameOver = false; // �������� ����
+    private int currentFloor;
+    private bool isChangeFloor = false;
+    private bool isGameOver = false;
 
     public FloorManager floorManager;
     public Player player;
@@ -49,6 +46,10 @@ public class MonsterManager : MonoBehaviour
     public static MonsterManager Instance
     {
         get { return instance; }
+    }
+    public void MonsterKilled()
+    {
+        totalMonsterCount -= 1;
     }
 
     private void Awake()
@@ -65,10 +66,6 @@ public class MonsterManager : MonoBehaviour
 
     private void Start()
     {
-        currentFloor = 0;
-        MonsterSpawner(currentFloor);
-
-        // �� ���� ���� ���� ��ġ �迭�� Dictionary�� �߰�
         floorSpawnPoints[0] = pointsFloor0;
         floorSpawnPoints[1] = pointsFloor1;
         floorSpawnPoints[3] = pointsFloor3;
@@ -76,6 +73,9 @@ public class MonsterManager : MonoBehaviour
         floorSpawnPoints[6] = pointsFloor6;
         floorSpawnPoints[8] = pointsFloor8;
         floorSpawnPoints[10] = pointsFloor10;
+
+        currentFloor = 0;
+        MonsterSpawner(currentFloor);
     }
     private void Update()
     {
@@ -99,11 +99,11 @@ public class MonsterManager : MonoBehaviour
 
     void MonsterSpawner(int floor)
     {
-        int totalMonsterCount = 0;
         GameObject[] monsterPrefabs = null;
 
         if (floorSpawnPoints.TryGetValue(floor, out Transform[] spawnPoints))
         {
+            Debug.Log("MonsterSpawner called for floor: " + floor);
             switch (floor)
             {
                 case 0:
@@ -145,25 +145,24 @@ public class MonsterManager : MonoBehaviour
 
     IEnumerator CreateMonster(GameObject[] monsterPrefab, int totalMonsterCount, Transform[] points)
     {
-        Debug.Log("CreateMonster coroutine started.");
         while (!isGameOver)
         {
-            //���� ������ ���� ���� ����
             int monsterCount = (int)GameObject.FindGameObjectsWithTag("Monster").Length;
-
+            
             if (monsterCount < totalMonsterCount)
             {
-                //������ ���� �ֱ� �ð���ŭ ���
                 yield return new WaitForSeconds(spwanTime);
 
-                int idx = Random.Range(1, points.Length);
+                int idx = Random.Range(0, points.Length);
                 int monster = Random.Range(0, monsterPrefab.Length);
                 Instantiate(monsterPrefab[monster], points[idx].position, points[idx].rotation);
+                Debug.Log("monsterName " + monsterPrefab[monster].name);
             }
             else
             {
                 yield return null;
             }
+            // Debug.Log("monsterCount " + monsterCount);        
         }
     }
 }

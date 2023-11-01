@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133532, guid: 9c0ea3a5b62361148a8ae810479a137b, type: 3}
       propertyPath: m_TagString
-      value: Monster
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 135182, guid: 9c0ea3a5b62361148a8ae810479a137b, type: 3}
       propertyPath: m_Layer
