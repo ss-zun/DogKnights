@@ -20,7 +20,7 @@ public class Totem : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sword")
+        if (other.tag == "Sword" && this.gameObject.layer == 8)
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -42,7 +42,11 @@ public class Totem : MonoBehaviour
         }
         else //»ç¸Á
         {
-            mat.material.color = Color.gray;  
+            mat.material.color = Color.gray;
+            gameObject.layer = LayerMask.NameToLayer("MonsterDead");
+
+            MonsterManager.Instance.MonsterKilled();
+
             Destroy(gameObject, 2);
 
         }

@@ -188,7 +188,7 @@ public class Monster : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sword" && isInvincible == false)
+        if (other.tag == "Sword" && isInvincible == false && this.gameObject.layer == 8)
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -220,11 +220,12 @@ public class Monster : MonoBehaviour
         else //사망
         {
             mat.material.color = Color.gray;
-            gameObject.layer = 9; //MonsterDead
-            isDead = true;
-            isChase = false; //사망했으니 추적중단
+            gameObject.layer = LayerMask.NameToLayer("MonsterDead");
 
             MonsterManager.Instance.MonsterKilled();
+            
+            isDead = true;
+            isChase = false; //사망했으니 추적중단
 
             anim.SetTrigger("doDie");
 

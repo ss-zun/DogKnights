@@ -49,7 +49,8 @@ public class MonsterManager : MonoBehaviour
     }
     public void MonsterKilled()
     {
-        totalMonsterCount -= 1;
+        totalMonsterCount--;
+        Debug.Log("Monster Killed! Remaining: " + totalMonsterCount);
     }
 
     private void Awake()
@@ -57,11 +58,12 @@ public class MonsterManager : MonoBehaviour
 
         if (instance != null)
         {
-            Debug.LogError("systemManager error");
+            Debug.LogError("Another instance of MonsterManager exists!");
             Destroy(gameObject);
             return;
         }
         instance = this;
+        totalMonsterCount = 0;
     }
 
     private void Start()
@@ -96,6 +98,7 @@ public class MonsterManager : MonoBehaviour
         {
             StopAllCoroutines();
         }
+        //Debug.Log("현재 남은 몬스터 수 : " + totalMonsterCount);
     }
 
     void MonsterSpawner(int floor)
@@ -146,11 +149,11 @@ public class MonsterManager : MonoBehaviour
 
     IEnumerator CreateMonster(GameObject[] monsterPrefab, int totalMonsterCount, Transform[] points)
     {
-        while (!isGameOver)
+        while (!isGameOver && this.totalMonsterCount > 0)
         {
             int monsterCount = (int)GameObject.FindGameObjectsWithTag("Monster").Length;
-            
-            if (monsterCount < totalMonsterCount)
+
+            if (monsterCount < this.totalMonsterCount)
             {
                 yield return new WaitForSeconds(spwanTime);
 
@@ -163,7 +166,6 @@ public class MonsterManager : MonoBehaviour
             {
                 yield return null;
             }
-            // Debug.Log("monsterCount " + monsterCount);        
         }
     }
 }
