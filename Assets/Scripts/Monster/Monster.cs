@@ -17,9 +17,9 @@ public class Monster : MonoBehaviour
     protected BoxCollider attackArea; //공격범위
     [SerializeField]
     private GameObject rock;
-    [SerializeField]
-    private Transform target; //추적타겟
 
+
+    protected Transform target; //추적타겟
 
     protected bool isChase;  //추적중인가
     protected bool isAttack; //공격중인가
@@ -45,8 +45,10 @@ public class Monster : MonoBehaviour
         mat = GetComponentInChildren<SkinnedMeshRenderer>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // 플레이어의 위치 받아오기
+        Debug.Log(target.name);
 
-        if(monsterType != Type.Boss)
+        if (monsterType != Type.Boss)
             Invoke("ChaseStart", 2); //2초 뒤 실행
     }
 

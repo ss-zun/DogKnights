@@ -75,7 +75,8 @@ public class MonsterManager : MonoBehaviour
         floorSpawnPoints[10] = pointsFloor10;
 
         currentFloor = 0;
-        MonsterSpawner(currentFloor);
+        //MonsterSpawner(currentFloor);
+        MonsterSpawner(3);
     }
     private void Update()
     {
