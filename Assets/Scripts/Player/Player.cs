@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     public bool isAttacking = false; //공격상태인지
     private bool isCharging = false; //에너지를 모으는 중 인지 
     private bool isDefense = false; //방어상태인지
-    private bool isPower = false; //필살기 사용 중인지
+    public bool isPower = false; //필살기 사용 중인지
     private bool isDash = false; //대시 중인지
     private bool isDashable = true; //대시 할 수 있는지
     public bool isJumping = true;       //공중에 떠 있는지
@@ -77,6 +77,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float dashCoolTime = 2.0f; // 대시 스킬을 쓸 수 있는 쿨타임
     private float curDashTime = 0f;
+    private float maxCharge = 30f; //에너지를 30만큼 소모하면 생명을 하나 얻는다.
+    private float curCharge = 0f;
 
     Renderer playerColor;//플레이어 material 색상이 붉게 깜빡거리도록 함
 
@@ -127,9 +129,7 @@ public class Player : MonoBehaviour
         {
             moneyText.text = money.ToString();
         }
-
-        //isJumping = false;
-        //Move();
+         
         Attack();
         Charge();
         Restart();
@@ -142,28 +142,10 @@ public class Player : MonoBehaviour
         }
     }
 
-   void FixedUpdate(){   // 점프 후 착지에서 땅에 닿을 때 raycast로 땅을 뚫지 않도록 조정
-                         //if(yVelocity < 0){
-                         //    Debug.DrawRay(playerRigidbody.position, Vector3.down, new Color(0, 1, 0));
-                         //    RaycastHit2D rayHit = Physics2D.Raycast(playerRigidbody.position, Vector3.down, 1, LayerMask.GetMask("Floor"));
-                         //    Debug.Log(rayHit);
-                         //    if(rayHit.collider != null){
-                         //        if (rayHit.distance < 0.5f){
-                         //            isJumping = false;
-                         //        }
+   void FixedUpdate(){   
 
-        //    if(rayHit.collider.transform.position.y - transform.position.y < yVelocity){
-        //        yVelocity = rayHit.collider.transform.position.y - transform.position.y;  
-        //        // 떨어지는 이동 변위가 지면까지의 거리보다 크다면 지면을 뚫고 들어갈 수 있으므로 이보다 작게 설정해준다.
-        //    }
-        //    }
-        //    else{
-        //        Debug.Log("rayHit is null");
-        //    }
-
-        //}
         Move();
-        Jump();
+        //Jump();
     }
  
 
@@ -328,7 +310,7 @@ public class Player : MonoBehaviour
 
     }
 
-    protected void Jump()
+    public void Jump()
     {
         // yVelocity += gravity*Time.deltaTime;
         //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
@@ -337,10 +319,21 @@ public class Player : MonoBehaviour
         //    isJumping = true;
         //    // transform.forward*
 
-
         //}
     }
+    public void tJump()
+    {
+        // yVelocity += gravity*Time.deltaTime;
+        //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
+        //{
+        //    playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //    isJumping = true;
+        //    // transform.forward*
 
+        yVelocity = jumpForce * Time.deltaTime * 0.25f;
+        isJumping = true;
+        //}
+    }
     void OnTriggerEnter(Collider other){
         if (other.tag == "MonsterAttack" && anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")) //적과 충돌했을 때의 상태가 공격중인 경우(적한테 맞은게 아니라 플레이어가 때린 것)
         {   
@@ -480,6 +473,41 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Charging()
+    {
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            curCharge = 0f;  // 쉬프트 키를 떼면 에너지를 소모하던 정도가 초기화 된다. 끝까지 떼지않고 30을 소모해야지만 생명 회복
+        }
+        if (Input.GetKey(KeyCode.LeftShift)&&curEnergy>0f)
+        {
+            chargeEffect.transform.localPosition = new Vector3(transform.position.x, transform.position.y - 0.35f, transform.position.z);
+
+            if (isCharging == false)
+            {
+                isCharging = true;
+                chargeEffect.SetActive(true);
+            }
+            if (curEnergy <=0)
+            {
+                curEnergy = 0;
+                Debug.Log("Player : 하트 획득 : " + addHeart(1));
+                GameObject healEffect = GenerateEffect(3, transform.position);
+                Destroy(healEffect, 0.2f);
+                return;
+            }
+            curEnergy -= Time.deltaTime * (maxEnergy / chargeTime);    // 2초동안 100만큼 소모하는 속도
+            curCharge += Time.deltaTime * (maxEnergy / chargeTime);   
+
+            Debug.Log("에너지 소모... " + curEnergy);
+        }
+        else if (chargeEffect != null)
+        {
+            isCharging = false;
+            chargeEffect.SetActive(false);
+        }
+    }
+
 
 
     public void Invincible(){//피격 시 일정 시간 동안 무적상태 유지
@@ -523,12 +551,14 @@ public class Player : MonoBehaviour
     }
 
     public void PowerAttack(){
-        if (Input.GetKey(KeyCode.C) && isPower == false){
+        if (Input.GetKey(KeyCode.C) && isPower == false && curEnergy>= 70){
             isPower = true;
             anim.SetTrigger("PowerAttack");
-
+            curEnergy -= 70;
         }
         if (isPower){
+            swordObject.GetComponent<Sword>().damage = 20f;
+            swordObject.GetComponent<BoxCollider>().size = new Vector3(5f, 5f, 5f);
             attackTime += Time.deltaTime;
             if(attackTime>=0.8f && attackTime<=0.8f+Time.deltaTime){
                 GameObject hit = GenerateEffect(9, transform.position);
@@ -547,7 +577,12 @@ public class Player : MonoBehaviour
                 isPower = false;
                 attackTime = 0f;
             }
-
+              
+        }
+        else
+        {
+            swordObject.GetComponent<Sword>().damage = 10f;
+            swordObject.GetComponent<BoxCollider>().size = new Vector3(0.51f, 2.37f, 0.19f);
         }
     }
 

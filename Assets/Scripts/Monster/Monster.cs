@@ -233,7 +233,7 @@ public class Monster : MonoBehaviour
             
             if (monsterType != Type.Boss)
                 Destroy(gameObject, 4); //4초 뒤 죽음
-            
+            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전 
         }
     }
 }
