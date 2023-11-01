@@ -34,8 +34,9 @@ public class MonsterAttack : MonoBehaviour
             Vector3 reactVec = other.gameObject.transform.position - transform.position;
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;
-            other.gameObject.GetComponentInParent<Rigidbody>().AddForce(reactVec * 5, ForceMode.Impulse);
-
+            //other.gameObject.GetComponentInParent<Rigidbody>().AddForce(reactVec * 5, ForceMode.Impulse);
+            other.gameObject.GetComponentInParent<Player>().tJump();
+            Debug.LogWarning("Damaged");
         }
     }
 
