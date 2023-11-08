@@ -19,9 +19,11 @@ public class MonsterManager : MonoBehaviour
 
     public Transform[] pointsFloor0;
     public Transform[] pointsFloor1;
+    public Transform[] pointsFloor2;
     public Transform[] pointsFloor3;
     public Transform[] pointsFloor5;
     public Transform[] pointsFloor6;
+    public Transform[] pointsFloor7;
     public Transform[] pointsFloor8;
     public Transform[] pointsFloor10;
 
@@ -70,9 +72,11 @@ public class MonsterManager : MonoBehaviour
     {
         floorSpawnPoints[0] = pointsFloor0;
         floorSpawnPoints[1] = pointsFloor1;
+        floorSpawnPoints[2] = pointsFloor2;
         floorSpawnPoints[3] = pointsFloor3;
         floorSpawnPoints[5] = pointsFloor5;
         floorSpawnPoints[6] = pointsFloor6;
+        floorSpawnPoints[7] = pointsFloor7;
         floorSpawnPoints[8] = pointsFloor8;
         floorSpawnPoints[10] = pointsFloor10;
 
@@ -84,7 +88,7 @@ public class MonsterManager : MonoBehaviour
     {
         isGameOver = player.isDead;
         int newFloor = floorManager.GetCurrentPlayerFloor();
-        Debug.Log("ÇöÀç Ãþ : " + newFloor);
+
         if (currentFloor != newFloor)
         {
             currentFloor = newFloor;
@@ -119,6 +123,10 @@ public class MonsterManager : MonoBehaviour
                     totalMonsterCount = 4;
                     monsterPrefabs = new GameObject[] { slime };
                     break;
+                case 2:
+                    totalMonsterCount = 14;
+                    monsterPrefabs = new GameObject[] { slime, turtleShell };
+                    break;
                 case 3:
                     totalMonsterCount = 9;
                     monsterPrefabs = new GameObject[] { slime, golem, turtleShell };
@@ -131,9 +139,13 @@ public class MonsterManager : MonoBehaviour
                     totalMonsterCount = 3;
                     monsterPrefabs = new GameObject[] { golem };
                     break;
+                case 7:
+                    totalMonsterCount = 12;
+                    monsterPrefabs = new GameObject[] { golem, turtleShell };
+                    break;
                 case 8:
                     totalMonsterCount = 8;
-                    monsterPrefabs = new GameObject[] { golem, turtleShell };
+                    monsterPrefabs = new GameObject[] { slime, golem, turtleShell };
                     break;
                 case 10:
                     totalMonsterCount = 1;
