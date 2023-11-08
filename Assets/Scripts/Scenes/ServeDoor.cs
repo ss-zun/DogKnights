@@ -18,6 +18,9 @@ public class ServeDoor : MonoBehaviour
     // 문 회전 방향
     public bool b_is_clockwise = true;
 
+    // 박스 콜라이더에 도달했을 때, 문이 열리도록 하는 설정
+    public bool b_is_opened_door_when_overlap_collision = false;
+
     // ===== private =====
 
     // 문 피벗 정보.
@@ -58,7 +61,6 @@ public class ServeDoor : MonoBehaviour
         // transform.eulerAngles.y 값은 읽기만 가능하고 쓰기는 불가능함.
         door_rotation_y = door.transform.localEulerAngles.y;
 
-        DoorOperate();
     }
 
     // Update is called once per frame
@@ -121,5 +123,17 @@ public class ServeDoor : MonoBehaviour
     public void DoorOperate()
     {
         b_is_door_opened = true;
+    }
+
+    /// <summary>
+    /// 컬리전에 도달했을 때, 문이 자동으로 열림
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (b_is_opened_door_when_overlap_collision && collision.gameObject.CompareTag("Player"))
+        {
+            DoorOperate();
+        }
     }
 }

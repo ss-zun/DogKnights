@@ -75,6 +75,7 @@ public class FloorManager : MonoBehaviour
         }
 
         // 플레이어 다음 위치로 이동
+        SetCurrentPlayerFloor(nextStageNum);
         player.transform.position = targetPlayers[nextStageNum].transform.position;
         player.transform.rotation = targetPlayers[nextStageNum].transform.rotation;
     }

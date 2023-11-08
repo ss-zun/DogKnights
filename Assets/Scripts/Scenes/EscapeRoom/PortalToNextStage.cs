@@ -5,6 +5,13 @@ using UnityEngine;
 public class PortalToNextStage : MonoBehaviour
 {
 
+    // ===== public =====
+    // 현재 스테이지
+    public int current_stage = 0;
+
+    // 다음 스테이지
+    public int next_stage = 0;
+
     // ===== private =====
     // 포탈이 활성화됐는지의 여부
     bool bIsPortalOn = false;
@@ -38,6 +45,7 @@ public class PortalToNextStage : MonoBehaviour
         if(collision.gameObject.CompareTag("Player") && bIsPortalOn)
         {
             // 다음 스테이지로 이동.
+            FindObjectOfType<FloorManager>().NextStage(collision.gameObject, current_stage, next_stage);
             // Debug.Log("True");
         }
     }
