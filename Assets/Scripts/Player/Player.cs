@@ -158,7 +158,8 @@ public class Player : MonoBehaviour
         attackEffect = GenerateEffect(0, transform.position);
         attackEffect.SetActive(false);
         attackEffect.transform.SetParent(root.transform);
-        attackEffect.transform.position = Vector3.zero;
+        //attackEffect.transform.position = Vector3.zero;
+        attackEffect.transform.position = transform.position;
         attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
     }
@@ -238,11 +239,10 @@ public class Player : MonoBehaviour
             //    yVelocity = -1f*jumpForce*Time.deltaTime;  
             //    isJumping = true;
             //}
-            yVelocity = jumpForce * Time.deltaTime;
-            isJumping = true; 
+            Jump(jumpForce);
         }
 
-        if(isDash == false && isJumping )
+        if (isDash == false && isJumping )
         {
             //curJumpTIme += Time.deltaTime;
             yVelocity += gravity * Time.deltaTime;
@@ -310,16 +310,11 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Jump()
+    public void Jump(float Force)
     {
-        // yVelocity += gravity*Time.deltaTime;
-        //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
-        //{
-        //    playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //    isJumping = true;
-        //    // transform.forward*
 
-        //}
+        yVelocity = Force * Time.deltaTime;
+        isJumping = true;
     }
     public void tJump()
     {
@@ -330,7 +325,7 @@ public class Player : MonoBehaviour
         //    isJumping = true;
         //    // transform.forward*
 
-        yVelocity = jumpForce * Time.deltaTime * 0.25f;
+        yVelocity = jumpForce * Time.deltaTime * 0.1f;
         isJumping = true;
         //}
     }
@@ -402,6 +397,11 @@ public class Player : MonoBehaviour
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
+            Debug.Log("Player : Floor collision");
+        }
+        if (other.collider.CompareTag("Stare"))
+        {       //바닥과 충돌 : 착지
+            Jump(jumpForce / 10.0f);
             Debug.Log("Player : Floor collision");
         }
         //else
