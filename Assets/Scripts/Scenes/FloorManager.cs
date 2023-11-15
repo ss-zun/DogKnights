@@ -14,6 +14,11 @@ public class FloorManager : MonoBehaviour
     [Tooltip("플레이어가 해당 층으로 이동할 위치입니다.")]
     public GameObject[] targetPlayers;
 
+    [Tooltip("다음 스테이지를 가기 전, 실행해야할 객체입니다.")]
+    [SerializeField]
+    private NextStageDoor[] nextDoorOperaters;
+     
+
     public static FloorManager Instance
     {
         get { return instance; }
@@ -90,5 +95,11 @@ public class FloorManager : MonoBehaviour
     public int GetCurrentPlayerFloor()
     {
         return currentPlayerFloor;
+    }
+
+    // 다음 스테이지로 이동할 수 있는 준비 과정을 실행합니다.
+    void NextStageDoorOpened()
+    {
+        nextDoorOperaters[currentPlayerFloor].PrepareNextStageDoorOpened();
     }
 }
