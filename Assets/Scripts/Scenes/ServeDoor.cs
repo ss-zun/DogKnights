@@ -131,8 +131,10 @@ public class ServeDoor : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Serve Moon Collision!");
         if (b_is_opened_door_when_overlap_collision && collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Serve Moon is opened");
             DoorOperate();
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainDoor : MonoBehaviour
+public class MainDoor : NextStageDoor
 {
 
     // ===== public =====
@@ -145,9 +145,17 @@ public class MainDoor : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Main Moon Collision!");
         if (collision.gameObject.CompareTag("Player"))
         {
             FindObjectOfType<FloorManager>().NextStage(collision.gameObject, current_stage, next_stage);
         }
+    }
+
+    // 문 여는 과정을 실행
+    public override void PrepareNextStageDoorOpened()
+    {
+        base.PrepareNextStageDoorOpened();
+        DoorOperate(true);
     }
 }
