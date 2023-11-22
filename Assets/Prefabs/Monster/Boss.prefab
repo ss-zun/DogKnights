@@ -101,12 +101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65929ce3f3b42594496355a587eb234d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 3
+  monsterType: 4
   maxHealth: 300
   curHealth: 300
   attackArea: {fileID: 642201969199743128}
   rock: {fileID: 0}
-  target: {fileID: 0}
   Fire: {fileID: 2125964075333669119, guid: d183b29128f27274e8c982233aa4571b, type: 3}
   FirePort: {fileID: 642201969537241769}
   FlyFirePort: {fileID: 642201968558992001}

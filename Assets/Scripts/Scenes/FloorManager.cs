@@ -98,7 +98,7 @@ public class FloorManager : MonoBehaviour
     }
 
     // 다음 스테이지로 이동할 수 있는 준비 과정을 실행합니다.
-    void NextStageDoorOpened()
+    public void NextStageDoorOpened()
     {
         nextDoorOperaters[currentPlayerFloor].PrepareNextStageDoorOpened();
     }
