@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Monster : MonoBehaviour
 {
     [SerializeField]
-    protected enum Type { Melee, Charge, Ranged, Boss };
+    protected enum Type { Melee, Charge, Ranged, MiddleBoss, Boss };
     [SerializeField]
     protected Type monsterType;
     [SerializeField]
@@ -48,7 +48,7 @@ public class Monster : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // 플레이어의 위치 받아오기
         Debug.Log(target.name);
 
-        if (monsterType != Type.Boss)
+        if (monsterType != Type.Boss || monsterType != Type.MiddleBoss)
             Invoke("ChaseStart", 2); //2초 뒤 실행
     }
 
@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         //네비게이션 활성화되어 있을때만 추적
-        if (nav.enabled && monsterType != Type.Boss)
+        if (nav.enabled && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
         {
             nav.SetDestination(target.position);
             nav.isStopped = !isChase; //멈추기
@@ -84,7 +84,7 @@ public class Monster : MonoBehaviour
 
     void Targeting()
     {
-        if (!isDead && monsterType != Type.Boss)
+        if (!isDead && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
         {
             switch (monsterType)
             {
