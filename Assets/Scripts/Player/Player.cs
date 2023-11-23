@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     public Rigidbody playerRigidbody;
     [SerializeField]
-    public float jumpForce = 30;
+    public float jumpForce = 1.0f;
     [SerializeField]
     public float attackPower = 10f;
     [SerializeField]
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
-    private float runSpeed = 0.1f;
+    private float runSpeed = 10f;
     [SerializeField]
     private float dashSpeed = 0.5f;
     [SerializeField]
@@ -142,10 +142,11 @@ public class Player : MonoBehaviour
         }
     }
 
-   void FixedUpdate(){   
+   void FixedUpdate(){
 
-        Move();
-        //Jump();
+        //Move();
+        RigidMove();
+        Jump(jumpForce);
     }
  
 
@@ -273,6 +274,23 @@ public class Player : MonoBehaviour
 
     }
 
+    protected void RigidMove()
+    {        
+        //yVelocity = 0f;
+        curDashTime += Time.deltaTime;
+        float moveSpeed = runSpeed;
+        float xInput = Input.GetAxis("Horizontal");
+        float zInput;
+        if (isMapPuzzle) zInput = Input.GetAxis("Vertical");
+        else zInput = 0;
+        if (isDead || isCharging || isDefense || isAttacking)
+        {  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
+            return;
+        }
+        Vector3 getVel = new Vector3(xInput, 0, zInput) * runSpeed;
+        playerRigidbody.velocity = getVel;
+    }
+
     protected void Attack(){
         //int effectCount = 0;
         if(Input.GetKeyDown(KeyCode.Z)){
@@ -312,9 +330,13 @@ public class Player : MonoBehaviour
 
     public void Jump(float Force)
     {
+        if (Input.GetKey(KeyCode.LeftControl)&&isJumping==false)
+        {
+            playerRigidbody.AddForce(Vector3.up * Force, ForceMode.Impulse);
+        }
 
-        yVelocity = Force * Time.deltaTime;
-        isJumping = true;
+        //yVelocity = Force * Time.deltaTime;
+        //isJumping = true;
     }
     public void tJump()
     {
