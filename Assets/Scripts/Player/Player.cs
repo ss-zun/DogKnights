@@ -333,6 +333,9 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl)&&isJumping==false)
         {
             playerRigidbody.AddForce(Vector3.up * Force, ForceMode.Impulse);
+
+            //Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(jumpHeight * -gravity);
+            //playerRigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
         }
 
         //yVelocity = Force * Time.deltaTime;
