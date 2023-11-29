@@ -18,7 +18,6 @@ public class Monster : MonoBehaviour
     [SerializeField]
     private GameObject rock;
 
-
     protected Transform target; //추적타겟
 
     protected bool isChase;  //추적중인가

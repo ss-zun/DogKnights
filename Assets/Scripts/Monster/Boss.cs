@@ -11,6 +11,7 @@ public class Boss : Monster
     [SerializeField]
     private Transform FlyFirePort;
 
+    int currentPhase = 1; // 보스 초기 페이즈
 
     void Awake()
     {
@@ -28,6 +29,16 @@ public class Boss : Monster
         if (isDead)
         {
             StopAllCoroutines();
+        }
+        if (curHealth <= 200 && currentPhase == 1)
+        {
+            currentPhase = 2;
+            StartCoroutine(FlyFlameAttack());
+        }
+        else if (curHealth <= 100 && currentPhase == 2)
+        {
+            currentPhase = 3;
+            StartCoroutine(FlyFlameAttack());
         }
     }
 
@@ -126,7 +137,7 @@ public class Boss : Monster
         isInvincible = true;
         anim.SetTrigger("doFlyFlameAttack");
         yield return new WaitForSeconds(4.2f);
-        GameObject instantFire = Instantiate(Fire, FlyFirePort.position, FlyFirePort.rotation);;
+        GameObject instantFire = Instantiate(Fire, FlyFirePort.position, FlyFirePort.rotation);
         yield return new WaitForSeconds(1.8f);
         Destroy(instantFire);
         yield return new WaitForSeconds(4.2f);
