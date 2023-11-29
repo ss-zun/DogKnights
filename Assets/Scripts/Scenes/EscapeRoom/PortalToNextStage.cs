@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortalToNextStage : MonoBehaviour
+public class PortalToNextStage : NextStageDoor
 {
 
     // ===== public =====
@@ -47,6 +47,18 @@ public class PortalToNextStage : MonoBehaviour
             // 다음 스테이지로 이동.
             FindObjectOfType<FloorManager>().NextStage(collision.gameObject, current_stage, next_stage);
             // Debug.Log("True");
+            if(current_stage==4)
+            {
+                current_stage = 9;
+                next_stage = 10;
+            }
         }
+    }
+
+    // 포탈 활성화
+    public override void PrepareNextStageDoorOpened()
+    {
+        base.PrepareNextStageDoorOpened();
+        gameObject.SetActive(true);
     }
 }
