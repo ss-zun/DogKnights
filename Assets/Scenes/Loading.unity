@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c774d6cfe3b15439784e77fcebbbbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Game
+  targetSceneName: HUDTest
   progressBar: {fileID: 377946870}
   text: {fileID: 1530470945}
 --- !u!4 &1133140528
