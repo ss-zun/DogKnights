@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     // 에너지 충전에 관한 변수
     public float curEnergy = 0f;     //에너지 량
     private float maxEnergy = 100f;
-    private float chargeTime = 0f;    //충전 시간
+    private float chargeTime = 2f;    //충전 시간
     
     //private float maxTime = 2f;
     float attackTime = 0f;
@@ -111,12 +111,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPause) return;
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause == false)
         {
+            GameManager.isGamePause = true;
             pauseMenu.SetActive(true);
-            isPause = true;
+            
         }
+        else if(Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause)
+        {
+            GameManager.isGamePause = false;
+            pauseMenu.SetActive(false);
+
+        }
+        if (GameManager.isGamePause) return;
         if (hpSlider)
         {
             hpSlider.value = heart;
@@ -133,7 +140,7 @@ public class Player : MonoBehaviour
         }
          
         Attack();
-        Charge();
+        Charging();
         Restart();
         Invincible();
         Defense();
@@ -430,7 +437,6 @@ public class Player : MonoBehaviour
 
 
     }
-
     IEnumerator OnDamage()
     {
     
@@ -513,7 +519,7 @@ public class Player : MonoBehaviour
                 isCharging = true;
                 chargeEffect.SetActive(true);
             }
-            if (curEnergy>=maxEnergy){
+            if (curEnergy>maxEnergy){
                 curEnergy=0;
                 Debug.Log("Player : 하트 획득 : "+addHeart(1));
                 GameObject healEffect = GenerateEffect(3, transform.position);
