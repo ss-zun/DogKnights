@@ -19,8 +19,7 @@ public class Boss : Monster
         boxCollider = GetComponent<BoxCollider>();
         mat = GetComponentInChildren<SkinnedMeshRenderer>();
         anim = GetComponentInChildren<Animator>();
-
-        StartCoroutine(BossPattern());
+        isInvincible = true;
     }
 
 
@@ -31,6 +30,12 @@ public class Boss : Monster
             // 적의 상태가 사망일 때 모든 코루틴 중지
             StopAllCoroutines();
         }
+    }
+
+    public void OnIdle01AnimationEnd()
+    {
+        isInvincible = false;
+        StartCoroutine(BossPattern());
     }
 
     IEnumerator BossPattern()
@@ -90,46 +95,39 @@ public class Boss : Monster
         anim.SetTrigger("doDefend");
         yield return new WaitForSeconds(GetAnimationLength("Defend"));
         isInvincible = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(BossPattern());
     }
     IEnumerator BasicAttack()
     {
-        isAttack = true;
         anim.SetTrigger("doBasicAttack");
         EnabledArea();
         yield return new WaitForSeconds(GetAnimationLength("Basic Attack"));
         attackArea.enabled = false;
-        isAttack = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(BossPattern());
     }
     IEnumerator ClawAttack()
     {
-        isAttack = true;
         anim.SetTrigger("doClawAttack");
         EnabledArea();
         yield return new WaitForSeconds(GetAnimationLength("Claw Attack"));
         attackArea.enabled = false;
-        isAttack = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(BossPattern());
     }
     IEnumerator FlameAttack()
     {
-        isAttack = true;
         anim.SetTrigger("doFlameAttack");
         yield return new WaitForSeconds(0.5f);
         GameObject instantFire = Instantiate(Fire, FirePort.position, FirePort.rotation);
         yield return new WaitForSeconds(GetAnimationLength("Flame Attack"));
         Destroy(instantFire);
-        isAttack = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(BossPattern());
     }
     IEnumerator FlyFlameAttack()
     {
-        isAttack = true;
         isInvincible = true;
         anim.SetTrigger("doFlyFlameAttack");
         yield return new WaitForSeconds(GetAnimationLength("Take Off"));
@@ -139,8 +137,7 @@ public class Boss : Monster
         Destroy(instantFire);
         yield return new WaitForSeconds(GetAnimationLength("Land"));
         isInvincible = false;
-        isAttack = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(BossPattern());
     }
 
@@ -152,7 +149,6 @@ public class Boss : Monster
         {  
             if (clip.name == animationName)
             {
-                Debug.Log($"Clip Name: {clip.name}");
                 return clip.length;
             }
         }
