@@ -35,6 +35,9 @@ public class ExploreTrap : MonoBehaviour
     // 현재 충돌하고 있는 캐릭터 존재 여부
     private bool bIsOverlapped = false;
 
+    // 현재 충돌하고 있는 캐릭터
+    private Player cplayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,39 +59,43 @@ public class ExploreTrap : MonoBehaviour
                 bIsExploring = true;
                 particle.Play();
             }
-
-            if(bIsExploring)
+            // validation time of player's hit
+            if (bIsExploring)
             {
-                // validation time of player's hit
-                if(playTime >= 0.85)
+                if (playTime >= 0.85)
                 {
                     bIsExploring = false;
+                }
+
+                if(bIsOverlapped)
+                {
+                    bIsExploring = false;
+                    Debug.Log("Hit");
+                    // Add hit method about hp reduction.
+                    if (cplayer != null)
+                    {
+                        cplayer.TakeDamage(1);
+                    }
                 }
             }
         }
     }
 
     // Collision Overlapped
-    private void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player"))
         {
             bIsOverlapped = true;
-
-            if(bIsExploring)
-            {
-                bIsExploring = false;
-                Debug.Log("Hit");
-                // Add hit method about hp reduction.
-                other.gameObject.GetComponent<Player>().TakeDamage(1);
-            }
+            //Debug.Log(other.gameObject);
+            cplayer = collision.gameObject.GetComponent<Player>();
         }
     }
 
     // Collision End Overlapped
-    private void OnTriggerExit(Collider other)
+    void OnCollisionExit(Collision collision)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player"))
         {
             bIsOverlapped = false;
         }
