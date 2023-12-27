@@ -93,6 +93,20 @@ public class FloorManager : MonoBehaviour
             }
         }
 
+        // 탈출맵인 경우 플레이어 시점을 상단으로 변경
+        if (nextStageNum == 2 || nextStageNum == 7)
+        {
+            player.GetComponent<Player>().isMapPuzzle = true;
+        }
+        // 탈출맵이 아닌 경우 플레이어 시점을 옆으로 변경
+        else
+        {
+            player.GetComponent<Player>().isMapPuzzle = false;
+        }
+
+        // 플레이어 현재 속도 0으로 설정
+        player.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
+
         // 플레이어 다음 위치로 이동
         SetCurrentPlayerFloor(nextStageNum);
         player.transform.position = targetPlayers[nextStageNum].transform.position;

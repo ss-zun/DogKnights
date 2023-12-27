@@ -1820,17 +1820,23 @@ MonoBehaviour:
   attackPower: 10
   swordObject: {fileID: 7799801188953976134}
   gravity: -9.8
-  runSpeed: 7
+  runSpeed: 50
   dashSpeed: 10
   root: {fileID: 7799801190073789145}
+  isMapPuzzle: 0
+  curFloorNum: 0
   curEnergy: 0
-  maxEnergy: 100
   maxJumpTime: 1
-  heart: 5
-  maxHeart: 5
+  money: 0
   hpSlider: {fileID: 0}
+  energySlider: {fileID: 0}
+  moneyText: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  isDead: 0
   isAttacking: 0
+  isPower: 0
   isJumping: 1
+  isComplete: 0
   dashCoolTime: 2
   effectPrefabs:
   - {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48, type: 3}
