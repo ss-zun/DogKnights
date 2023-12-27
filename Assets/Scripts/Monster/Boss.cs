@@ -32,7 +32,7 @@ public class Boss : Monster
         }
     }
 
-    public void OnIdle01AnimationEnd()
+    public void StartBossPattern()
     {
         isInvincible = false;
         StartCoroutine(BossPattern());

@@ -436,7 +436,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
 
-                Debug.Log("플레이어 현재 하트: " + heart);
+                Debug.Log("플레이어 현재 하트: " + heart); 
                 StartCoroutine(OnDamage());
             }
         }
