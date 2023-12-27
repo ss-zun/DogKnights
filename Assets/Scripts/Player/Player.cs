@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     public bool isMapPuzzle = false;  //퍼즐맵의 경우 좌, 우 뿐 만 아니라 앞, 뒤로도 움직일 수 있도록 한다.
     public int curFloorNum = 0;
 
+
+
     SkinnedMeshRenderer[] meshs;
     bool isDamage = false;
 
@@ -291,6 +293,7 @@ public class Player : MonoBehaviour
         //playerRigidbody.velocity = getVel;
 
         playerRigidbody.AddForce(Vector3.right*xInput*runSpeed);
+        playerRigidbody.AddForce(Vector3.forward * zInput * runSpeed);
 
         if (xInput < 0.0f)
         {
