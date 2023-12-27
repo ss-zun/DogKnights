@@ -11,15 +11,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     public float jumpForce = 1.0f;
     [SerializeField]
-    public float attackPower = 10f;
+    private float attackPower = 10f;
     [SerializeField]
-    public GameObject swordObject;
-    public float gravity;  //중력 가속도
+    private GameObject swordObject;
+    private float gravity;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
     private float runSpeed = 10f;
-    public float maxVelocity = 10f;
+    private float maxVelocity = 10f;
     [SerializeField]
     private float dashSpeed = 0.5f;
     [SerializeField]
@@ -28,6 +28,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     public bool isMapPuzzle = false;  //퍼즐맵의 경우 좌, 우 뿐 만 아니라 앞, 뒤로도 움직일 수 있도록 한다.
     public int curFloorNum = 0;
+
+    [SerializeField]
+    private float knockBackPower = 10f;
 
 
 
@@ -49,8 +52,8 @@ public class Player : MonoBehaviour
     public float maxJumpTime = 0.4f;
     float curJumpTIme = 0f;
 
-    private int heart = 5;     //현재 하트 수
-    private int maxHeart = 5; //최대 하트 수
+    public int heart = 5;     //현재 하트 수
+    public int maxHeart = 5; //최대 하트 수
 
 
 
@@ -389,16 +392,13 @@ public class Player : MonoBehaviour
         //yVelocity = Force * Time.deltaTime;
         //isJumping = true;
     }
-    public void tJump()
+    public void knockBack(Vector3 target)//target: 피격 상대 위치
     {
-        // yVelocity += gravity*Time.deltaTime;
-        //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
-        //{
-        //    playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //    isJumping = true;
-        //    // transform.forward*
-
-        yVelocity = jumpForce * Time.deltaTime * 0.1f;
+        Vector3 backDir = Vector3.Normalize(transform.position - target)* knockBackPower;
+        backDir.y = 0f;
+        backDir += Vector3.up;
+        playerRigidbody.AddForce(backDir * knockBackPower, ForceMode.Impulse);
+        //yVelocity = jumpForce * Time.deltaTime * 0.1f;
         isJumping = true;
         //}
     }
@@ -419,6 +419,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    knockBack(other.transform.position);
                     isInvincible = true;
                     //int damage = 1;
                     TakeDamage(attack.Damage);
@@ -500,7 +501,7 @@ public class Player : MonoBehaviour
 
 
 
-    private void TakeDamage(int damage){
+    public void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
         heart -= damage;
         //Debug.Log(damage);
