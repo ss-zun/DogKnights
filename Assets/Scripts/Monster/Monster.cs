@@ -18,7 +18,6 @@ public class Monster : MonoBehaviour
     [SerializeField]
     private GameObject rock;
 
-
     protected Transform target; //추적타겟
 
     protected bool isChase;  //추적중인가
@@ -188,7 +187,7 @@ public class Monster : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sword" && isInvincible == false && this.gameObject.layer == 8)
+        if (other.tag == "Sword" && isInvincible == false && gameObject.layer == 8)
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -222,8 +221,6 @@ public class Monster : MonoBehaviour
             mat.material.color = Color.gray;
             gameObject.layer = LayerMask.NameToLayer("MonsterDead");
 
-            MonsterManager.Instance.MonsterKilled();
-            
             isDead = true;
             isChase = false; //사망했으니 추적중단
 
@@ -233,7 +230,9 @@ public class Monster : MonoBehaviour
             
             if (monsterType != Type.Boss)
                 Destroy(gameObject, 4); //4초 뒤 죽음
-            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전 
+            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전
+            
+            MonsterManager.Instance.MonsterKilled();
         }
     }
 }
