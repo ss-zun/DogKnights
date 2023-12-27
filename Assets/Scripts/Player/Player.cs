@@ -131,7 +131,7 @@ public class Player : MonoBehaviour
             pauseMenu.SetActive(false);
 
         }
-        if (isMapPuzzle)
+        if (!isMapPuzzle)
         {
             playerRigidbody.constraints = RigidbodyConstraints.FreezePositionZ|RigidbodyConstraints.FreezeRotation;
         }
