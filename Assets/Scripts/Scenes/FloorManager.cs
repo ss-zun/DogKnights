@@ -67,17 +67,45 @@ public class FloorManager : MonoBehaviour
     /// </summary>
     public void NextStage(GameObject player, int currentStageNum, int nextStageNum)
     {
+        ExploreTrap tempTrap;
+
         // 다음 스테이지 불투명으로 변경 (활성화)
         for(int i = 0; i < floors[nextStageNum].transform.childCount; i++)
         {
             floors[nextStageNum].transform.GetChild(i).gameObject.SetActive(true);
+            // 탈출맵의 애셋인 경우 활성화
+            tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            if (tempTrap != null)
+            {
+                tempTrap.SetActivate(true);
+            }
         }
 
         // 이전 스테이지 투명으로 변경 (비활성화)
         for(int i = 0; i < floors[currentStageNum].transform.childCount; i++)
         {
             floors[currentStageNum].transform.GetChild(i).gameObject.SetActive(false);
+            // 탈출맵의 애셋인 경우 비활성화
+            tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            if (tempTrap != null)
+            {
+                tempTrap.SetActivate(false);
+            }
         }
+
+        // 탈출맵인 경우 플레이어 시점을 상단으로 변경
+        if (nextStageNum == 2 || nextStageNum == 7)
+        {
+            player.GetComponent<Player>().isMapPuzzle = true;
+        }
+        // 탈출맵이 아닌 경우 플레이어 시점을 옆으로 변경
+        else
+        {
+            player.GetComponent<Player>().isMapPuzzle = false;
+        }
+
+        // 플레이어 현재 속도 0으로 설정
+        player.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
         // 플레이어 다음 위치로 이동
         SetCurrentPlayerFloor(nextStageNum);
