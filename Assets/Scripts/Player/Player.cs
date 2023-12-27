@@ -52,8 +52,8 @@ public class Player : MonoBehaviour
     public float maxJumpTime = 0.4f;
     float curJumpTIme = 0f;
 
-    private int heart = 5;     //현재 하트 수
-    private int maxHeart = 5; //최대 하트 수
+    public int heart = 5;     //현재 하트 수
+    public int maxHeart = 5; //최대 하트 수
 
 
 
@@ -394,9 +394,10 @@ public class Player : MonoBehaviour
     }
     public void knockBack(Vector3 target)//target: 피격 상대 위치
     {
-        Vector3 backDir = Vector3.Normalize(transform.position - target);
-        backDir.y = 1f;
-        playerRigidbody.AddForce(backDir * knockBackPower);
+        Vector3 backDir = Vector3.Normalize(transform.position - target)* knockBackPower;
+        backDir.y = 0f;
+        backDir += Vector3.up;
+        playerRigidbody.AddForce(backDir * knockBackPower, ForceMode.Impulse);
         //yVelocity = jumpForce * Time.deltaTime * 0.1f;
         isJumping = true;
         //}
@@ -418,6 +419,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    knockBack(other.transform.position);
                     isInvincible = true;
                     //int damage = 1;
                     TakeDamage(attack.Damage);
