@@ -102,6 +102,7 @@ MonoBehaviour:
   door_min_rotation_angle: 0
   door_max_rotation_angle: 130
   b_is_clockwise: 1
+  b_is_opened_door_when_overlap_collision: 1
 --- !u!65 &918028672280177900
 BoxCollider:
   m_ObjectHideFlags: 0

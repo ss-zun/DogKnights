@@ -89,7 +89,7 @@ public class ServeDoor : MonoBehaviour
                 door_rotation_y = door_min_rotation_angle;
 
                 // 문이 더 이상 움직이지 않도록 설정.
-                // b_is_door_opened = false;
+                b_is_door_opened = false;
 
                 // 문이 열리는 방향으로 변경.
                 b_is_clockwise = true;
@@ -102,7 +102,7 @@ public class ServeDoor : MonoBehaviour
                 door_rotation_y = door_max_rotation_angle;
 
                 // 문이 더 이상 움직이지 않도록 설정.
-                // b_is_door_opened = false;
+                b_is_door_opened = false;
 
                 // 문이 닫히는 방향으로 변경.
                 b_is_clockwise = false;
@@ -135,6 +135,7 @@ public class ServeDoor : MonoBehaviour
         if (b_is_opened_door_when_overlap_collision && collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Serve Moon is opened");
+            GetComponent<BoxCollider>().enabled = false;
             DoorOperate();
         }
     }
