@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     Vector3 moveDir;
     [SerializeField]
     private float runSpeed = 10f;
+    public float maxVelocity = 10f;
     [SerializeField]
     private float dashSpeed = 0.5f;
     [SerializeField]
@@ -40,7 +41,8 @@ public class Player : MonoBehaviour
     // 에너지 충전에 관한 변수
     public float curEnergy = 0f;     //에너지 량
     private float maxEnergy = 100f;
-    private float chargeTime = 0f;    //충전 시간
+    private float chargeTime = 2f;    //충전 시간
+
     
     //private float maxTime = 2f;
     float attackTime = 0f;
@@ -49,6 +51,9 @@ public class Player : MonoBehaviour
 
     private int heart = 5;     //현재 하트 수
     private int maxHeart = 5; //최대 하트 수
+
+
+
     [SerializeField]
     private int money = 0;
 
@@ -111,12 +116,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPause) return;
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause == false)
         {
+            GameManager.isGamePause = true;
             pauseMenu.SetActive(true);
-            isPause = true;
+            
         }
+        else if(Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause)
+        {
+            GameManager.isGamePause = false;
+            pauseMenu.SetActive(false);
+
+        }
+        if (GameManager.isGamePause) return;
         if (hpSlider)
         {
             hpSlider.value = heart;
@@ -133,7 +145,7 @@ public class Player : MonoBehaviour
         }
          
         Attack();
-        Charge();
+        Charging();
         Restart();
         Invincible();
         Defense();
@@ -295,6 +307,11 @@ public class Player : MonoBehaviour
         playerRigidbody.AddForce(Vector3.right*xInput*runSpeed);
         playerRigidbody.AddForce(Vector3.forward * zInput * runSpeed);
 
+        playerRigidbody.velocity = new Vector3(Mathf.Min(maxVelocity, Mathf.Abs(playerRigidbody.velocity.x))*xInput,
+                                                playerRigidbody.velocity.y,
+                                               Mathf.Min(maxVelocity, Mathf.Abs(playerRigidbody.velocity.z))*zInput);
+
+
         if (xInput < 0.0f)
         {
             transform.rotation = Quaternion.Euler(0, -90, 0);
@@ -430,7 +447,6 @@ public class Player : MonoBehaviour
 
 
     }
-
     IEnumerator OnDamage()
     {
     
@@ -513,7 +529,7 @@ public class Player : MonoBehaviour
                 isCharging = true;
                 chargeEffect.SetActive(true);
             }
-            if (curEnergy>=maxEnergy){
+            if (curEnergy>maxEnergy){
                 curEnergy=0;
                 Debug.Log("Player : 하트 획득 : "+addHeart(1));
                 GameObject healEffect = GenerateEffect(3, transform.position);
