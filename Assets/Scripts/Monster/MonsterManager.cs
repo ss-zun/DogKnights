@@ -129,7 +129,7 @@ public class MonsterManager : MonoBehaviour
                     monsterPrefabs = new GameObject[] { slime };
                     break;
                 case 2:
-                    totalMonsterCount = 14;
+                    totalMonsterCount = 0;
                     monsterPrefabs = new GameObject[] { slime, turtleShell };
                     break;
                 case 3:

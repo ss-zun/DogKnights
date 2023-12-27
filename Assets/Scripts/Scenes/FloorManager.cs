@@ -67,16 +67,30 @@ public class FloorManager : MonoBehaviour
     /// </summary>
     public void NextStage(GameObject player, int currentStageNum, int nextStageNum)
     {
+        ExploreTrap tempTrap;
+
         // 다음 스테이지 불투명으로 변경 (활성화)
         for(int i = 0; i < floors[nextStageNum].transform.childCount; i++)
         {
             floors[nextStageNum].transform.GetChild(i).gameObject.SetActive(true);
+            // 탈출맵의 애셋인 경우 활성화
+            tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            if (tempTrap != null)
+            {
+                tempTrap.SetActivate(true);
+            }
         }
 
         // 이전 스테이지 투명으로 변경 (비활성화)
         for(int i = 0; i < floors[currentStageNum].transform.childCount; i++)
         {
             floors[currentStageNum].transform.GetChild(i).gameObject.SetActive(false);
+            // 탈출맵의 애셋인 경우 비활성화
+            tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            if (tempTrap != null)
+            {
+                tempTrap.SetActivate(false);
+            }
         }
 
         // 플레이어 다음 위치로 이동
