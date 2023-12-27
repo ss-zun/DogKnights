@@ -107,6 +107,7 @@ public class FloorManager : MonoBehaviour
         // 플레이어 현재 속도 0으로 설정
         player.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
+        SetCurrentPlayerFloor(nextStageNum);
         // 플레이어 다음 위치로 이동
         player.transform.position = targetPlayers[nextStageNum].transform.position;
         player.transform.rotation = targetPlayers[nextStageNum].transform.rotation;
