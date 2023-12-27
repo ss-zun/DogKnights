@@ -287,8 +287,36 @@ public class Player : MonoBehaviour
         {  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
             return;
         }
-        Vector3 getVel = new Vector3(xInput, 0, zInput) * runSpeed;
-        playerRigidbody.velocity = getVel;
+        //Vector3 getVel = new Vector3(xInput, 0, zInput) * runSpeed;
+        //playerRigidbody.velocity = getVel;
+
+        playerRigidbody.AddForce(Vector3.right*xInput*runSpeed);
+
+        if (xInput < 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        if (xInput > 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+        if (zInput < 0.0f && xInput == 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (zInput > 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if((xInput == 0.0f)&&(zInput == 0.0f))
+        {
+            anim.SetBool("Run", false);
+        }
+        else
+        {
+            anim.SetBool("Run", true);
+        }
     }
 
     protected void Attack(){
@@ -333,6 +361,9 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl)&&isJumping==false)
         {
             playerRigidbody.AddForce(Vector3.up * Force, ForceMode.Impulse);
+
+            //Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(jumpHeight * -gravity);
+            //playerRigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
         }
 
         //yVelocity = Force * Time.deltaTime;
