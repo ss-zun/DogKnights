@@ -19,9 +19,9 @@ public class Boss : Monster
         boxCollider = GetComponent<BoxCollider>();
         mat = GetComponentInChildren<SkinnedMeshRenderer>();
         anim = GetComponentInChildren<Animator>();
-        isInvincible = true;
-    }
 
+        StartCoroutine(BossPattern());
+    }
 
     void Update()
     {
@@ -30,12 +30,6 @@ public class Boss : Monster
             // 적의 상태가 사망일 때 모든 코루틴 중지
             StopAllCoroutines();
         }
-    }
-
-    public void StartBossPattern()
-    {
-        isInvincible = false;
-        StartCoroutine(BossPattern());
     }
 
     IEnumerator BossPattern()
@@ -96,7 +90,7 @@ public class Boss : Monster
         yield return new WaitForSeconds(GetAnimationLength("Defend"));
         isInvincible = false;
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(BossPattern());
+        StartCoroutine(BossPattern());
     }
     IEnumerator BasicAttack()
     {
@@ -105,7 +99,7 @@ public class Boss : Monster
         yield return new WaitForSeconds(GetAnimationLength("Basic Attack"));
         attackArea.enabled = false;
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(BossPattern());
+        StartCoroutine(BossPattern());
     }
     IEnumerator ClawAttack()
     {
@@ -114,7 +108,7 @@ public class Boss : Monster
         yield return new WaitForSeconds(GetAnimationLength("Claw Attack"));
         attackArea.enabled = false;
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(BossPattern());
+        StartCoroutine(BossPattern());
     }
     IEnumerator FlameAttack()
     {
@@ -124,7 +118,7 @@ public class Boss : Monster
         yield return new WaitForSeconds(GetAnimationLength("Flame Attack"));
         Destroy(instantFire);
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(BossPattern());
+        StartCoroutine(BossPattern());
     }
     IEnumerator FlyFlameAttack()
     {
@@ -138,7 +132,7 @@ public class Boss : Monster
         yield return new WaitForSeconds(GetAnimationLength("Land"));
         isInvincible = false;
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(BossPattern());
+        StartCoroutine(BossPattern());
     }
 
     // 애니메이션 이름을 받아 해당 애니메이션의 길이를 반환하는 함수
@@ -149,6 +143,7 @@ public class Boss : Monster
         {  
             if (clip.name == animationName)
             {
+                Debug.Log("length : " + clip.length);
                 return clip.length;
             }
         }
