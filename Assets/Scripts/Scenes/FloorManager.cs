@@ -74,11 +74,11 @@ public class FloorManager : MonoBehaviour
         {
             floors[nextStageNum].transform.GetChild(i).gameObject.SetActive(true);
             // 탈출맵의 애셋인 경우 활성화
-            tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
-            if (tempTrap != null)
-            {
-                tempTrap.SetActivate(true);
-            }
+            //tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            //if (tempTrap != null)
+            //{
+            //    tempTrap.SetActivate(true);
+            //}
         }
 
         // 이전 스테이지 투명으로 변경 (비활성화)
@@ -86,11 +86,11 @@ public class FloorManager : MonoBehaviour
         {
             floors[currentStageNum].transform.GetChild(i).gameObject.SetActive(false);
             // 탈출맵의 애셋인 경우 비활성화
-            tempTrap = floors[currentStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
-            if (tempTrap != null)
-            {
-                tempTrap.SetActivate(false);
-            }
+            //tempTrap = floors[currentStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
+            //if (tempTrap != null)
+            //{
+            //    tempTrap.SetActivate(false);
+            //}
         }
 
         // 탈출맵인 경우 플레이어 시점을 상단으로 변경
