@@ -500,7 +500,7 @@ public class Player : MonoBehaviour
 
 
 
-    private void TakeDamage(int damage){
+    public void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
         heart -= damage;
         //Debug.Log(damage);

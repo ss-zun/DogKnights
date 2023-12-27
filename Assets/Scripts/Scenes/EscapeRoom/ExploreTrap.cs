@@ -60,17 +60,9 @@ public class ExploreTrap : MonoBehaviour
             if(bIsExploring)
             {
                 // validation time of player's hit
-                if(playTime >= 1.25)
+                if(playTime >= 0.85)
                 {
                     bIsExploring = false;
-                }
-
-                // player hit explosion in time
-                else if(bIsOverlapped)
-                {
-                    bIsExploring = false;
-                    Debug.Log("Hit");
-                    // Add hit method about hp reduction. 
                 }
             }
         }
@@ -82,6 +74,14 @@ public class ExploreTrap : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             bIsOverlapped = true;
+
+            if(bIsExploring)
+            {
+                bIsExploring = false;
+                Debug.Log("Hit");
+                // Add hit method about hp reduction.
+                other.gameObject.GetComponent<Player>().TakeDamage(1);
+            }
         }
     }
 
