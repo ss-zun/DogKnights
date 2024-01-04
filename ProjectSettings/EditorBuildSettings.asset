@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleUI.unity
     guid: 87bcfe961f66df247a3f8244bc438642
+  - enabled: 1
+    path: Assets/Scenes/HUDTest.unity
+    guid: b1e7fed79e486044fa1c64cd1ef0829d
   m_configObjects: {}
