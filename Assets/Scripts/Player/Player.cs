@@ -403,7 +403,7 @@ public class Player : MonoBehaviour
     }
     public void knockBack(Vector3 target)//target: 피격 상대 위치
     {
-        Vector3 backDir = Vector3.Normalize(transform.position - target)* knockBackPower;
+        Vector3 backDir = Vector3.Normalize(transform.position - target);
         backDir.y = 0f;
         backDir += Vector3.up;
         playerRigidbody.AddForce(backDir * knockBackPower, ForceMode.Impulse);
