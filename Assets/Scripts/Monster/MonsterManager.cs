@@ -30,7 +30,7 @@ public class MonsterManager : MonoBehaviour
     Dictionary<int, Transform[]> floorSpawnPoints = new Dictionary<int, Transform[]>();
 
     [SerializeField]
-    private float spwanTime = 5.0f;
+    private float spwanTime = 30.0f;
 
     private int totalMonsterCount;
 
