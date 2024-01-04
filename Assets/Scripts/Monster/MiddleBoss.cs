@@ -77,31 +77,29 @@ public class MiddleBoss : Monster
 
     IEnumerator Defend()
     {
-        anim.SetTrigger("doDefend");
         isInvincible = true;
-        yield return new WaitForSeconds(2f);
+        anim.SetTrigger("doDefend");
+        yield return new WaitForSeconds(GetAnimationLength("Defend"));
         isInvincible = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(BossPattern());
     }
     IEnumerator BasicAttack()
     {
         anim.SetTrigger("doBasicAttack");
-        yield return new WaitForSeconds(0.2f);
         EnabledArea();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(GetAnimationLength("Basic Attack"));
         attackArea.enabled = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(BossPattern());
     }
     IEnumerator TailAttack()
     {
         anim.SetTrigger("doTailAttack");
-        yield return new WaitForSeconds(0.2f);
         EnabledArea();
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(GetAnimationLength("Tail Attack"));
         attackArea.enabled = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(BossPattern());
     }
     IEnumerator FireballShoot()
@@ -112,9 +110,24 @@ public class MiddleBoss : Monster
         Rigidbody rigidFire = instantFire.GetComponent<Rigidbody>();   
         rigidFire.velocity = transform.forward * 20;
         Debug.Log(rigidFire.velocity);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(GetAnimationLength("Fireball Shoot"));
         Destroy(instantFire);
-        yield return new WaitForSeconds(3.4f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(BossPattern());
+    }
+
+    // 애니메이션 이름을 받아 해당 애니메이션의 길이를 반환하는 함수
+    float GetAnimationLength(string animationName)
+    {
+        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == animationName)
+            {
+                Debug.Log("length : " + clip.length);
+                return clip.length;
+            }
+        }
+        return 0f; // 애니메이션을 찾지 못한 경우 0을 반환하거나 예외 처리
     }
 }
