@@ -70,32 +70,37 @@ public class ExploreTrap : MonoBehaviour
                 if(bIsOverlapped)
                 {
                     bIsExploring = false;
-                    Debug.Log("Hit");
                     // Add hit method about hp reduction.
-                    if (cplayer != null)
-                    {
-                        cplayer.TakeDamage(1);
-                    }
+
+                    // 데미지
+                    // 플레이어 현재 속도 0으로 설정
+                    FindObjectOfType<Player>().GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
+                    //FindObjectOfType<Player>().TakeDamage(1);
                 }
             }
         }
     }
 
-    // Collision Overlapped
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             bIsOverlapped = true;
             //Debug.Log(other.gameObject);
-            cplayer = collision.gameObject.GetComponent<Player>();
+
+            if (other.gameObject.GetComponent<Player>() != null)
+            {
+                cplayer = other.gameObject.GetComponent<Player>();
+                //cplayer.TakeDamage(1);
+                Debug.Log("11111");
+            }
+            Debug.Log("Trap overlap");
         }
     }
 
-    // Collision End Overlapped
-    void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             bIsOverlapped = false;
         }
@@ -106,4 +111,5 @@ public class ExploreTrap : MonoBehaviour
     {
         bIsStageActivate = bIsState;
     }
+
 }
