@@ -15,6 +15,8 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     private GameObject golem;
     [SerializeField]
+    private GameObject middleBoss;
+    [SerializeField]
     private GameObject boss;
 
     public Transform[] pointsFloor0;
@@ -51,6 +53,11 @@ public class MonsterManager : MonoBehaviour
     {
         totalMonsterCount--;
         Debug.Log("Monster Killed! Remaining: " + totalMonsterCount);
+        if (totalMonsterCount == 0)
+        {
+            StopAllCoroutines();
+            FloorManager.Instance.NextStageDoorOpened();
+        }
     }
 
     private void Awake()
@@ -78,13 +85,12 @@ public class MonsterManager : MonoBehaviour
 
         currentFloor = 0;
         MonsterSpawner(currentFloor);
-        //MonsterSpawner(10); //테스트
     }
     private void Update()
     {
         isGameOver = player.isDead;
         int newFloor = floorManager.GetCurrentPlayerFloor();
-        Debug.Log("현재 층 : " + newFloor);
+
         if (currentFloor != newFloor)
         {
             currentFloor = newFloor;
@@ -99,7 +105,6 @@ public class MonsterManager : MonoBehaviour
         {
             StopAllCoroutines();
         }
-        //Debug.Log("현재 남은 몬스터 수 : " + totalMonsterCount);
     }
 
     void MonsterSpawner(int floor)
@@ -121,15 +126,15 @@ public class MonsterManager : MonoBehaviour
                     break;
                 case 3:
                     totalMonsterCount = 9;
-                    monsterPrefabs = new GameObject[] { slime, golem, turtleShell };
+                    monsterPrefabs = new GameObject[] { golem, turtleShell };
                     break;
                 case 5:
                     totalMonsterCount = 1;
-                    monsterPrefabs = new GameObject[] { boss };
+                    monsterPrefabs = new GameObject[] { middleBoss };
                     break;
                 case 6:
                     totalMonsterCount = 3;
-                    monsterPrefabs = new GameObject[] { golem };
+                    monsterPrefabs = new GameObject[] { slime };
                     break;
                 case 8:
                     totalMonsterCount = 8;

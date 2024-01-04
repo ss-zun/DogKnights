@@ -9,16 +9,17 @@ public class Player : MonoBehaviour
     public Animator anim;
     public Rigidbody playerRigidbody;
     [SerializeField]
-    public float jumpForce = 30;
+    public float jumpForce = 1.0f;
     [SerializeField]
-    public float attackPower = 10f;
+    private float attackPower = 10f;
     [SerializeField]
-    public GameObject swordObject;
-    public float gravity;  //중력 가속도
+    private GameObject swordObject;
+    private float gravity;  //중력 가속도
     float yVelocity;  //y 이동값
     Vector3 moveDir;
     [SerializeField]
-    private float runSpeed = 0.1f;
+    private float runSpeed = 10f;
+    private float maxVelocity = 10f;
     [SerializeField]
     private float dashSpeed = 0.5f;
     [SerializeField]
@@ -27,6 +28,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     public bool isMapPuzzle = false;  //퍼즐맵의 경우 좌, 우 뿐 만 아니라 앞, 뒤로도 움직일 수 있도록 한다.
     public int curFloorNum = 0;
+
+    [SerializeField]
+    private float knockBackPower = 10f;
+
+
 
     SkinnedMeshRenderer[] meshs;
     bool isDamage = false;
@@ -38,15 +44,19 @@ public class Player : MonoBehaviour
     // 에너지 충전에 관한 변수
     public float curEnergy = 0f;     //에너지 량
     private float maxEnergy = 100f;
-    private float chargeTime = 0f;    //충전 시간
+    private float chargeTime = 2f;    //충전 시간
+
     
     //private float maxTime = 2f;
     float attackTime = 0f;
     public float maxJumpTime = 0.4f;
     float curJumpTIme = 0f;
 
-    private int heart = 5;     //현재 하트 수
-    private int maxHeart = 5; //최대 하트 수
+    public int heart = 5;     //현재 하트 수
+    public int maxHeart = 5; //최대 하트 수
+
+
+
     [SerializeField]
     private int money = 0;
 
@@ -109,12 +119,28 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPause) return;
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause == false)
         {
+            GameManager.isGamePause = true;
             pauseMenu.SetActive(true);
-            isPause = true;
+            
         }
+        else if(Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause)
+        {
+            GameManager.isGamePause = false;
+            pauseMenu.SetActive(false);
+
+        }
+        if (!isMapPuzzle)
+        {
+            playerRigidbody.constraints = RigidbodyConstraints.FreezePositionZ|RigidbodyConstraints.FreezeRotation;
+        }
+        else
+        {
+
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+        if (GameManager.isGamePause) return;
         if (hpSlider)
         {
             hpSlider.value = heart;
@@ -131,7 +157,7 @@ public class Player : MonoBehaviour
         }
          
         Attack();
-        Charge();
+        Charging();
         Restart();
         Invincible();
         Defense();
@@ -142,10 +168,11 @@ public class Player : MonoBehaviour
         }
     }
 
-   void FixedUpdate(){   
+   void FixedUpdate(){
 
-        Move();
-        //Jump();
+        //Move();
+        RigidMove();
+        Jump(jumpForce);
     }
  
 
@@ -158,7 +185,8 @@ public class Player : MonoBehaviour
         attackEffect = GenerateEffect(0, transform.position);
         attackEffect.SetActive(false);
         attackEffect.transform.SetParent(root.transform);
-        attackEffect.transform.position = Vector3.zero;
+        //attackEffect.transform.position = Vector3.zero;
+        attackEffect.transform.position = transform.position;
         attackEffect.transform.rotation = Quaternion.Euler(-90, 0, 0);
 
     }
@@ -238,11 +266,10 @@ public class Player : MonoBehaviour
             //    yVelocity = -1f*jumpForce*Time.deltaTime;  
             //    isJumping = true;
             //}
-            yVelocity = jumpForce * Time.deltaTime;
-            isJumping = true; 
+            Jump(jumpForce);
         }
 
-        if(isDash == false && isJumping )
+        if (isDash == false && isJumping )
         {
             //curJumpTIme += Time.deltaTime;
             yVelocity += gravity * Time.deltaTime;
@@ -271,6 +298,57 @@ public class Player : MonoBehaviour
             return;
         }
 
+    }
+
+    protected void RigidMove()
+    {        
+        //yVelocity = 0f;
+        curDashTime += Time.deltaTime;
+        float moveSpeed = runSpeed;
+        float xInput = Input.GetAxis("Horizontal");
+        float zInput;
+        if (isMapPuzzle) zInput = Input.GetAxis("Vertical");
+        else zInput = 0;
+        if (isDead || isCharging || isDefense || isAttacking)
+        {  // 사망했거나 방어 자세이거나 에너지 충전중이라면 움직이지 않도록 함
+            return;
+        }
+        //Vector3 getVel = new Vector3(xInput, 0, zInput) * runSpeed;
+        //playerRigidbody.velocity = getVel;
+
+        playerRigidbody.AddForce(Vector3.right*xInput*runSpeed);
+        playerRigidbody.AddForce(Vector3.forward * zInput * runSpeed);
+
+        playerRigidbody.velocity = new Vector3(Mathf.Min(maxVelocity, Mathf.Abs(playerRigidbody.velocity.x))*xInput,
+                                                playerRigidbody.velocity.y,
+                                               Mathf.Min(maxVelocity, Mathf.Abs(playerRigidbody.velocity.z))*zInput);
+
+
+        if (xInput < 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        if (xInput > 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+        if (zInput < 0.0f && xInput == 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (zInput > 0.0f)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if((xInput == 0.0f)&&(zInput == 0.0f))
+        {
+            anim.SetBool("Run", false);
+        }
+        else
+        {
+            anim.SetBool("Run", true);
+        }
     }
 
     protected void Attack(){
@@ -310,27 +388,26 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Jump()
+    public void Jump(float Force)
     {
-        // yVelocity += gravity*Time.deltaTime;
-        //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
-        //{
-        //    playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //    isJumping = true;
-        //    // transform.forward*
+        if (Input.GetKey(KeyCode.LeftControl)&&isJumping==false)
+        {
+            playerRigidbody.AddForce(Vector3.up * Force, ForceMode.Impulse);
 
-        //}
+            //Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(jumpHeight * -gravity);
+            //playerRigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
+        }
+
+        //yVelocity = Force * Time.deltaTime;
+        //isJumping = true;
     }
-    public void tJump()
+    public void knockBack(Vector3 target)//target: 피격 상대 위치
     {
-        // yVelocity += gravity*Time.deltaTime;
-        //if (Input.GetKey(KeyCode.LeftControl) && isJumping == false)
-        //{
-        //    playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //    isJumping = true;
-        //    // transform.forward*
-
-        yVelocity = jumpForce * Time.deltaTime * 0.25f;
+        Vector3 backDir = Vector3.Normalize(transform.position - target);
+        backDir.y = 0f;
+        backDir += Vector3.up;
+        playerRigidbody.AddForce(backDir * knockBackPower, ForceMode.Impulse);
+        //yVelocity = jumpForce * Time.deltaTime * 0.1f;
         isJumping = true;
         //}
     }
@@ -351,6 +428,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    knockBack(other.transform.position);
                     isInvincible = true;
                     //int damage = 1;
                     TakeDamage(attack.Damage);
@@ -367,7 +445,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Player : get Attacked");
                 //연경부분-end
 
-                Debug.Log("플레이어 현재 하트: " + heart);
+                Debug.Log("플레이어 현재 하트: " + heart); 
                 StartCoroutine(OnDamage());
             }
         }
@@ -379,7 +457,6 @@ public class Player : MonoBehaviour
 
 
     }
-
     IEnumerator OnDamage()
     {
     
@@ -402,6 +479,11 @@ public class Player : MonoBehaviour
             isJumping = false;
             yVelocity = 0f;
             moveDir.y =yVelocity;
+            Debug.Log("Player : Floor collision");
+        }
+        if (other.collider.CompareTag("Stare"))
+        {       //바닥과 충돌 : 착지
+            Jump(jumpForce / 10.0f);
             Debug.Log("Player : Floor collision");
         }
         //else
@@ -428,7 +510,7 @@ public class Player : MonoBehaviour
 
 
 
-    private void TakeDamage(int damage){
+    public void TakeDamage(int damage){
         anim.SetTrigger("GetHit");
         heart -= damage;
         //Debug.Log(damage);
@@ -457,7 +539,7 @@ public class Player : MonoBehaviour
                 isCharging = true;
                 chargeEffect.SetActive(true);
             }
-            if (curEnergy>=maxEnergy){
+            if (curEnergy>maxEnergy){
                 curEnergy=0;
                 Debug.Log("Player : 하트 획득 : "+addHeart(1));
                 GameObject healEffect = GenerateEffect(3, transform.position);

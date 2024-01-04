@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Monster : MonoBehaviour
 {
     [SerializeField]
-    protected enum Type { Melee, Charge, Ranged, Boss };
+    protected enum Type { Melee, Charge, Ranged, MiddleBoss, Boss };
     [SerializeField]
     protected Type monsterType;
     [SerializeField]
@@ -17,7 +17,6 @@ public class Monster : MonoBehaviour
     protected BoxCollider attackArea; //공격범위
     [SerializeField]
     private GameObject rock;
-
 
     protected Transform target; //추적타겟
 
@@ -48,7 +47,7 @@ public class Monster : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // 플레이어의 위치 받아오기
         Debug.Log(target.name);
 
-        if (monsterType != Type.Boss)
+        if (monsterType != Type.Boss || monsterType != Type.MiddleBoss)
             Invoke("ChaseStart", 2); //2초 뒤 실행
     }
 
@@ -61,7 +60,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         //네비게이션 활성화되어 있을때만 추적
-        if (nav.enabled && monsterType != Type.Boss)
+        if (nav.enabled && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
         {
             nav.SetDestination(target.position);
             nav.isStopped = !isChase; //멈추기
@@ -84,7 +83,7 @@ public class Monster : MonoBehaviour
 
     void Targeting()
     {
-        if (!isDead && monsterType != Type.Boss)
+        if (!isDead && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
         {
             switch (monsterType)
             {
@@ -188,7 +187,7 @@ public class Monster : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sword" && isInvincible == false && this.gameObject.layer == 8)
+        if (other.tag == "Sword" && isInvincible == false && gameObject.layer == 8)
         {
             Sword sword = other.GetComponent<Sword>();
             curHealth -= sword.damage;
@@ -222,8 +221,6 @@ public class Monster : MonoBehaviour
             mat.material.color = Color.gray;
             gameObject.layer = LayerMask.NameToLayer("MonsterDead");
 
-            MonsterManager.Instance.MonsterKilled();
-            
             isDead = true;
             isChase = false; //사망했으니 추적중단
 
@@ -233,7 +230,9 @@ public class Monster : MonoBehaviour
             
             if (monsterType != Type.Boss)
                 Destroy(gameObject, 4); //4초 뒤 죽음
-            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전 
+            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전
+            
+            MonsterManager.Instance.MonsterKilled();
         }
     }
 }
