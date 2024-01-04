@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
     public bool isPower = false; //필살기 사용 중인지
     private bool isDash = false; //대시 중인지
     private bool isDashable = true; //대시 할 수 있는지
-    public bool isJumping = true;       //공중에 떠 있는지
+    public bool isJumping = false;       //공중에 떠 있는지
     private bool isPause = false;
     public bool isComplete = false; // 해당 층의 맵을 클리어했는지
     // 플레이어 상태에 관한 boolean 변수들은 주로 이펙트를 적용하기 위해 정의
@@ -408,7 +408,7 @@ public class Player : MonoBehaviour
         backDir += Vector3.up;
         playerRigidbody.AddForce(backDir * knockBackPower, ForceMode.Impulse);
         //yVelocity = jumpForce * Time.deltaTime * 0.1f;
-        isJumping = true;
+        //isJumping = true;
         //}
     }
     void OnTriggerEnter(Collider other){
