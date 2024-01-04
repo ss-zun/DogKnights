@@ -19,7 +19,10 @@ public class PortalToNextStage : NextStageDoor
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (current_stage != 2)
+        {
+            PortalActivate();
+        }
     }
 
     // Update is called once per frame
