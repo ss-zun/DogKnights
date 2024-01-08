@@ -97,7 +97,7 @@ public class MonsterManager : MonoBehaviour
             isChangeFloor = true;
         }
         if (isChangeFloor)
-        {
+        {  
             MonsterSpawner(currentFloor);
             isChangeFloor = false;
         }
@@ -113,7 +113,7 @@ public class MonsterManager : MonoBehaviour
 
         if (floorSpawnPoints.TryGetValue(floor, out Transform[] spawnPoints))
         {
-            Debug.Log("MonsterSpawner called for floor: " + floor);
+            Debug.Log("ÇöÀçÃþ : " + floor);
             switch (floor)
             {
                 case 0:
@@ -164,9 +164,10 @@ public class MonsterManager : MonoBehaviour
                 yield return new WaitForSeconds(spwanTime);
 
                 int idx = Random.Range(0, points.Length);
-                int monster = Random.Range(0, monsterPrefab.Length);
-                Instantiate(monsterPrefab[monster], points[idx].position, points[idx].rotation);
-                Debug.Log("monsterName " + monsterPrefab[monster].name);
+                int monsterIndex = Random.Range(0, monsterPrefab.Length);
+                GameObject monster = monsterPrefab[monsterIndex];
+                Instantiate(monster, points[idx].position, monster.transform.rotation);
+                Debug.Log("monsterName " + monster.name);
             }
             else
             {

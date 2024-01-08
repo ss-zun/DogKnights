@@ -47,8 +47,8 @@ public class Monster : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); // 플레이어의 위치 받아오기
         Debug.Log(target.name);
 
-        if (monsterType != Type.Boss || monsterType != Type.MiddleBoss)
-            Invoke("ChaseStart", 2); //2초 뒤 실행
+        if (monsterType != Type.Boss && monsterType != Type.MiddleBoss)
+            Invoke("ChaseStart", 0);
     }
 
     void ChaseStart()
@@ -60,7 +60,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         //네비게이션 활성화되어 있을때만 추적
-        if (nav.enabled && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
+        if (nav.enabled && monsterType != Type.Boss && monsterType != Type.MiddleBoss)
         {
             nav.SetDestination(target.position);
             nav.isStopped = !isChase; //멈추기
@@ -83,7 +83,7 @@ public class Monster : MonoBehaviour
 
     void Targeting()
     {
-        if (!isDead && (monsterType != Type.Boss || monsterType != Type.MiddleBoss))
+        if (!isDead && monsterType != Type.Boss && monsterType != Type.MiddleBoss)
         {
             switch (monsterType)
             {
@@ -137,23 +137,23 @@ public class Monster : MonoBehaviour
         switch (monsterType)
         {
             case Type.Melee:
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
                 attackArea.enabled = true; //공격범위 활성화
                 anim.SetBool("isAttack", true);
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(GetAnimationLength("Attack01"));
                 attackArea.enabled = false;
                 anim.SetBool("isAttack", false);
 
                 yield return new WaitForSeconds(1f);
                 break;
             case Type.Charge:
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.2f);
                 rigid.AddForce(transform.forward * 10, ForceMode.Impulse);
                 attackArea.enabled = true;
                 anim.SetBool("isAttack", true);
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(GetAnimationLength("Attack02"));
                 rigid.velocity = Vector3.zero;
                 attackArea.enabled = false;
                 anim.SetBool("isAttack", false);
@@ -162,15 +162,14 @@ public class Monster : MonoBehaviour
                 break;
             case Type.Ranged:
                 anim.SetBool("isAttack", true);
-                yield return new WaitForSeconds(1.6f);
+                yield return new WaitForSeconds(GetAnimationLength("Attack01"));
                 Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1f, transform.position.z);
-                GameObject instantRock = Instantiate(rock, pos, rock.transform.rotation);
+                GameObject instantRock = Instantiate(rock, pos, transform.rotation);
                 Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
                 rigidRock.velocity = transform.forward * 20;
-
-                yield return new WaitForSeconds(0.4f);
+                
                 anim.SetBool("isAttack", false);
-
+                Destroy(instantRock, 3);
                 yield return new WaitForSeconds(2f);
                 break;
         }
@@ -220,19 +219,31 @@ public class Monster : MonoBehaviour
         {
             mat.material.color = Color.gray;
             gameObject.layer = LayerMask.NameToLayer("MonsterDead");
+            anim.SetTrigger("doDie");
 
             isDead = true;
             isChase = false; //사망했으니 추적중단
+            nav.enabled = false; //NavAgent 비활성화
 
-            anim.SetTrigger("doDie");
+            Destroy(gameObject, 4); //4초 뒤 파괴
 
-            nav.enabled = false; //NavAgent 비활성화(넛백 리액션을 살리기위해서)  
-            
-            if (monsterType != Type.Boss)
-                Destroy(gameObject, 4); //4초 뒤 죽음
             GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전
-            
-            MonsterManager.Instance.MonsterKilled();
+
+            MonsterManager.Instance.MonsterKilled();     
         }
+    }
+
+    // 애니메이션 이름을 받아 해당 애니메이션의 길이를 반환하는 함수
+    protected float GetAnimationLength(string animationName)
+    {
+        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == animationName)
+            {
+                return clip.length;
+            }
+        }
+        return 0f; // 애니메이션을 찾지 못한 경우 0을 반환하거나 예외 처리
     }
 }

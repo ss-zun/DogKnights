@@ -134,19 +134,4 @@ public class Boss : Monster
         yield return new WaitForSeconds(1f);
         StartCoroutine(BossPattern());
     }
-
-    // 애니메이션 이름을 받아 해당 애니메이션의 길이를 반환하는 함수
-    float GetAnimationLength(string animationName)
-    {
-        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
-        foreach (AnimationClip clip in clips)
-        {  
-            if (clip.name == animationName)
-            {
-                Debug.Log("length : " + clip.length);
-                return clip.length;
-            }
-        }
-        return 0f; // 애니메이션을 찾지 못한 경우 0을 반환하거나 예외 처리
-    }
 }
