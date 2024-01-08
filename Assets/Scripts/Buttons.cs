@@ -20,4 +20,11 @@ public class Buttons : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+
+    public void Restart()
+    {
+        Debug.Log("Restart");
+        SceneManager.LoadScene("MainScene");
+        GameManager.Instance.Player.Restart();
+    }
 }

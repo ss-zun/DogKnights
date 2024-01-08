@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Player : MonoBehaviour
@@ -119,6 +120,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(transform.position.y <= -10f)
+        {
+            Die();
+        }
         if (Input.GetKeyDown(KeyCode.Escape) && GameManager.isGamePause == false)
         {
             GameManager.isGamePause = true;
@@ -613,6 +618,14 @@ public class Player : MonoBehaviour
         anim.SetTrigger("Die");
         Debug.Log("Player : Die...");
         isDead = true;
+        float time = 0;
+        while (true)
+        {
+            time += Time.deltaTime;
+            if (time >= 0.5) break;
+        }
+        SceneManager.LoadScene("GameOver");
+        //SceneManager.LoadScene("GameOver");
     }
 
     // 부활하는 모션과 함께 생명 수 초기화
