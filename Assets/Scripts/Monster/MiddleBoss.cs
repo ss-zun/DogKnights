@@ -19,15 +19,6 @@ public class MiddleBoss : Monster
         StartCoroutine(BossPattern());
     }
 
-
-    void Update()
-    {
-        if (isDead)
-        {
-            StopAllCoroutines();
-        }
-    }
-
     IEnumerator BossPattern()
     {
         yield return new WaitForSeconds(0.1f);

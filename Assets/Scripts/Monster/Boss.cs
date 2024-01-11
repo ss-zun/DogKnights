@@ -23,15 +23,6 @@ public class Boss : Monster
         StartCoroutine(BossPattern());
     }
 
-    void Update()
-    {
-        if (isDead)
-        {
-            // 적의 상태가 사망일 때 모든 코루틴 중지
-            StopAllCoroutines();
-        }
-    }
-
     IEnumerator BossPattern()
     {
         yield return new WaitForSeconds(0.1f);
