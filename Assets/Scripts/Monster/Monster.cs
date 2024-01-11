@@ -59,13 +59,15 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        //네비게이션 활성화되어 있을때만 추적
-        if (nav.enabled && monsterType != Type.Boss && monsterType != Type.MiddleBoss)
+        if (monsterType != Type.Boss && monsterType != Type.MiddleBoss)
         {
-            nav.SetDestination(target.position);
-            nav.isStopped = !isChase; //멈추기
-        }
-            
+            //네비게이션 활성화되어 있을때만 추적
+            if (nav.enabled)
+            {
+                nav.SetDestination(target.position);
+                nav.isStopped = !isChase; //멈추기
+            }
+        }       
     }
 
     //플레이어랑 물리적인 충돌일어날 때
@@ -220,16 +222,19 @@ public class Monster : MonoBehaviour
             mat.material.color = Color.gray;
             gameObject.layer = LayerMask.NameToLayer("MonsterDead");
             anim.SetTrigger("doDie");
+            MonsterManager.Instance.MonsterKilled();
+            StopAllCoroutines();
 
             isDead = true;
             isChase = false; //사망했으니 추적중단
-            nav.enabled = false; //NavAgent 비활성화
-
+            if (monsterType != Type.Boss && monsterType != Type.MiddleBoss)
+            {
+                nav.enabled = false; //NavAgent 비활성화
+            }
+            
             Destroy(gameObject, 4); //4초 뒤 파괴
 
-            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전
-
-            MonsterManager.Instance.MonsterKilled();     
+            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전       
         }
     }
 
