@@ -94,12 +94,12 @@ public class Monster : MonoBehaviour
                     targetRange = 0.6f;
                     break;
                 case Type.Charge:
-                    targetRadius = 0.4f;
-                    targetRange = 4f;
+                    targetRadius = 0.6f;
+                    targetRange = 3.0f;
                     break;
                 case Type.Ranged:
                     targetRadius = 0.6f;
-                    targetRange = 6f;
+                    targetRange = 6.0f;
                     break;
             }
 
