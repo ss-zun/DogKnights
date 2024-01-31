@@ -58,7 +58,7 @@ public class Boss : Monster
     void EnabledArea()
     {
         targetRadius = 5.0f;
-        targetRange = 5.0f;
+        targetRange = 1.3f;
 
         RaycastHit[] rayHits =
             Physics.SphereCastAll(transform.position,

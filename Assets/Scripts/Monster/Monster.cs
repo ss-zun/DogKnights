@@ -91,11 +91,11 @@ public class Monster : MonoBehaviour
             {
                 case Type.Melee:
                     targetRadius = 0.6f;
-                    targetRange = 0.6f;
+                    targetRange = 0.4f;
                     break;
                 case Type.Charge:
                     targetRadius = 0.6f;
-                    targetRange = 3.0f;
+                    targetRange = 2.0f;
                     break;
                 case Type.Ranged:
                     targetRadius = 0.6f;
@@ -127,8 +127,8 @@ public class Monster : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Debug.DrawLine(transform.position, transform.position + transform.forward * curHitDis);
-        Gizmos.DrawWireSphere(transform.position + transform.position * curHitDis, targetRadius);
+        Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
+        Gizmos.DrawWireSphere(transform.position, targetRadius);
     }
 
     IEnumerator Attack()
