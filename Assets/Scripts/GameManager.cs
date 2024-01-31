@@ -1,6 +1,8 @@
  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 // 게임 진행 규칙 관리 매니저
 // 게임 오버 관리
@@ -63,5 +65,6 @@ public class GameManager : MonoBehaviour
     {
         isEnding = true;
         Debug.Log("****** Game Cleer! ******");
+        SceneManager.LoadScene("Ending");
     }
 }
