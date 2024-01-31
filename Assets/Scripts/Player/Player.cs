@@ -117,6 +117,20 @@ public class Player : MonoBehaviour
 
     }
 
+
+    public void OnButtonResume()
+    {
+        Debug.Log("resume");
+        GameManager.isGamePause = false;
+        pauseMenu.SetActive(false);
+    }
+
+    public void OnButtonExit()
+    {
+        Debug.Log("exit");
+        SceneManager.LoadScene("Menu");
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -136,6 +150,10 @@ public class Player : MonoBehaviour
             pauseMenu.SetActive(false);
 
         }
+        if (GameManager.isGamePause)
+        {
+            return;
+        }
         if (!isMapPuzzle)
         {
             playerRigidbody.constraints = RigidbodyConstraints.FreezePositionZ|RigidbodyConstraints.FreezeRotation;
@@ -145,7 +163,6 @@ public class Player : MonoBehaviour
 
             playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         }
-        if (GameManager.isGamePause) return;
         if (hpSlider)
         {
             hpSlider.value = heart;

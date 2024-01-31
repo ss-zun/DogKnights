@@ -12,7 +12,7 @@ public class Buttons : MonoBehaviour
 
     public void ToGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("MainScene");
     }
 
     public void Quit()
@@ -26,5 +26,18 @@ public class Buttons : MonoBehaviour
         Debug.Log("Restart");
         SceneManager.LoadScene("MainScene");
         GameManager.Instance.Player.Restart();
+    }
+
+    public void Resume()
+    {
+        Debug.Log("resume");
+        GameManager.Instance.Player.OnButtonResume();
+    }
+
+    public void Exit()
+    {
+        Debug.Log("exit");
+        GameManager.Instance.Player.OnButtonExit();
+
     }
 }
