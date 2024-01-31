@@ -60,7 +60,7 @@ public class FloorButtonsManager : FloorController
     {
         counts++;
         // 누른 버튼 전체 개수 UI와 연동 필요.
-
+        Debug.Log(counts);
         // 리스트에 있는 버튼 총 개수와 누른 버튼 개수 일치.
         if(counts == (bIsTestMode ? 1 : buttons.Length))
         {
