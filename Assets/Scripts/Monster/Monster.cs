@@ -235,7 +235,12 @@ public class Monster : MonoBehaviour
             
             Destroy(gameObject, 2); //2초 뒤 파괴
 
-            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전       
+            GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전
+
+            if(monsterType == Type.Boss)
+            {
+                GameManager.Instance.EndGame();
+            }
         }
     }
 

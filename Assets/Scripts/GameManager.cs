@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     static GameManager instance = null;
     static public bool isGamePause = false;
+    static public bool isEnding = false;
     public static GameManager Instance
     {
         get { return instance; }
@@ -56,5 +57,11 @@ public class GameManager : MonoBehaviour
         // 토템이 0층에 스폰됨
         // 게임내 UI 활성화
         // 스토리 설명시작
+    }
+
+    public void EndGame()
+    {
+        isEnding = true;
+        Debug.Log("****** Game Cleer! ******");
     }
 }
