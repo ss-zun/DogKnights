@@ -164,12 +164,13 @@ public class Monster : MonoBehaviour
                 break;
             case Type.Ranged:
                 anim.SetBool("isAttack", true);
-                yield return new WaitForSeconds(GetAnimationLength("Attack01"));
-                Vector3 pos = new Vector3(transform.position.x + 2.2f, transform.position.y + 1f, transform.position.z);
+                yield return new WaitForSeconds(GetAnimationLength("Attack01") - 1.2f);
+                Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1.4f, transform.position.z);
                 GameObject instantRock = Instantiate(rock, pos, transform.rotation);
                 Rigidbody rigidRock = instantRock.GetComponent<Rigidbody>();
                 rigidRock.velocity = transform.forward * 20;
-                
+                yield return new WaitForSeconds(1.2f);
+
                 anim.SetBool("isAttack", false);
                 Destroy(instantRock, 3);
                 yield return new WaitForSeconds(2f);
