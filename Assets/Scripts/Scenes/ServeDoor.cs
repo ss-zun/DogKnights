@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,59 +6,59 @@ public class ServeDoor : MonoBehaviour
 {
     // ===== public =====
 
-    // ¹® È¸Àü ¼Óµµ
+    // ë¬¸ íšŒì „ ì†ë„
     public float door_rotation_speed = 70f;
 
-    // ¹® ÃÖ¼Ò È¸Àü °¢µµ
+    // ë¬¸ ìµœì†Œ íšŒì „ ê°ë„
     public float door_min_rotation_angle = 0f;
 
-    // ¹® ÃÖ´ë È¸Àü °¢µµ
+    // ë¬¸ ìµœëŒ€ íšŒì „ ê°ë„
     public float door_max_rotation_angle = 130f;
 
-    // ¹® È¸Àü ¹æÇâ
+    // ë¬¸ íšŒì „ ë°©í–¥
     public bool b_is_clockwise = true;
 
-    // ¹Ú½º Äİ¶óÀÌ´õ¿¡ µµ´ŞÇßÀ» ¶§, ¹®ÀÌ ¿­¸®µµ·Ï ÇÏ´Â ¼³Á¤
+    // ë°•ìŠ¤ ì½œë¼ì´ë”ì— ë„ë‹¬í–ˆì„ ë•Œ, ë¬¸ì´ ì—´ë¦¬ë„ë¡ í•˜ëŠ” ì„¤ì •
     public bool b_is_opened_door_when_overlap_collision = false;
 
     // ===== private =====
 
-    // ¹® ÇÇ¹ş Á¤º¸.
+    // ë¬¸ í”¼ë²— ì •ë³´.
     private GameObject door_mesh_infor;
 
-    // ¹®À» ¿©´Â ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı ¿©ºÎ
+    // ë¬¸ì„ ì—¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ ì—¬ë¶€
     private bool b_is_door_opened = false;
 
-    // ¹® Game Object °´Ã¼ Á¤º¸
+    // ë¬¸ Game Object ê°ì²´ ì •ë³´
     private GameObject door;
     
-    // ÇöÀç ¹® °¢µµ.
+    // í˜„ì¬ ë¬¸ ê°ë„.
     private float door_rotation_y = 0f;
 
-    //  public ¾²Áö ¸»°í, privateÀ¸·Î ¼±¾ğÇÑ µÚ, Serialize¸¦ È°¿ë.
+    //  public ì“°ì§€ ë§ê³ , privateìœ¼ë¡œ ì„ ì–¸í•œ ë’¤, Serializeë¥¼ í™œìš©.
 
     // Start is called before the first frame update
     void Start()
     {
         // GameObject.FindGameObjectWithTag()
-        // ¾À ³»¿¡¼­ ÇØ´ç ÄÄÆ÷³ÍÆ®ÀÇ ÅÂ±×¸¦ °¡Áø Ã¹ ¹øÂ° °´Ã¼¸¦ ¹İÈ¯ÇÔ.
+        // ì”¬ ë‚´ì—ì„œ í•´ë‹¹ ì»´í¬ë„ŒíŠ¸ì˜ íƒœê·¸ë¥¼ ê°€ì§„ ì²« ë²ˆì§¸ ê°ì²´ë¥¼ ë°˜í™˜í•¨.
 
-        // GetComponents´Â MonoBehavior³ª Component Å¬·¡½º¸¦ »ó¼Ó¹ŞÀ» ¶§ »ç¿ëÇÒ ¼ö ÀÖÀ½. ±×·¯³ª, GameObject´Â µÎ Å¬·¡½º¸¦ »ó¼Ó¹ŞÁö ¾ÊÀ¸¹Ç·Î »ç¿ëÇÒ ¼ö ¾øÀ½.
+        // GetComponentsëŠ” MonoBehaviorë‚˜ Component í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ì„ ë•Œ ì‚¬ìš©í•  ìˆ˜ ìˆìŒ. ê·¸ëŸ¬ë‚˜, GameObjectëŠ” ë‘ í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ì§€ ì•Šìœ¼ë¯€ë¡œ ì‚¬ìš©í•  ìˆ˜ ì—†ìŒ.
 
-        // GameObject.Find() ÇÔ¼ö´Â Scene¿¡ ¹èÄ¡µÇ¾î ÀÖ´Â ¸ğµç °´Ã¼¿¡ ´ëÇØ¼­ °Ë»ç¸¦ ÁøÇàÇÔ. ( Àü¿ª )
+        // GameObject.Find() í•¨ìˆ˜ëŠ” Sceneì— ë°°ì¹˜ë˜ì–´ ìˆëŠ” ëª¨ë“  ê°ì²´ì— ëŒ€í•´ì„œ ê²€ì‚¬ë¥¼ ì§„í–‰í•¨. ( ì „ì—­ )
 
-        // transform.Find() ÇÔ¼ö´Â ÇöÀç ½ºÅ©¸³Æ®°¡ ÀÖ´Â ÄÄÆ÷³ÍÆ®ÀÇ ÀÚ½Ä Game Object¿¡ ´ëÇØ¼­¸¸ °Ë»ç¸¦ ÁøÇàÇÔ. ( Áö¿ª )
+        // transform.Find() í•¨ìˆ˜ëŠ” í˜„ì¬ ìŠ¤í¬ë¦½íŠ¸ê°€ ìˆëŠ” ì»´í¬ë„ŒíŠ¸ì˜ ìì‹ Game Objectì— ëŒ€í•´ì„œë§Œ ê²€ì‚¬ë¥¼ ì§„í–‰í•¨. ( ì§€ì—­ )
 
-        // transform.Find() ÇÔ¼ö¿¡¼­ ÆÄ¶ó¹ÌÅÍÀÇ ÀÔ·Â°ªÀ¸·Î º°´Ù¸¥ °æ·Î¾øÀÌ ¹®ÀÚ¿­À» ÀÔ·ÂÇßÀ¸¸é, ÇØ´ç Game ObjectÀÇ ÀÚ½Ä¿¡ ´ëÇØ¼­¸¸ °Ë»ç¸¦ ÁøÇàÇÔ. "~/~"¸¦ ÆÄ¶ó¹ÌÅÍ·Î ÀÔ·ÂÇÑ °æ¿ì, ÀÚ½ÄÀÇ ÀÚ½Ä¿¡ ´ëÇØ¼­µµ °Ë»çÇÔ.
+        // transform.Find() í•¨ìˆ˜ì—ì„œ íŒŒë¼ë¯¸í„°ì˜ ì…ë ¥ê°’ìœ¼ë¡œ ë³„ë‹¤ë¥¸ ê²½ë¡œì—†ì´ ë¬¸ìì—´ì„ ì…ë ¥í–ˆìœ¼ë©´, í•´ë‹¹ Game Objectì˜ ìì‹ì— ëŒ€í•´ì„œë§Œ ê²€ì‚¬ë¥¼ ì§„í–‰í•¨. "~/~"ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ì…ë ¥í•œ ê²½ìš°, ìì‹ì˜ ìì‹ì— ëŒ€í•´ì„œë„ ê²€ì‚¬í•¨.
 
-        // 'door_pivot' Game Object °´Ã¼ Á¤º¸¸¦ °¡Á®¿È.
+        // 'door_pivot' Game Object ê°ì²´ ì •ë³´ë¥¼ ê°€ì ¸ì˜´.
         door_mesh_infor = transform.Find("door_pivot").gameObject;
 
-        // 'door' Game Object Á¤º¸¸¦ °¡Á®¿È.
+        // 'door' Game Object ì •ë³´ë¥¼ ê°€ì ¸ì˜´.
         door = transform.Find("door_pivot/door").gameObject;
 
-        // 'door' Game ObjectÀÇ YÃà È¸Àü°ªÀ» ¼³Á¤.
-        // transform.eulerAngles.y °ªÀº ÀĞ±â¸¸ °¡´ÉÇÏ°í ¾²±â´Â ºÒ°¡´ÉÇÔ.
+        // 'door' Game Objectì˜ Yì¶• íšŒì „ê°’ì„ ì„¤ì •.
+        // transform.eulerAngles.y ê°’ì€ ì½ê¸°ë§Œ ê°€ëŠ¥í•˜ê³  ì“°ê¸°ëŠ” ë¶ˆê°€ëŠ¥í•¨.
         door_rotation_y = door.transform.localEulerAngles.y;
 
     }
@@ -67,66 +67,66 @@ public class ServeDoor : MonoBehaviour
     void Update()
     {
 
-        // ¹® ¿©´Â ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı
+        // ë¬¸ ì—¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ
         if(b_is_door_opened)
         {
-            // ¹®À» ¿©´Â °úÁ¤.
+            // ë¬¸ì„ ì—¬ëŠ” ê³¼ì •.
             if(b_is_clockwise)
             {
                 door_rotation_y += door_rotation_speed * Time.deltaTime;
             }
 
-            // ¹®À» ´İ´Â °úÁ¤.
+            // ë¬¸ì„ ë‹«ëŠ” ê³¼ì •.
             else
             {
                 door_rotation_y -= door_rotation_speed * Time.deltaTime;
             }
 
-            // ¹®ÀÌ ¿ÏÀüÈ÷ ´İÇûÀ» ¶§
+            // ë¬¸ì´ ì™„ì „íˆ ë‹«í˜”ì„ ë•Œ
             if(door_rotation_y <= door_min_rotation_angle)
             {
-                // ¹®ÀÇ ÃÖ¼Ò °¢µµ·Î ¼³Á¤.
+                // ë¬¸ì˜ ìµœì†Œ ê°ë„ë¡œ ì„¤ì •.
                 door_rotation_y = door_min_rotation_angle;
 
-                // ¹®ÀÌ ´õ ÀÌ»ó ¿òÁ÷ÀÌÁö ¾Êµµ·Ï ¼³Á¤.
+                // ë¬¸ì´ ë” ì´ìƒ ì›€ì§ì´ì§€ ì•Šë„ë¡ ì„¤ì •.
                 b_is_door_opened = false;
 
-                // ¹®ÀÌ ¿­¸®´Â ¹æÇâÀ¸·Î º¯°æ.
+                // ë¬¸ì´ ì—´ë¦¬ëŠ” ë°©í–¥ìœ¼ë¡œ ë³€ê²½.
                 b_is_clockwise = true;
             }
 
-            // ¹®ÀÌ ¿ÏÀüÈ÷ ¿­·ÈÀ» ¶§
+            // ë¬¸ì´ ì™„ì „íˆ ì—´ë ¸ì„ ë•Œ
             else if(door_rotation_y >= door_max_rotation_angle)
             {
-                // ¹®ÀÇ ÃÖ´ë °¢µµ·Î ¼³Á¤.
+                // ë¬¸ì˜ ìµœëŒ€ ê°ë„ë¡œ ì„¤ì •.
                 door_rotation_y = door_max_rotation_angle;
 
-                // ¹®ÀÌ ´õ ÀÌ»ó ¿òÁ÷ÀÌÁö ¾Êµµ·Ï ¼³Á¤.
+                // ë¬¸ì´ ë” ì´ìƒ ì›€ì§ì´ì§€ ì•Šë„ë¡ ì„¤ì •.
                 b_is_door_opened = false;
 
-                // ¹®ÀÌ ´İÈ÷´Â ¹æÇâÀ¸·Î º¯°æ.
+                // ë¬¸ì´ ë‹«íˆëŠ” ë°©í–¥ìœ¼ë¡œ ë³€ê²½.
                 b_is_clockwise = false;
             }
 
-            // ¹®ÀÌ ¾ÆÁ÷ ¿­¸®°Å³ª ´İÈ÷°í ÀÖ´Â µµÁß¿¡
+            // ë¬¸ì´ ì•„ì§ ì—´ë¦¬ê±°ë‚˜ ë‹«íˆê³  ìˆëŠ” ë„ì¤‘ì—
             else
             {
                 // Ignore
             }
 
-            // ¹® È¸Àü°¢µµ ¼³Á¤.
+            // ë¬¸ íšŒì „ê°ë„ ì„¤ì •.
             door.transform.localRotation = Quaternion.Euler(0f, door_rotation_y, 0f);
         }
     }
 
-    // ¹®À» ÀÛµ¿½ÃÅ°´Â ÇÔ¼ö.
+    // ë¬¸ì„ ì‘ë™ì‹œí‚¤ëŠ” í•¨ìˆ˜.
     public void DoorOperate()
     {
         b_is_door_opened = true;
     }
 
     /// <summary>
-    /// ÄÃ¸®Àü¿¡ µµ´ŞÇßÀ» ¶§, ¹®ÀÌ ÀÚµ¿À¸·Î ¿­¸²
+    /// ì»¬ë¦¬ì „ì— ë„ë‹¬í–ˆì„ ë•Œ, ë¬¸ì´ ìë™ìœ¼ë¡œ ì—´ë¦¼
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)

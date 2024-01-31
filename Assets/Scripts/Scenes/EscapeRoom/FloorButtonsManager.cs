@@ -1,25 +1,25 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorButtonsManager : FloorController
 {
     // ===== public =====
-    [Tooltip("¹öÆ° °´Ã¼µé")]
+    [Tooltip("ë²„íŠ¼ ê°ì²´ë“¤")]
     public FloorButton[] buttons;
 
-    [Tooltip("´ÙÀ½ ÃşÀ¸·Î ÀÌµ¿ÇÒ ¼ö ÀÖ´Â Æ÷Å»µé")]
+    [Tooltip("ë‹¤ìŒ ì¸µìœ¼ë¡œ ì´ë™í•  ìˆ˜ ìˆëŠ” í¬íƒˆë“¤")]
     public PortalToNextStage[] portals;
 
-    [Tooltip("Å×½ºÆ® ¸ğµåÀÔ´Ï´Ù. : True -> ¹öÆ°À» ´©¸£´Â°Ô 1°³·Î °íÁ¤.")]
+    [Tooltip("í…ŒìŠ¤íŠ¸ ëª¨ë“œì…ë‹ˆë‹¤. : True -> ë²„íŠ¼ì„ ëˆ„ë¥´ëŠ”ê²Œ 1ê°œë¡œ ê³ ì •.")]
     public bool bIsTestMode = false;
 
-    [Tooltip("ÇöÀç Å»Ãâ¸Ê Ãş °´Ã¼")]
+    [Tooltip("í˜„ì¬ íƒˆì¶œë§µ ì¸µ ê°ì²´")]
     public GameObject map;
 
     // ===== private =====
 
-    // ÇöÀç »óÈ£ÀÛ¿ë ¹öÆ° °³¼ö
+    // í˜„ì¬ ìƒí˜¸ì‘ìš© ë²„íŠ¼ ê°œìˆ˜
     private int counts = 0;
 
     // Start is called before the first frame update
@@ -54,17 +54,17 @@ public class FloorButtonsManager : FloorController
     }
 
     /// <summary>
-    /// ¹öÆ°°ú ÇÃ·¹ÀÌ¾îÀÇ »óÈ£ÀÛ¿ëÀÌ ¹ß»ıÇßÀ» ¶§, »óÈ£ÀÛ¿ëÇÑ ¹öÆ°ÀÇ ÃÑ °³¼ö¸¦ Áõ°¡½ÃÅ²´Ù.
+    /// ë²„íŠ¼ê³¼ í”Œë ˆì´ì–´ì˜ ìƒí˜¸ì‘ìš©ì´ ë°œìƒí–ˆì„ ë•Œ, ìƒí˜¸ì‘ìš©í•œ ë²„íŠ¼ì˜ ì´ ê°œìˆ˜ë¥¼ ì¦ê°€ì‹œí‚¨ë‹¤.
     /// </summary>
     public void ButtonCollisionCountIncrease()
     {
         counts++;
-        // ´©¸¥ ¹öÆ° ÀüÃ¼ °³¼ö UI¿Í ¿¬µ¿ ÇÊ¿ä.
+        // ëˆ„ë¥¸ ë²„íŠ¼ ì „ì²´ ê°œìˆ˜ UIì™€ ì—°ë™ í•„ìš”.
         Debug.Log(counts);
-        // ¸®½ºÆ®¿¡ ÀÖ´Â ¹öÆ° ÃÑ °³¼ö¿Í ´©¸¥ ¹öÆ° °³¼ö ÀÏÄ¡.
+        // ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ë²„íŠ¼ ì´ ê°œìˆ˜ì™€ ëˆ„ë¥¸ ë²„íŠ¼ ê°œìˆ˜ ì¼ì¹˜.
         if(counts == (bIsTestMode ? 1 : buttons.Length))
         {
-            // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÒ Æ÷Å» ¹øÈ£ ¼³Á¤.
+            // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•  í¬íƒˆ ë²ˆí˜¸ ì„¤ì •.
             int openPortalNumber = Random.Range(0, portals.Length);
 
             portals[openPortalNumber].PortalActivate();

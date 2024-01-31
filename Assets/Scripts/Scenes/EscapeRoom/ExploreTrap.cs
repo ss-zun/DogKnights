@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +6,13 @@ public class ExploreTrap : MonoBehaviour
 {
     // ===== public =====
 
-    [Tooltip("Æø¹ß ÀÌÆåÆ®")]
+    [Tooltip("í­ë°œ ì´í™íŠ¸")]
     public GameObject explosion;
 
-    [Tooltip("Æø¹ß ÃÖ¼Ò ÁÖ±â")]
+    [Tooltip("í­ë°œ ìµœì†Œ ì£¼ê¸°")]
     public float minTime = 3.0f;
 
-    [Tooltip("Æø¹ß ÃÖ´ë ÁÖ±â")]
+    [Tooltip("í­ë°œ ìµœëŒ€ ì£¼ê¸°")]
     public float maxTime = 6.0f;
 
     // ===== private =====
@@ -20,22 +20,22 @@ public class ExploreTrap : MonoBehaviour
     // particle system
     private ParticleSystem particle;
 
-    // Æø¹ß ÁÖ±â
+    // í­ë°œ ì£¼ê¸°
     private float explosionCycle = 0.0f;
 
-    // ´©Àû ½Ã°£
+    // ëˆ„ì  ì‹œê°„
     private float playTime = 0.0f;
 
-    // ÇöÀç ½ºÅ×ÀÌÁö È°¼ºÈ­
+    // í˜„ì¬ ìŠ¤í…Œì´ì§€ í™œì„±í™”
     private bool bIsStageActivate = false;
 
-    // ÇöÀç Æø¹ß Áß
+    // í˜„ì¬ í­ë°œ ì¤‘
     private bool bIsExploring = false;
 
-    // ÇöÀç Ãæµ¹ÇÏ°í ÀÖ´Â Ä³¸¯ÅÍ Á¸Àç ¿©ºÎ
+    // í˜„ì¬ ì¶©ëŒí•˜ê³  ìˆëŠ” ìºë¦­í„° ì¡´ì¬ ì—¬ë¶€
     private bool bIsOverlapped = false;
 
-    // ÇöÀç Ãæµ¹ÇÏ°í ÀÖ´Â Ä³¸¯ÅÍ
+    // í˜„ì¬ ì¶©ëŒí•˜ê³  ìˆëŠ” ìºë¦­í„°
     private Player cplayer;
 
     // Start is called before the first frame update
@@ -72,8 +72,8 @@ public class ExploreTrap : MonoBehaviour
                     bIsExploring = false;
                     // Add hit method about hp reduction.
 
-                    // µ¥¹ÌÁö
-                    // ÇÃ·¹ÀÌ¾î ÇöÀç ¼Óµµ 0À¸·Î ¼³Á¤
+                    // ë°ë¯¸ì§€
+                    // í”Œë ˆì´ì–´ í˜„ì¬ ì†ë„ 0ìœ¼ë¡œ ì„¤ì •
                     FindObjectOfType<Player>().GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
                     //FindObjectOfType<Player>().TakeDamage(1);
                 }
