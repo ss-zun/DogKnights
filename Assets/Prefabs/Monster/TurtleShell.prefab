@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 1
-  maxHealth: 30
-  curHealth: 30
+  maxHealth: 80
+  curHealth: 80
   attackArea: {fileID: 8450422545099918112}
   rock: {fileID: 0}
 --- !u!1001 &8450422544668271972

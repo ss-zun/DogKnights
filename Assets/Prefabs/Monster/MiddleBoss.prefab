@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 3
-  maxHealth: 100
-  curHealth: 100
+  maxHealth: 150
+  curHealth: 150
   attackArea: {fileID: 2239572817036260407}
   rock: {fileID: 0}
   Fire: {fileID: 2606396686593687680, guid: ee44ba890e104924c9d9ed786b715334, type: 3}
