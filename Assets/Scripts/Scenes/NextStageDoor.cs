@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +16,6 @@ public class NextStageDoor : MonoBehaviour
         
     }
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö¸¦ °¡±â À§ÇÑ ÁØºñ °úÁ¤À» ½ÇÇàÇÕ´Ï´Ù.
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¥¼ ê°€ê¸° ìœ„í•œ ì¤€ë¹„ ê³¼ì •ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
     public virtual void PrepareNextStageDoorOpened() { }
 }

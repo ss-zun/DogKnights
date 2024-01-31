@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
-    [Tooltip("ÇØ´ç Ãş¿¡¼­ ÀÛµ¿ÇØ¾ßÇÒ °´Ã¼µé")]
+    [Tooltip("í•´ë‹¹ ì¸µì—ì„œ ì‘ë™í•´ì•¼í•  ê°ì²´ë“¤")]
     public FloorController[] objects;
 
     // Start is called before the first frame update
@@ -20,7 +20,7 @@ public class Floor : MonoBehaviour
     }
 
     /// <summary>
-    /// ÀÛµ¿ÇØ¾ßÇÒ °´Ã¼ ½ÇÇà
+    /// ì‘ë™í•´ì•¼í•  ê°ì²´ ì‹¤í–‰
     /// </summary>
     void Operate()
     {

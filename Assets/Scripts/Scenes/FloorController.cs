@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ public class FloorController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇØ´ç Ãş¿¡¼­ ÀÛµ¿ÇØ¾ßÇÒ °´Ã¼µéÀ» ¸ğµÎ ÀÛµ¿.
+    /// í•´ë‹¹ ì¸µì—ì„œ ì‘ë™í•´ì•¼í•  ê°ì²´ë“¤ì„ ëª¨ë‘ ì‘ë™.
     /// </summary>
     public virtual void OperateObjects()
     {

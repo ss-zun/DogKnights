@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +6,15 @@ public class FloorButton : MonoBehaviour
 {
     // ===== public =====
 
-    [Tooltip("¹öÆ°ÀÇ renderer")]
+    [Tooltip("ë²„íŠ¼ì˜ renderer")]
     public Renderer buttonRender;
 
     // ===== private =====
 
-    // ¹öÆ° °ü¸®ÀÚ
+    // ë²„íŠ¼ ê´€ë¦¬ì
     private FloorButtonsManager floorButtonsManager;
 
-    // »óÈ£ÀÛ¿ëÀ» ÇÑ ¹ø¸¸ ÇÏµµ·Ï ¼³Á¤ÇÏ±â À§ÇÑ º¯¼ö.
+    // ìƒí˜¸ì‘ìš©ì„ í•œ ë²ˆë§Œ í•˜ë„ë¡ ì„¤ì •í•˜ê¸° ìœ„í•œ ë³€ìˆ˜.
     private bool bIsOnce = true;
 
     // Start is called before the first frame update
@@ -30,28 +30,28 @@ public class FloorButton : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹öÆ° °ü¸®ÀÚ ¼³Á¤
+    /// ë²„íŠ¼ ê´€ë¦¬ì ì„¤ì •
     /// </summary>
-    /// <param name="floorButtonsManager_">ÇØ´ç ¹öÆ°¿¡ ³ÖÀ» ¹öÆ° °ü¸®ÀÚ °´Ã¼</param>
+    /// <param name="floorButtonsManager_">í•´ë‹¹ ë²„íŠ¼ì— ë„£ì„ ë²„íŠ¼ ê´€ë¦¬ì ê°ì²´</param>
     public void SetFloorButtonsManager(FloorButtonsManager floorButtonsManager_)
     {
         this.floorButtonsManager = floorButtonsManager_;
     }
 
-    // ÇÃ·¹ÀÌ¾î¿ÍÀÇ Ãæµ¹ °¨Áö
+    // í”Œë ˆì´ì–´ì™€ì˜ ì¶©ëŒ ê°ì§€
     private void OnCollisionEnter(Collision collision)
     {
-        // Ãæµ¹Ã¼ÀÇ ÅÂ±×°¡ "Player"ÀÌ°í ÇÑ ¹ø¸¸ ÀÛµ¿ÇÏµµ·Ï ¼³Á¤.
+        // ì¶©ëŒì²´ì˜ íƒœê·¸ê°€ "Player"ì´ê³  í•œ ë²ˆë§Œ ì‘ë™í•˜ë„ë¡ ì„¤ì •.
         if (collision.gameObject.CompareTag("Player") && bIsOnce)
         {
-            // ´õ ÀÌ»ó »óÈ£ÀÛ¿ëÇÏÁö ¸øÇÏµµ·Ï ¹æÁö
+            // ë” ì´ìƒ ìƒí˜¸ì‘ìš©í•˜ì§€ ëª»í•˜ë„ë¡ ë°©ì§€
             bIsOnce = false;
 
-            // Ã»·Ï»öÀ¸·Î º¯°æ
+            // ì²­ë¡ìƒ‰ìœ¼ë¡œ ë³€ê²½
             buttonRender.material.color = Color.cyan;
             buttonRender.material.SetColor("_EmissionColor", Color.cyan);
 
-            // »óÈ£ÀÛ¿ë ¹öÆ° °³¼ö Áõ°¡
+            // ìƒí˜¸ì‘ìš© ë²„íŠ¼ ê°œìˆ˜ ì¦ê°€
             floorButtonsManager.ButtonCollisionCountIncrease();
         }
     }

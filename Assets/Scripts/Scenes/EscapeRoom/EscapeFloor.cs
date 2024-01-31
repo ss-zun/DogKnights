@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EscapeFloor : MonoBehaviour
 {
 
-    [Tooltip("¿ø·¡ À§Ä¡·Î ÀÌµ¿ÇÒ °÷")]
+    [Tooltip("ì›ë˜ ìœ„ì¹˜ë¡œ ì´ë™í•  ê³³")]
     public GameObject target;
 
     // Start is called before the first frame update
@@ -20,7 +20,7 @@ public class EscapeFloor : MonoBehaviour
         
     }
 
-    // ¶¥¹Ù´Ú¿¡ ¶³¾îÁ³À» °æ¿ì ¿ø·¡ À§Ä¡·Î ÀÌµ¿
+    // ë•…ë°”ë‹¥ì— ë–¨ì–´ì¡Œì„ ê²½ìš° ì›ë˜ ìœ„ì¹˜ë¡œ ì´ë™
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,20 +6,20 @@ public class PortalToNextStage : NextStageDoor
 {
 
     // ===== public =====
-    // ÇöÀç ½ºÅ×ÀÌÁö
+    // í˜„ì¬ ìŠ¤í…Œì´ì§€
     public int current_stage = 0;
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€
     public int next_stage = 0;
 
     // ===== private =====
-    // Æ÷Å»ÀÌ È°¼ºÈ­µÆ´ÂÁöÀÇ ¿©ºÎ
+    // í¬íƒˆì´ í™œì„±í™”ëëŠ”ì§€ì˜ ì—¬ë¶€
     bool bIsPortalOn = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (current_stage != 2)
+        if (current_stage != 2 || current_stage != 7)
         {
             PortalActivate();
         }
@@ -32,7 +32,7 @@ public class PortalToNextStage : NextStageDoor
     }
 
     /// <summary>
-    /// Æ÷Å» ÀÌÆåÆ® ¹× Ãæµ¹ È°¼ºÈ­
+    /// í¬íƒˆ ì´í™íŠ¸ ë° ì¶©ëŒ í™œì„±í™”
     /// </summary>
     public void PortalActivate()
     {
@@ -41,13 +41,13 @@ public class PortalToNextStage : NextStageDoor
         particleSystem.Play();
     }
 
-    // ÇÃ·¹ÀÌ¾î¿Í Ãæµ¹ÇßÀ» ¶§
+    // í”Œë ˆì´ì–´ì™€ ì¶©ëŒí–ˆì„ ë•Œ
     private void OnCollisionEnter(Collision collision)
     {
-        // ÇÃ·¹ÀÌ¾î ÅÂ±×°¡ ºÎµúÇûÀ¸¸ç Æ÷Å»ÀÌ È°¼ºÈ­µÇ¾úÀ» ¶§¸¸ ÀÛµ¿.
+        // í”Œë ˆì´ì–´ íƒœê·¸ê°€ ë¶€ë”ªí˜”ìœ¼ë©° í¬íƒˆì´ í™œì„±í™”ë˜ì—ˆì„ ë•Œë§Œ ì‘ë™.
         if(collision.gameObject.CompareTag("Player") && bIsPortalOn)
         {
-            // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿.
+            // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™.
             FindObjectOfType<FloorManager>().NextStage(collision.gameObject, current_stage, next_stage);
             // Debug.Log("True");
             if(current_stage==4)
@@ -58,7 +58,7 @@ public class PortalToNextStage : NextStageDoor
         }
     }
 
-    // Æ÷Å» È°¼ºÈ­
+    // í¬íƒˆ í™œì„±í™”
     public override void PrepareNextStageDoorOpened()
     {
         base.PrepareNextStageDoorOpened();

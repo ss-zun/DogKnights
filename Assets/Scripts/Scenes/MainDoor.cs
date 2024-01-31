@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,66 +7,66 @@ public class MainDoor : NextStageDoor
 
     // ===== public =====
 
-    // ¹®ÀÌ ¿­¸®´Â ¼Óµµ
+    // ë¬¸ì´ ì—´ë¦¬ëŠ” ì†ë„
     public float door_rotation_speed = 70f;
 
-    // ¹®ÀÌ ´İÈ÷´Â °¢µµ
+    // ë¬¸ì´ ë‹«íˆëŠ” ê°ë„
     public float door_min_rotation_angle = 0f;
 
-    // ¹®ÀÌ ÃÖ´ë·Î ¿­¸®´Â °¢µµ
+    // ë¬¸ì´ ìµœëŒ€ë¡œ ì—´ë¦¬ëŠ” ê°ë„
     public float door_max_rotation_angle = 90f;
 
-    // ¹® °³Æó ¹æÇâ ¼³Á¤ ¿©ºÎ
+    // ë¬¸ ê°œí ë°©í–¥ ì„¤ì • ì—¬ë¶€
     public bool b_is_door_closed = true;
 
-    // ¿ŞÂÊ ¹® Á¤º¸
+    // ì™¼ìª½ ë¬¸ ì •ë³´
     public GameObject left_door;
 
-    // ¿À¸¥ÂÊ ¹® Á¤º¸
+    // ì˜¤ë¥¸ìª½ ë¬¸ ì •ë³´
     public GameObject right_door;
 
-    // ÇöÀç ½ºÅ×ÀÌÁö ¹øÈ£
+    // í˜„ì¬ ìŠ¤í…Œì´ì§€ ë²ˆí˜¸
     public int current_stage;
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö ¹øÈ£
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë²ˆí˜¸
     public int next_stage;
 
     // ===== private =====
 
-    // ÇöÀç ¹®ÀÌ ¿­¸° °¢µµ
+    // í˜„ì¬ ë¬¸ì´ ì—´ë¦° ê°ë„
     private float current_angle_door_y = 0f;
 
-    // ÇöÀç ¹®ÀÌ ¿­¸®´Â ¾Ö´Ï¸ŞÀÌ¼Ç ÀÛµ¿ ¿©ºÎ
+    // í˜„ì¬ ë¬¸ì´ ì—´ë¦¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì‘ë™ ì—¬ë¶€
     private bool b_is_door_opening = false;
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÏ´Â Box Collider
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•˜ëŠ” Box Collider
     private BoxCollider portalCollider;
 
 
     void Awake()
     {
-        // ¿ŞÂÊ ¹®°ú ¿À¸¥ÂÊ ¹®ÀÌ Á¤»óÀûÀ¸·Î ¿¬°áµÉ ¶§¸¸ ½ÇÇà.
+        // ì™¼ìª½ ë¬¸ê³¼ ì˜¤ë¥¸ìª½ ë¬¸ì´ ì •ìƒì ìœ¼ë¡œ ì—°ê²°ë  ë•Œë§Œ ì‹¤í–‰.
         if(left_door != null && right_door != null)
         {
-            // ¹®ÀÌ ´İÇô ÀÖ´Ù¸é
+            // ë¬¸ì´ ë‹«í˜€ ìˆë‹¤ë©´
             if(b_is_door_closed)
             {
-                // ¹® È¸Àü°ª ÃÊ±âÈ­
+                // ë¬¸ íšŒì „ê°’ ì´ˆê¸°í™”
                 left_door.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
                 right_door.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
 
-                // ÇöÀç È¸Àü °¢µµ ¼öÁ¤
+                // í˜„ì¬ íšŒì „ ê°ë„ ìˆ˜ì •
                 current_angle_door_y = 0f;
             }
 
-            // ¹®ÀÌ ¿­·Á ÀÖ´Ù¸é
+            // ë¬¸ì´ ì—´ë ¤ ìˆë‹¤ë©´
             else
             {
-                // ¹® È¸Àü°ª ÃÊ±âÈ­
+                // ë¬¸ íšŒì „ê°’ ì´ˆê¸°í™”
                 left_door.transform.localEulerAngles = new Vector3(0f, -door_max_rotation_angle, 0f);
                 right_door.transform.localEulerAngles = new Vector3(0f, door_max_rotation_angle, 0f);
 
-                // ÇöÀç È¸Àü °¢µµ ¼öÁ¤.
+                // í˜„ì¬ íšŒì „ ê°ë„ ìˆ˜ì •.
                 current_angle_door_y = door_max_rotation_angle;
             }
         }
@@ -81,66 +81,66 @@ public class MainDoor : NextStageDoor
     // Update is called once per frame
     void Update()
     {
-        // ¹® °³Æó ÀÛµ¿ Áß
+        // ë¬¸ ê°œí ì‘ë™ ì¤‘
         if(b_is_door_opening)
         {
-            // ¹®ÀÌ ¿­¸®´Â °úÁ¤ Àç»ı
+            // ë¬¸ì´ ì—´ë¦¬ëŠ” ê³¼ì • ì¬ìƒ
             if(b_is_door_closed)
             {
-                // ¹® È¸Àü °¢µµ Áõ°¡
+                // ë¬¸ íšŒì „ ê°ë„ ì¦ê°€
                 current_angle_door_y += door_rotation_speed * Time.deltaTime;
 
-                // ÇöÀç ¹®ÀÇ °¢µµ°¡ ÃÖ´ë È¸Àü °¢µµº¸´Ù Å¬ ¶§,
+                // í˜„ì¬ ë¬¸ì˜ ê°ë„ê°€ ìµœëŒ€ íšŒì „ ê°ë„ë³´ë‹¤ í´ ë•Œ,
                 if(current_angle_door_y >= door_max_rotation_angle)
                 {
-                    // ÃÖ´ë È¸Àü °¢µµ·Î °íÁ¤
+                    // ìµœëŒ€ íšŒì „ ê°ë„ë¡œ ê³ ì •
                     current_angle_door_y = door_max_rotation_angle;
 
-                    // ¹® °³Æó Á¾·á
+                    // ë¬¸ ê°œí ì¢…ë£Œ
                     b_is_door_opening = false;
 
-                    // ¹®ÀÌ ¿ÏÀüÈ÷ ¿­·ÈÀ½À» ¾Ë¸²
+                    // ë¬¸ì´ ì™„ì „íˆ ì—´ë ¸ìŒì„ ì•Œë¦¼
                     b_is_door_closed = false;
                 }
             }
 
-            // ¹®ÀÌ ´İÈ÷´Â °úÁ¤ Àç»ı
+            // ë¬¸ì´ ë‹«íˆëŠ” ê³¼ì • ì¬ìƒ
             else
             {
-                // ¹® È¸Àü °¢µµ °¨¼Ò
+                // ë¬¸ íšŒì „ ê°ë„ ê°ì†Œ
                 current_angle_door_y -= door_rotation_speed * Time.deltaTime;
 
-                // ÇöÀç ¹®ÀÇ °¢µµ°¡ ÃÖ¼Ò È¸Àü °¢µµº¸´Ù ÀÛÀ» ¶§,
+                // í˜„ì¬ ë¬¸ì˜ ê°ë„ê°€ ìµœì†Œ íšŒì „ ê°ë„ë³´ë‹¤ ì‘ì„ ë•Œ,
                 if (current_angle_door_y < door_min_rotation_angle)
                 {
-                    // ÃÖ´ë È¸Àü °¢µµ·Î °íÁ¤
+                    // ìµœëŒ€ íšŒì „ ê°ë„ë¡œ ê³ ì •
                     current_angle_door_y = door_min_rotation_angle;
 
-                    // ¹® °³Æó Á¾·á
+                    // ë¬¸ ê°œí ì¢…ë£Œ
                     b_is_door_opening = false;
 
-                    // ¹®ÀÌ ¿ÏÀüÈ÷ ´İÇûÀ½À» ¾Ë¸²
+                    // ë¬¸ì´ ì™„ì „íˆ ë‹«í˜”ìŒì„ ì•Œë¦¼
                     b_is_door_closed = true;
                 }
             }
 
-            // ¹® È¸Àü ¼³Á¤.
+            // ë¬¸ íšŒì „ ì„¤ì •.
             left_door.transform.localEulerAngles = new Vector3(0f, -current_angle_door_y, 0f);
             right_door.transform.localEulerAngles = new Vector3(0f, current_angle_door_y, 0f);
 
         }
     }
     /// <summary>
-    /// ¹® ¿©´İ´Â ÀÛµ¿ ¼³Á¤.
+    /// ë¬¸ ì—¬ë‹«ëŠ” ì‘ë™ ì„¤ì •.
     /// </summary>
-    /// <param name="b_is_door_opening">¹® ÀÛµ¿ ¼³Á¤(Default = true)</param>
+    /// <param name="b_is_door_opening">ë¬¸ ì‘ë™ ì„¤ì •(Default = true)</param>
     void DoorOperate(bool b_is_door_opening = true)
     {
         this.b_is_door_opening = b_is_door_opening;
     }
 
     /// <summary>
-    /// ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿
+    /// ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
@@ -152,7 +152,7 @@ public class MainDoor : NextStageDoor
         }
     }
 
-    // ¹® ¿©´Â °úÁ¤À» ½ÇÇà
+    // ë¬¸ ì—¬ëŠ” ê³¼ì •ì„ ì‹¤í–‰
     public override void PrepareNextStageDoorOpened()
     {
         base.PrepareNextStageDoorOpened();

@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerTarget : MonoBehaviour
 {
     // ===== public =====
-    [Tooltip("È­»ìÇ¥ À§Ä¡ ¼³Á¤")]
+    [Tooltip("í™”ì‚´í‘œ ìœ„ì¹˜ ì„¤ì •")]
     public Vector3 arrowPosition = Vector3.zero;
 
-    [Tooltip("È­»ìÇ¥ ¹æÇâ ¼³Á¤")]
+    [Tooltip("í™”ì‚´í‘œ ë°©í–¥ ì„¤ì •")]
     public Vector3 arrowDirection = Vector3.forward;
 
-    [Tooltip("È­»ìÇ¥ ±æÀÌ ¼³Á¤")]
+    [Tooltip("í™”ì‚´í‘œ ê¸¸ì´ ì„¤ì •")]
     public float arrowLength = 1.0f;
 
     // Start is called before the first frame update
@@ -27,17 +27,17 @@ public class PlayerTarget : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        // È­»ìÇ¥ ¹æÇâ
+        // í™”ì‚´í‘œ ë°©í–¥
         Vector3 direction = transform.forward;
-        // È­»ìÇ¥ ½ÃÀÛÁ¡°ú ³¡Á¡ °è»ê
+        // í™”ì‚´í‘œ ì‹œì‘ì ê³¼ ëì  ê³„ì‚°
         Vector3 arrowStart = transform.position + arrowPosition;
         Vector3 arrowEnd = transform.position + arrowPosition + direction.normalized * arrowLength;
 
-        // È­»ìÇ¥ ¼± ±×¸®±â
-        Gizmos.color = Color.red; // È­»ìÇ¥ »ö»ó ¼³Á¤
+        // í™”ì‚´í‘œ ì„  ê·¸ë¦¬ê¸°
+        Gizmos.color = Color.red; // í™”ì‚´í‘œ ìƒ‰ìƒ ì„¤ì •
         Gizmos.DrawLine(arrowStart, arrowEnd);
 
-        // È­»ìÇ¥ ¸Ó¸® ±×¸®±â
+        // í™”ì‚´í‘œ ë¨¸ë¦¬ ê·¸ë¦¬ê¸°
         Vector3 arrowHead = arrowEnd - direction.normalized * 0.1f;
         // Gizmos.DrawLine(arrowEnd, arrowHead);
         Gizmos.DrawLine(arrowEnd, arrowEnd + Quaternion.Euler(direction.x, direction.y - 30, 0) * -direction * 0.05f);

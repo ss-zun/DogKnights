@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +8,13 @@ public class FloorManager : MonoBehaviour
     static FloorManager instance = null;
     // ===== public =====
 
-    [Tooltip("Ãş¿¡ ´ëÇÑ Á¤º¸¸¦ ¸ğÀº ¹è¿­ÀÔ´Ï´Ù.")]
+    [Tooltip("ì¸µì— ëŒ€í•œ ì •ë³´ë¥¼ ëª¨ì€ ë°°ì—´ì…ë‹ˆë‹¤.")]
     public GameObject[] floors;
 
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ ÇØ´ç ÃşÀ¸·Î ÀÌµ¿ÇÒ À§Ä¡ÀÔ´Ï´Ù.")]
+    [Tooltip("í”Œë ˆì´ì–´ê°€ í•´ë‹¹ ì¸µìœ¼ë¡œ ì´ë™í•  ìœ„ì¹˜ì…ë‹ˆë‹¤.")]
     public GameObject[] targetPlayers;
 
-    [Tooltip("´ÙÀ½ ½ºÅ×ÀÌÁö¸¦ °¡±â Àü, ½ÇÇàÇØ¾ßÇÒ °´Ã¼ÀÔ´Ï´Ù.")]
+    [Tooltip("ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¥¼ ê°€ê¸° ì „, ì‹¤í–‰í•´ì•¼í•  ê°ì²´ì…ë‹ˆë‹¤.")]
     [SerializeField]
     private NextStageDoor[] nextDoorOperaters;
      
@@ -25,7 +25,7 @@ public class FloorManager : MonoBehaviour
     }
     // ===== private =====
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾î À§Ä¡
+    // í˜„ì¬ í”Œë ˆì´ì–´ ìœ„ì¹˜
     private int currentPlayerFloor = 0;
     void Awake()
     {
@@ -44,10 +44,10 @@ public class FloorManager : MonoBehaviour
         // Debug.Log(floors[0].transform.childCount);
         // floors[2].transform.GetChild(1).gameObject.SetActive(false);
         
-        // 1F ~ 10F±îÁö ºñÈ°¼ºÈ­
+        // 1F ~ 10Fê¹Œì§€ ë¹„í™œì„±í™”
         for(int i = 1; i < floors.Length; i++)
         {
-            // Ãş¸¶´Ù ÀÚ½Ä °´Ã¼µé ¸ğµÎ ºñÈ°¼ºÈ­
+            // ì¸µë§ˆë‹¤ ìì‹ ê°ì²´ë“¤ ëª¨ë‘ ë¹„í™œì„±í™”
             for(int j = 0; j < floors[i].transform.childCount; j++)
             {
                 floors[i].transform.GetChild(j).gameObject.SetActive(false);
@@ -63,17 +63,17 @@ public class FloorManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÒ ¶§ È£ÃâÇÕ´Ï´Ù. ÇöÀç ½ºÅ×ÀÌÁöÀÇ ¸ÊÀ» Invisible·Î ¼³Á¤ÇÕ´Ï´Ù.
+    /// ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•  ë•Œ í˜¸ì¶œí•©ë‹ˆë‹¤. í˜„ì¬ ìŠ¤í…Œì´ì§€ì˜ ë§µì„ Invisibleë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void NextStage(GameObject player, int currentStageNum, int nextStageNum)
     {
         ExploreTrap tempTrap;
 
-        // ´ÙÀ½ ½ºÅ×ÀÌÁö ºÒÅõ¸íÀ¸·Î º¯°æ (È°¼ºÈ­)
+        // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ë¶ˆíˆ¬ëª…ìœ¼ë¡œ ë³€ê²½ (í™œì„±í™”)
         for(int i = 0; i < floors[nextStageNum].transform.childCount; i++)
         {
             floors[nextStageNum].transform.GetChild(i).gameObject.SetActive(true);
-            // Å»Ãâ¸ÊÀÇ ¾Ö¼ÂÀÎ °æ¿ì È°¼ºÈ­
+            // íƒˆì¶œë§µì˜ ì• ì…‹ì¸ ê²½ìš° í™œì„±í™”
             tempTrap = floors[nextStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
             if (tempTrap != null)
             {
@@ -81,11 +81,11 @@ public class FloorManager : MonoBehaviour
             }
         }
 
-        // ÀÌÀü ½ºÅ×ÀÌÁö Åõ¸íÀ¸·Î º¯°æ (ºñÈ°¼ºÈ­)
+        // ì´ì „ ìŠ¤í…Œì´ì§€ íˆ¬ëª…ìœ¼ë¡œ ë³€ê²½ (ë¹„í™œì„±í™”)
         for(int i = 0; i < floors[currentStageNum].transform.childCount; i++)
         {
             floors[currentStageNum].transform.GetChild(i).gameObject.SetActive(false);
-            // Å»Ãâ¸ÊÀÇ ¾Ö¼ÂÀÎ °æ¿ì ºñÈ°¼ºÈ­
+            // íƒˆì¶œë§µì˜ ì• ì…‹ì¸ ê²½ìš° ë¹„í™œì„±í™”
             tempTrap = floors[currentStageNum].transform.GetChild(i).gameObject.GetComponent<ExploreTrap>();
             if (tempTrap != null)
             {
@@ -93,39 +93,39 @@ public class FloorManager : MonoBehaviour
             }
         }
 
-        // Å»Ãâ¸ÊÀÎ °æ¿ì ÇÃ·¹ÀÌ¾î ½ÃÁ¡À» »ó´ÜÀ¸·Î º¯°æ
+        // íƒˆì¶œë§µì¸ ê²½ìš° í”Œë ˆì´ì–´ ì‹œì ì„ ìƒë‹¨ìœ¼ë¡œ ë³€ê²½
         if (nextStageNum == 2 || nextStageNum == 7)
         {
             player.GetComponent<Player>().isMapPuzzle = true;
         }
-        // Å»Ãâ¸ÊÀÌ ¾Æ´Ñ °æ¿ì ÇÃ·¹ÀÌ¾î ½ÃÁ¡À» ¿·À¸·Î º¯°æ
+        // íƒˆì¶œë§µì´ ì•„ë‹Œ ê²½ìš° í”Œë ˆì´ì–´ ì‹œì ì„ ì˜†ìœ¼ë¡œ ë³€ê²½
         else
         {
             player.GetComponent<Player>().isMapPuzzle = false;
         }
 
-        // ÇÃ·¹ÀÌ¾î ÇöÀç ¼Óµµ 0À¸·Î ¼³Á¤
+        // í”Œë ˆì´ì–´ í˜„ì¬ ì†ë„ 0ìœ¼ë¡œ ì„¤ì •
         player.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
         SetCurrentPlayerFloor(nextStageNum);
-        // ÇÃ·¹ÀÌ¾î ´ÙÀ½ À§Ä¡·Î ÀÌµ¿
+        // í”Œë ˆì´ì–´ ë‹¤ìŒ ìœ„ì¹˜ë¡œ ì´ë™
         player.transform.position = targetPlayers[nextStageNum].transform.position;
         player.transform.rotation = targetPlayers[nextStageNum].transform.rotation;
     }
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ Ãş À§Ä¡¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ì¸µ ìœ„ì¹˜ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
     void SetCurrentPlayerFloor(int _floor)
     {
         currentPlayerFloor = _floor;
     }
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ Ãş À§Ä¡¸¦ °¡Á®¿É´Ï´Ù.
+    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ì¸µ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     public int GetCurrentPlayerFloor()
     {
         return currentPlayerFloor;
     }
 
-    // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÀÌµ¿ÇÒ ¼ö ÀÖ´Â ÁØºñ °úÁ¤À» ½ÇÇàÇÕ´Ï´Ù.
+    // ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™í•  ìˆ˜ ìˆëŠ” ì¤€ë¹„ ê³¼ì •ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
     public void NextStageDoorOpened()
     {
         nextDoorOperaters[currentPlayerFloor].PrepareNextStageDoorOpened();
