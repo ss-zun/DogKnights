@@ -172,7 +172,7 @@ public class Monster : MonoBehaviour
                 yield return new WaitForSeconds(1.2f);
 
                 anim.SetBool("isAttack", false);
-                Destroy(instantRock, 3);
+                Destroy(instantRock, 2);
                 yield return new WaitForSeconds(2f);
                 break;
         }
@@ -233,7 +233,7 @@ public class Monster : MonoBehaviour
                 nav.enabled = false; //NavAgent 비활성화
             }
             
-            Destroy(gameObject, 4); //4초 뒤 파괴
+            Destroy(gameObject, 2); //2초 뒤 파괴
 
             GameManager.Instance.Player.curEnergy += 50; //몬스터가 죽으면 플레이어 에너지 충전       
         }
